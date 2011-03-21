@@ -39,6 +39,8 @@ BuildRequires: imagemagick
 BuildRequires: libffi-devel
 BuildRequires: gpm-devel
 BuildRequires: libxtst-devel
+BuildRequires: libv4l-devel
+BuildRequires: glew-devel
 
 %description
 Gambas is a free development environment based on a Basic interpreter
