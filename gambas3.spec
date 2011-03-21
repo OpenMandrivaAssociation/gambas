@@ -41,6 +41,10 @@ BuildRequires: gpm-devel
 BuildRequires: libxtst-devel
 BuildRequires: libv4l-devel
 BuildRequires: glew-devel
+BuildRequires: xdg-utils
+BuildRequires: librsvg-devel
+BuildRequires: libgnome-keyring-devel
+BuildRequires: imlib2-devel
 
 %description
 Gambas is a free development environment based on a Basic interpreter
