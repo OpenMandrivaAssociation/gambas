@@ -168,60 +168,22 @@ Summary: The Gambas IDE
 Group: Development/Other
 Requires: %{name}-runtime = %{version}
 Requires: %{name}-devel = %{version}
-Requires: %{name}-gb-cairo = %{version}
-Requires: %{name}-gb-chart = %{version}
-Requires: %{name}-gb-compress = %{version}
-Requires: %{name}-gb-crypt = %{version}
 Requires: %{name}-gb-db = %{version}
 Requires: %{name}-gb-db-form = %{version}
-Requires: %{name}-gb-db-mysql = %{version}
-Requires: %{name}-gb-db-odbc = %{version}
-Requires: %{name}-gb-db-postgresql = %{version}
-Requires: %{name}-gb-db-sqlite2 = %{version}
-Requires: %{name}-gb-db-sqlite3 = %{version}
-Requires: %{name}-gb-dbus = %{version}
-Requires: %{name}-gb-dekstop-gnome = %{version}
 Requires: %{name}-gb-desktop = %{version}
 Requires: %{name}-gb-form = %{version}
-Requires: %{name}-gb-gtk = %{version}
-Requires: %{name}-gb-gui = %{version}
-Requires: %{name}-gb-image = %{version}
-Requires: %{name}-gb-mysql = %{version}
-Requires: %{name}-gb-net = %{version}
-Requires: %{name}-gb-net-curl = %{version}
-Requires: %{name}-gb-net-smtp = %{version}
-Requires: %{name}-gb-opengl = %{version}
-Requires: %{name}-gb-option = %{version}
-Requires: %{name}-gb-pcre = %{version}
-Requires: %{name}-gb-pdf = %{version}
+Requires: %{name}-gb-form-dialog = %{version}
+Requires: %{name}-gb-form-mdi = %{version}
 Requires: %{name}-gb-qt4 = %{version}
-Requires: %{name}-gb-report = %{version}
-Requires: %{name}-gb-sdl = %{version}
-Requires: %{name}-gb-sdl-sound = %{version}
+Requires: %{name}-gb-qt4-ext = %{version}
+Requires: %{name}-gb-qt4-webkit = %{version}
 Requires: %{name}-gb-settings = %{version}
-Requires: %{name}-gb-signal = %{version}
-Requires: %{name}-gb-v4l = %{version}
-Requires: %{name}-gb-vb = %{version}
-Requires: %{name}-gb-web = %{version}
-Requires: %{name}-gb-xml = %{version}
-Requires: %{name}-gb-xml-rpc = %{version}
-Requires: %{name}-gb-xml-xslt = %{version}
+Requires: gettext
+Requires: rpm-build
 
 %description ide
 This package includes the complete Gambas Development Environment, with the
 database manager, the help files, and all components.
-
-%if %mdkversion < 200900
-%post ide
-%update_menus
-%update_icon_cache hicolor
-%endif
-
-%if %mdkversion < 200900
-%postun ide
-%clean_menus
-%clean_icon_cache hicolor
-%endif
 
 %files ide
 %defattr(-, root, root, 0755)
@@ -234,7 +196,6 @@ database manager, the help files, and all components.
 Summary: The Gambas examples
 Group: Development/Other
 Requires: %{name}-ide = %{version}
-Conflicts: %{name}-ide < 2.6.0-2
 
 %description examples
 This package includes all the example projects provided with Gambas.
