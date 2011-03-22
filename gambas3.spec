@@ -424,16 +424,70 @@ This component implements the eval-highlight componet.
 %package gb-form
 Summary: The Gambas dialog form component
 Group: Development/Other
-Requires: %{name}-runtime = %{version},%{name}
+Requires: %{name}-runtime = %{version}
 
 %description gb-form
 This component implements the form control.
 
 %files gb-form
 %defattr(-,root,root)
-%{_libdir}/%{name}/gb.form.*
-%{_datadir}/%{name}/info/gb.form.*
-%{_datadir}/%{name}/control/gb.form*
+%{_libdir}/%{name}/gb.form.component
+%{_libdir}/%{name}/gb.form.gambas
+%{_datadir}/%{name}/control/gb.form
+%{_datadir}/%{name}/info/gb.form.info
+%{_datadir}/%{name}/info/gb.form.list
+
+#-----------------------------------------------------------------------------
+
+%package gb-form-dialog
+Summary: The Gambas dialog form component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-form-dialog
+This component implements the form-dialog control.
+
+%files gb-form-dialog
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.form.dialog.component
+%{_libdir}/%{name}/gb.form.dialog.gambas
+%{_datadir}/%{name}/info/gb.form.dialog.info
+%{_datadir}/%{name}/info/gb.form.dialog.list
+
+#-----------------------------------------------------------------------------
+
+%package gb-form-mdi
+Summary: The Gambas mdi form component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-form-mdi
+This component implements the form-mdi control.
+
+%files gb-form-mdi
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.form.mdi.component
+%{_libdir}/%{name}/gb.form.mdi.gambas
+%{_datadir}/%{name}/control/gb.form.mdi
+%{_datadir}/%{name}/info/gb.form.mdi.info
+%{_datadir}/%{name}/info/gb.form.mdi.list
+
+#-----------------------------------------------------------------------------
+
+%package gb-form-stock
+Summary: The Gambas stock form component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-form-stock
+This component implements the form-stock control.
+
+%files gb-form-stock
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.form.stock.component
+%{_libdir}/%{name}/gb.form.stock.gambas
+%{_datadir}/%{name}/info/gb.form.stock.info
+%{_datadir}/%{name}/info/gb.form.stock.list
 
 #-----------------------------------------------------------------------------
 
