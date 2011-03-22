@@ -532,8 +532,56 @@ This component allows you to apply various effects to images.
 
 %files gb-image
 %defattr(-,root,root)
-%{_libdir}/%{name}/gb.image.*
-%{_datadir}/%{name}/info/gb.image.*
+%{_libdir}/%{name}/gb.image.component
+%{_libdir}/%{name}/gb.image.la
+%{_libdir}/%{name}/gb.image.so*
+%{_datadir}/%{name}/info/gb.image.info
+%{_datadir}/%{name}/info/gb.image.list
+
+#-----------------------------------------------------------------------------
+
+%package gb-image-effect
+Summary: The Gambas image effect component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-image-effect
+This component allows you to apply various effects to images.
+
+%files gb-image-effect
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.image.effect.*
+%{_datadir}/%{name}/info/gb.image.effect.*
+
+#-----------------------------------------------------------------------------
+
+%package gb-image-imlib
+Summary: The Gambas image imlib component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-image-imlib
+This component allows you to manipulate images with imlibs.
+
+%files gb-image-imlib
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.image.imlib.*
+%{_datadir}/%{name}/info/gb.image.imlib.*
+
+#-----------------------------------------------------------------------------
+
+%package gb-image-io
+Summary: The Gambas image io component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-image-io
+This component allows you to perform images input output operations.
+
+%files gb-image-io
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.image.io.*
+%{_datadir}/%{name}/info/gb.image.io.*
 
 #-----------------------------------------------------------------------------
 
@@ -614,8 +662,26 @@ This component allows you to use the Mesa libraries to do 3D operations.
 
 %files gb-opengl
 %defattr(-,root,root)
-%{_libdir}/%{name}/gb.opengl.*
-%{_datadir}/%{name}/info/gb.opengl.*
+%{_libdir}/%{name}/gb.opengl.component
+%{_libdir}/%{name}/gb.opengl.la
+%{_libdir}/%{name}/gb.opengl.so*
+%{_datadir}/%{name}/info/gb.opengl.info
+%{_datadir}/%{name}/info/gb.opengl.list
+
+#-----------------------------------------------------------------------------
+
+%package gb-opengl-glsl
+Summary: The Gambas opengl-glsl component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-opengl-glsl
+This component allows you to use the Mesa libraries to do 3D operations.
+
+%files gb-opengl-glsl
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.opengl.glsl.*
+%{_datadir}/%{name}/info/gb.opengl.glsl.*
 
 #-----------------------------------------------------------------------------
 
