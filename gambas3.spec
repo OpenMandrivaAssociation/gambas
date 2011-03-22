@@ -16,10 +16,8 @@ BuildRequires: gtk+2-devel
 BuildRequires: libmesagl-devel
 BuildRequires: libmesaglu-devel
 BuildRequires: libpcre-devel
-BuildRequires: libSDL_image-devel
 BuildRequires: libSDL_gfx-devel
 BuildRequires: libSDL_ttf-devel
-BuildRequires: nas-devel
 BuildRequires: libjpeg-devel
 BuildRequires: libpng-devel
 BuildRequires: libxml2-devel
@@ -28,16 +26,13 @@ BuildRequires: gettext-devel
 BuildRequires: qt4-devel
 BuildRequires: libcurl-devel
 BuildRequires: libgettextmisc
-BuildRequires: libopenssl-devel
 BuildRequires: libSDL-devel
 BuildRequires: libpoppler-devel
 BuildRequires: mysql-devel
 BuildRequires: postgresql-devel
 BuildRequires: SDL_mixer-devel
-BuildRequires: acl-devel
 BuildRequires: imagemagick
 BuildRequires: libffi-devel
-BuildRequires: gpm-devel
 BuildRequires: libxtst-devel
 BuildRequires: libv4l-devel
 BuildRequires: glew-devel
@@ -45,6 +40,7 @@ BuildRequires: xdg-utils
 BuildRequires: librsvg-devel
 BuildRequires: libgnome-keyring-devel
 BuildRequires: imlib2-devel
+BuildRequires: dbus-devel
 
 %description
 Gambas is a free development environment based on a Basic interpreter
