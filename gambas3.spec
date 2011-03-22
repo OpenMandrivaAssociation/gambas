@@ -83,18 +83,6 @@ Group: Development/Other
 %description runtime
 This package includes the Gambas interpreter needed to run Gambas applications.
 
-%if %mdkversion < 200900
-%post runtime
-%update_mime_database
-%update_icon_cache hicolor
-%endif
-
-%if %mdkversion < 200900
-%postun runtime
-%update_mime_database
-%update_icon_cache hicolor
-%endif
-
 %files runtime
 %defattr(-, root, root, 0755)
 %doc README AUTHORS ChangeLog
@@ -102,14 +90,16 @@ This package includes the Gambas interpreter needed to run Gambas applications.
 %{_bindir}/gbr3
 %{_libdir}/%{name}/gb.component
 %{_libdir}/%{name}/gb.debug.*
-%{_libdir}/%{name}/gb.eval.*
+%{_libdir}/%{name}/gb.eval.la
+%{_libdir}/%{name}/gb.eval.so*
 %{_libdir}/%{name}/gb.draw.*
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/info
 %{_datadir}/%{name}/info/gb.info
 %{_datadir}/%{name}/info/gb.list
 %{_datadir}/%{name}/info/gb.debug.*
-%{_datadir}/%{name}/info/gb.eval.*
+%{_datadir}/%{name}/info/gb.eval.list
+%{_datadir}/%{name}/info/gb.eval.info
 %dir %{_datadir}/%{name}/icons
 %{_datadir}/%{name}/icons/application-x-gambas.png
 
@@ -140,18 +130,6 @@ Requires: %{name}-devel = %{version}
 %description script
 This package includes the scripter program that allows to write script files
 in Gambas.
-
-%if %mdkversion < 200900
-%post script
-%update_mime_database
-%update_icon_cache hicolor
-%endif
-
-%if %mdkversion < 200900
-%postun script
-%clean_mime_database
-%clean_icon_cache hicolor
-%endif
 
 %files script
 %defattr(-, root, root, 0755)
@@ -425,6 +403,21 @@ This package contains the Gambas GNOME desktop components.
 %files gb-dekstop-gnome
 %defattr(-,root,root)
 %{_libdir}/%{name}/gb.desktop.gnome.*
+
+#-----------------------------------------------------------------------------
+
+%package gb-eval-highlight
+Summary: The Gambas eval-highlight component
+Group: Development/Other
+Requires: %{name}-runtime = %{version},%{name}
+
+%description gb-eval-highlight
+This component implements the eval-highlight componet.
+
+%files gb-eval-highlight
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.eval.highlight.*
+%{_datadir}/%{name}/info/gb.eval.highlight.*
 
 #-----------------------------------------------------------------------------
 
