@@ -382,27 +382,8 @@ the xdg-utils scripts of the Portland project.
 
 %files gb-desktop
 %defattr(-,root,root)
-%{_libdir}/%{name}/gb.desktop.la
-%{_libdir}/%{name}/gb.desktop.so*
-%{_libdir}/%{name}/gb.desktop.component
-%{_libdir}/%{name}/gb.desktop.gambas
-%{_datadir}/%{name}/info/gb.desktop.info
-%{_datadir}/%{name}/info/gb.desktop.list
-%{_datadir}/%{name}/control/gb.desktop
-
-#-----------------------------------------------------------------------------
-
-%package gb-dekstop-gnome
-Summary: The Gambas GNOME desktop component
-Group: Development/Other
-Requires: %{name}-runtime = %{version}
-
-%description gb-dekstop-gnome
-This package contains the Gambas GNOME desktop components.
-
-%files gb-dekstop-gnome
-%defattr(-,root,root)
-%{_libdir}/%{name}/gb.desktop.gnome.*
+%{_libdir}/%{name}/gb.desktop.*
+%{_datadir}/%{name}/info/gb.desktop.*
 
 #-----------------------------------------------------------------------------
 
@@ -741,8 +722,57 @@ This package includes the Gambas QT GUI component.
 
 %files gb-qt4
 %defattr(-,root,root)
-%{_libdir}/%{name}/gb.qt4.*
-%{_datadir}/%{name}/info/gb.qt4.*
+%{_libdir}/%{name}/gb.qt4.component
+%{_libdir}/%{name}/gb.qt4.gambas
+%{_libdir}/%{name}/gb.qt4.la
+%{_libdir}/%{name}/gb.qt4.so*
+%{_datadir}/%{name}/info/gb.qt4.info
+%{_datadir}/%{name}/info/gb.qt4.list
+
+#-----------------------------------------------------------------------------
+
+%package gb-qt-ext
+Summary: The Gambas qt-ext component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-qt-ext
+This package contains the Gambas qt-ext components.
+
+%files gb-qt-ext
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.qt.ext.*
+%{_datadir}/%{name}/info/gb.qt.ext.*
+
+#-----------------------------------------------------------------------------
+
+%package gb-qt-opengl
+Summary: The Gambas qt-opengl component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-qt-opengl
+This package contains the Gambas qt-opengl components.
+
+%files gb-qt-opengl
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.qt.opengl.*
+%{_datadir}/%{name}/info/gb.qt.opengl.*
+
+#-----------------------------------------------------------------------------
+
+%package gb-qt-webkit
+Summary: The Gambas qt-webkit component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-qt-webkit
+This package contains the Gambas qt-webkit components.
+
+%files gb-qt-webkit
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.qt.webkit.*
+%{_datadir}/%{name}/info/gb.qt.webkit.*
 
 #-----------------------------------------------------------------------------
 
