@@ -60,7 +60,7 @@ build RPMs of your apps automatically, and so on...
 %build
 %setup_compile_flags
 ./reconf-all
-for i in `find -name ltmain.sh`
+for i in `find -name configure`
 do
 	(
 	  pushd `dirname $i`
@@ -75,6 +75,8 @@ done
 %install
 rm -rf $RPM_BUILD_ROOT
 %makeinstall_std
+
+rm -f %buildroot%_libdir/gambas3/gb.so* %buildroot%_libdir/gambas3/gb.la
 
 #-----------------------------------------------------------------------------
 
@@ -102,7 +104,16 @@ This package includes the Gambas interpreter needed to run Gambas applications.
 %doc README AUTHORS ChangeLog
 %{_bindir}/gbx3
 %{_bindir}/gbr3
+%{_libdir}/%{name}/gb.component
+%{_libdir}/%{name}/gb.debug.*
+%{_libdir}/%{name}/gb.eval.*
+%{_libdir}/%{name}/gb.draw.*
 %dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/info
+%{_datadir}/%{name}/info/gb.info
+%{_datadir}/%{name}/info/gb.list
+%{_datadir}/%{name}/info/gb.debug.*
+%{_datadir}/%{name}/info/gb.eval.*
 %dir %{_datadir}/%{name}/icons
 %{_datadir}/%{name}/icons/application-x-gambas.png
 
@@ -161,25 +172,25 @@ Summary: The Gambas IDE
 Group: Development/Other
 Requires: %{name}-runtime = %{version}
 Requires: %{name}-devel = %{version}
+Requires: %{name}-gb-cairo = %{version}
 Requires: %{name}-gb-chart = %{version}
 Requires: %{name}-gb-compress = %{version}
 Requires: %{name}-gb-crypt = %{version}
 Requires: %{name}-gb-db = %{version}
-Requires: %{name}-gb-db-firebird = %{version}
 Requires: %{name}-gb-db-form = %{version}
 Requires: %{name}-gb-db-mysql = %{version}
 Requires: %{name}-gb-db-odbc = %{version}
 Requires: %{name}-gb-db-postgresql = %{version}
 Requires: %{name}-gb-db-sqlite2 = %{version}
 Requires: %{name}-gb-db-sqlite3 = %{version}
+Requires: %{name}-gb-dbus = %{version}
+Requires: %{name}-gb-dekstop-gnome = %{version}
 Requires: %{name}-gb-desktop = %{version}
 Requires: %{name}-gb-form = %{version}
-Requires: %{name}-gb-form-dialog = %{version}
-Requires: %{name}-gb-form-mdi = %{version}
 Requires: %{name}-gb-gtk = %{version}
 Requires: %{name}-gb-gui = %{version}
 Requires: %{name}-gb-image = %{version}
-Requires: %{name}-gb-info = %{version}
+Requires: %{name}-gb-mysql = %{version}
 Requires: %{name}-gb-net = %{version}
 Requires: %{name}-gb-net-curl = %{version}
 Requires: %{name}-gb-net-smtp = %{version}
@@ -192,14 +203,13 @@ Requires: %{name}-gb-report = %{version}
 Requires: %{name}-gb-sdl = %{version}
 Requires: %{name}-gb-sdl-sound = %{version}
 Requires: %{name}-gb-settings = %{version}
+Requires: %{name}-gb-signal = %{version}
 Requires: %{name}-gb-v4l = %{version}
 Requires: %{name}-gb-vb = %{version}
 Requires: %{name}-gb-web = %{version}
 Requires: %{name}-gb-xml = %{version}
 Requires: %{name}-gb-xml-rpc = %{version}
 Requires: %{name}-gb-xml-xslt = %{version}
-Requires: rpm-build
-Obsoletes: gambas-ide < 2.0.0
 
 %description ide
 This package includes the complete Gambas Development Environment, with the
@@ -220,6 +230,7 @@ database manager, the help files, and all components.
 %files ide
 %defattr(-, root, root, 0755)
 %{_bindir}/%{name}
+%{_bindir}/%{name}.gambas
 
 #-----------------------------------------------------------------------------
 
@@ -235,6 +246,36 @@ This package includes all the example projects provided with Gambas.
 %files examples
 %defattr(-,root,root)
 %{_datadir}/%{name}/examples
+
+#-----------------------------------------------------------------------------
+
+%package gb-cairo
+Summary: The Gambas Cairo component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-cairo
+This package contains the Gambas Cario components.
+
+%files gb-cairo
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.cairo.*
+%{_datadir}/%{name}/info/gb.cairo.*
+
+#-----------------------------------------------------------------------------
+
+%package gb-chart
+Summary: The Gambas chart component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-chart
+This package contains the Gambas Chart components.
+
+%files gb-chart
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.chart.*
+%{_datadir}/%{name}/info/gb.chart.*
 
 #-----------------------------------------------------------------------------
 
@@ -286,6 +327,22 @@ provided that you install the needed driver packages.
 %{_libdir}/%{name}/gb.db.gambas
 %{_datadir}/%{name}/info/gb.db.info
 %{_datadir}/%{name}/info/gb.db.list
+
+#-----------------------------------------------------------------------------
+
+%package gb-db-form
+Summary: The Gambas db-form component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-db-form
+This package contains the Gambas Database form components.
+
+%files gb-db-form
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.db.form.*
+%{_datadir}/%{name}/info/gb.db.form.*
+%{_datadir}/%{name}/control/gb.db.form
 
 #-----------------------------------------------------------------------------
 
@@ -364,6 +421,21 @@ This component allows you to access SQLite 3 databases.
 
 #-----------------------------------------------------------------------------
 
+%package gb-dbus
+Summary: The Gambas dbus component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-dbus
+This package contains the Gambas D-bus components.
+
+%files gb-dbus
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.dbus.*
+%{_datadir}/%{name}/info/gb.dbus.*
+
+#-----------------------------------------------------------------------------
+
 %package gb-desktop
 Summary: The Gambas XDG component
 Group: Development/Other
@@ -377,22 +449,41 @@ the xdg-utils scripts of the Portland project.
 %defattr(-,root,root)
 %{_libdir}/%{name}/gb.desktop.la
 %{_libdir}/%{name}/gb.desktop.so*
-%{_datadir}/%{name}/info/gb.desktop.*
+%{_libdir}/%{name}/gb.desktop.component
+%{_libdir}/%{name}/gb.desktop.gambas
+%{_datadir}/%{name}/info/gb.desktop.info
+%{_datadir}/%{name}/info/gb.desktop.list
+%{_datadir}/%{name}/control/gb.desktop
 
 #-----------------------------------------------------------------------------
 
-%package gb-form-stock
+%package gb-dekstop-gnome
+Summary: The Gambas GNOME desktop component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-dekstop-gnome
+This package contains the Gambas GNOME desktop components.
+
+%files gb-dekstop-gnome
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.desktop.gnome.*
+
+#-----------------------------------------------------------------------------
+
+%package gb-form
 Summary: The Gambas dialog form component
 Group: Development/Other
-Requires: %{name}-runtime = %{version},%{name}-gb-form = %{version}
+Requires: %{name}-runtime = %{version},%{name}
 
-%description gb-form-stock
-This component implements the form-stock control.
+%description gb-form
+This component implements the form control.
 
-%files gb-form-stock
+%files gb-form
 %defattr(-,root,root)
-%{_libdir}/%{name}/gb.form.stock.*
-%{_datadir}/%{name}/info/gb.form.stock.*
+%{_libdir}/%{name}/gb.form.*
+%{_datadir}/%{name}/info/gb.form.*
+%{_datadir}/%{name}/control/gb.form*
 
 #-----------------------------------------------------------------------------
 
@@ -439,6 +530,21 @@ This component allows you to apply various effects to images.
 %defattr(-,root,root)
 %{_libdir}/%{name}/gb.image.*
 %{_datadir}/%{name}/info/gb.image.*
+
+#-----------------------------------------------------------------------------
+
+%package gb-mysql
+Summary: The Gambas mysql component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-mysql
+This package contains the Gambas MySQL components.
+
+%files gb-mysql
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.mysql.*
+%{_datadir}/%{name}/info/gb.mysql.*
 
 #-----------------------------------------------------------------------------
 
@@ -565,6 +671,24 @@ This package includes the Gambas QT GUI component.
 
 %files gb-qt4
 %defattr(-,root,root)
+%{_libdir}/%{name}/gb.qt4.*
+%{_datadir}/%{name}/info/gb.qt4.*
+
+#-----------------------------------------------------------------------------
+
+%package gb-report
+Summary: The Gambas report component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-report
+This package contains the Gambas Report components.
+
+%files gb-report
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.report.*
+%{_datadir}/%{name}/info/gb.report.*
+%{_datadir}/%{name}/control/gb.report
 
 #-----------------------------------------------------------------------------
 
@@ -588,8 +712,6 @@ accelerate 2D and 3D drawing.
 %{_datadir}/%{name}/info/gb.sdl.info
 %{_datadir}/%{name}/info/gb.sdl.list
 %{_datadir}/%{name}/gb.sdl
-%{_datadir}/%{name}/gb.sdl/DejaVuSans.ttf
-%{_datadir}/%{name}/gb.sdl/LICENSE
 
 #-----------------------------------------------------------------------------
 
@@ -623,6 +745,21 @@ This components allows you to deal with configuration files.
 %defattr(-,root,root)
 %{_libdir}/%{name}/gb.settings.*
 %{_datadir}/%{name}/info/gb.settings.*
+
+#-----------------------------------------------------------------------------
+
+%package gb-signal
+Summary: The Gambas signal component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-signal
+This package contains the Gambas Signal components.
+
+%files gb-signal
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.signal.*
+%{_datadir}/%{name}/info/gb.signal.*
 
 #-----------------------------------------------------------------------------
 
