@@ -51,7 +51,7 @@ your program into many languages, create network applications easily,
 build RPMs of your apps automatically, and so on...
 
 %prep
-%setup -qDT -n %{name}-%version
+%setup -qn %{name}-%version
 
 %build
 %setup_compile_flags
