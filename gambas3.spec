@@ -51,7 +51,7 @@ your program into many languages, create network applications easily,
 build RPMs of your apps automatically, and so on...
 
 %prep
-%setup -q -n %{name}-%version
+%setup -qDT -n %{name}-%version
 
 %build
 %setup_compile_flags
@@ -90,6 +90,7 @@ This package includes the Gambas interpreter needed to run Gambas applications.
 %{_bindir}/gbr3
 %{_libdir}/%{name}/gb.component
 %{_libdir}/%{name}/gb.debug.*
+%{_libdir}/%{name}/gb.eval.component
 %{_libdir}/%{name}/gb.eval.la
 %{_libdir}/%{name}/gb.eval.so*
 %{_libdir}/%{name}/gb.draw.*
@@ -384,6 +385,7 @@ the xdg-utils scripts of the Portland project.
 %defattr(-,root,root)
 %{_libdir}/%{name}/gb.desktop.*
 %{_datadir}/%{name}/info/gb.desktop.*
+%{_datadir}/%{name}/control/gb.desktop
 
 #-----------------------------------------------------------------------------
 
@@ -731,48 +733,48 @@ This package includes the Gambas QT GUI component.
 
 #-----------------------------------------------------------------------------
 
-%package gb-qt-ext
+%package gb-qt4-ext
 Summary: The Gambas qt-ext component
 Group: Development/Other
 Requires: %{name}-runtime = %{version}
 
-%description gb-qt-ext
+%description gb-qt4-ext
 This package contains the Gambas qt-ext components.
 
-%files gb-qt-ext
+%files gb-qt4-ext
 %defattr(-,root,root)
-%{_libdir}/%{name}/gb.qt.ext.*
-%{_datadir}/%{name}/info/gb.qt.ext.*
+%{_libdir}/%{name}/gb.qt4.ext.*
+%{_datadir}/%{name}/info/gb.qt4.ext.*
 
 #-----------------------------------------------------------------------------
 
-%package gb-qt-opengl
+%package gb-qt4-opengl
 Summary: The Gambas qt-opengl component
 Group: Development/Other
 Requires: %{name}-runtime = %{version}
 
-%description gb-qt-opengl
+%description gb-qt4-opengl
 This package contains the Gambas qt-opengl components.
 
-%files gb-qt-opengl
+%files gb-qt4-opengl
 %defattr(-,root,root)
-%{_libdir}/%{name}/gb.qt.opengl.*
-%{_datadir}/%{name}/info/gb.qt.opengl.*
+%{_libdir}/%{name}/gb.qt4.opengl.*
+%{_datadir}/%{name}/info/gb.qt4.opengl.*
 
 #-----------------------------------------------------------------------------
 
-%package gb-qt-webkit
+%package gb-qt4-webkit
 Summary: The Gambas qt-webkit component
 Group: Development/Other
 Requires: %{name}-runtime = %{version}
 
-%description gb-qt-webkit
+%description gb-qt4-webkit
 This package contains the Gambas qt-webkit components.
 
-%files gb-qt-webkit
+%files gb-qt4-webkit
 %defattr(-,root,root)
-%{_libdir}/%{name}/gb.qt.webkit.*
-%{_datadir}/%{name}/info/gb.qt.webkit.*
+%{_libdir}/%{name}/gb.qt4.webkit.*
+%{_datadir}/%{name}/info/gb.qt4.webkit.*
 
 #-----------------------------------------------------------------------------
 
