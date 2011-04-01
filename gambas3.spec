@@ -35,6 +35,7 @@ BuildRequires: imagemagick
 BuildRequires: libffi-devel
 BuildRequires: libxtst-devel
 BuildRequires: libv4l-devel
+BuildRequires: kernel-devel
 BuildRequires: glew-devel
 BuildRequires: xdg-utils
 BuildRequires: librsvg-devel
