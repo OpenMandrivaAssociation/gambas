@@ -35,7 +35,7 @@ BuildRequires: SDL_mixer-devel
 BuildRequires: imagemagick
 BuildRequires: libffi-devel
 BuildRequires: libxtst-devel
-BuildRequires: libv4l-devel
+BuildRequires: libv4l-devel >= 0.8.3
 BuildRequires: kernel-devel
 BuildRequires: glew-devel
 BuildRequires: xdg-utils
