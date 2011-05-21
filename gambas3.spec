@@ -1,12 +1,11 @@
 Name: gambas3
 Summary: Complete IDE based on a BASIC interpreter with object extensions
 Version: 2.99.1
-Release: 1
+Release: 2
 License: GPLv2+
 Group: Development/Other
 URL: http://gambas.sourceforge.net/
 Source0: http://ovh.dl.sourceforge.net/sourceforge/gambas/%{name}-%version.tar.bz2
-Patch0: gambas3-2.99.1-kernel-2.6.38.patch
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildRequires: bzip2-devel
 BuildRequires: firebird-devel
@@ -54,7 +53,6 @@ build RPMs of your apps automatically, and so on...
 
 %prep
 %setup -qn %{name}-%version
-%patch0 -p0
 
 %build
 %setup_compile_flags
