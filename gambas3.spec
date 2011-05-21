@@ -670,6 +670,21 @@ This component allows you to use the Mesa libraries to do 3D operations.
 
 #-----------------------------------------------------------------------------
 
+%package gb-opengl-glu
+Summary: The Gambas opengl-glu component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-opengl-glu
+This component allows you to use the Mesa libraries to do 3D operations.
+
+%files gb-opengl-glu
+%defattr(-,root,root)
+%{_libdir}/%{name}/gb.opengl.glu.*
+%{_datadir}/%{name}/info/gb.opengl.glu.*
+
+#-----------------------------------------------------------------------------
+
 %package gb-option
 Summary: The Gambas command-line option component
 Group: Development/Other
