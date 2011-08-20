@@ -43,6 +43,7 @@ BuildRequires: libgnome-keyring-devel
 BuildRequires: imlib2-devel
 BuildRequires: dbus-devel
 BuildRequires: libstdc++-static-devel
+BuildRequires: automake autoconf
 
 %description
 Gambas is a free development environment based on a Basic interpreter
