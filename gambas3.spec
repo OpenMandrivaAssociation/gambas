@@ -1,81 +1,87 @@
 Name: gambas3
 Summary: Complete IDE based on a BASIC interpreter with object extensions
-Version: 2.99.2
-Release: 1
+Version: 2.99.5
+Release: %mkrel 1
 License: GPLv2+
 Group: Development/Other
 URL: http://gambas.sourceforge.net/
-Source0: http://ovh.dl.sourceforge.net/sourceforge/gambas/%{name}-%version.tar.bz2
-BuildRoot: %{_tmppath}/%{name}-buildroot
+Source0: http://ovh.dl.sourceforge.net/sourceforge/gambas/%{name}-%{version}.tar.bz2
+Source1: %{name}.desktop
+
 BuildRequires: bzip2-devel
-BuildRequires: firebird-devel
-BuildRequires: libunixODBC-devel
-BuildRequires: libsqlite-devel
-BuildRequires: libsqlite3-devel
-BuildRequires: gtk+2-devel
-BuildRequires: libmesagl-devel
-BuildRequires: libmesaglu-devel
-BuildRequires: libpcre-devel
-BuildRequires: libSDL_gfx-devel
-BuildRequires: libSDL_ttf-devel
-BuildRequires: libjpeg-devel
-BuildRequires: libpng-devel
+BuildRequires: autoconf automake libtool
+BuildRequires: unixODBC-devel
+BuildRequires: gettext-devel
+BuildRequires: png-devel
+BuildRequires: imagemagick
+BuildRequires: jpeg-devel
+BuildRequires: sqlite3-devel
+BuildRequires: qt4-devel
+BuildRequires: glew-devel
+BuildRequires: SDL-devel
+BuildRequires: libxcursor-devel
+BuildRequires: SDL_ttf-devel
+BuildRequires: mysql-devel
+BuildRequires: cairo-devel
+BuildRequires: poppler-devel
+BuildRequires: SDL_sound-devel
+BuildRequires: SDL_mixer-devel
+BuildRequires: curl-devel
+BuildRequires: libgtk+2.0-devel
+BuildRequires: librsvg2-devel
+BuildRequires: gtkglext-devel
+BuildRequires: libffi-devel
+BuildRequires: imlib2-devel
+BuildRequires: postgresql-devel
+BuildRequires: libv4l-devel
 BuildRequires: libxml2-devel
 BuildRequires: libxslt-devel
-BuildRequires: gettext-devel
-BuildRequires: qt4-devel
-BuildRequires: libcurl-devel
-BuildRequires: libgettextmisc
-BuildRequires: libSDL-devel
-BuildRequires: libpoppler-devel
-BuildRequires: mysql-devel
-BuildRequires: postgresql-devel
-BuildRequires: SDL_mixer-devel
-BuildRequires: imagemagick
-BuildRequires: libffi-devel
 BuildRequires: libxtst-devel
-BuildRequires: libv4l-devel >= 0.8.3
-BuildRequires: kernel-devel
-BuildRequires: glew-devel
 BuildRequires: xdg-utils
-BuildRequires: librsvg-devel
-BuildRequires: libgnome-keyring-devel
-BuildRequires: imlib2-devel
-BuildRequires: dbus-devel
-BuildRequires: libstdc++-static-devel
-BuildRequires: automake autoconf
+BuildRequires: desktop-file-utils
+BuildRequires: pkgconfig(sqlite)
 
 %description
 Gambas is a free development environment based on a Basic interpreter
 with object extensions, like Visual Basic(tm) (but it is NOT a clone!). 
 With Gambas, you can quickly design your program GUI, access MySQL or
-PostgreSQL databases, control KDE applications with DCOP, translate
-your program into many languages, create network applications easily,
-build RPMs of your apps automatically, and so on...
+PostgreSQL databases, translate your program into many languages, 
+create network applications easily, build RPMs of your apps 
+automatically, and so on...
+This is %{name} RC5
 
 %prep
-%setup -qn %{name}-%version
+%setup -q -n %{name}-%{version}
 
 %build
 %setup_compile_flags
 ./reconf-all
 for i in `find -name configure`
 do
-	(
-	  pushd `dirname $i`
-	  %before_configure
-	  popd
-	)
+        (
+          pushd `dirname $i`
+          %before_configure
+          popd
+        )
 done
 
 %configure2_5x
 %make
 
 %install
-rm -rf $RPM_BUILD_ROOT
+%__rm -rf %{buildroot}
 %makeinstall_std
 
-rm -f %buildroot%_libdir/gambas3/gb.so* %buildroot%_libdir/gambas3/gb.la
+find %{buildroot} -name '*.la' | xargs rm
+
+%__install -D -m 755 app/src/%{name}/img/logo/logo-16.png %{buildroot}%{_iconsdir}/hicolor/16x16/apps/gambas3.png
+%__install -D -m 755 app/src/%{name}/img/logo/logo-32.png %{buildroot}%{_iconsdir}/hicolor/32x32/apps/gambas3.png
+%__install -D -m 755 app/src/%{name}/img/logo/logo-64.png %{buildroot}%{_iconsdir}/hicolor/64x64/apps/gambas3.png
+%__install -D -m 755 app/src/%{name}/img/logo/logo-ide.png %{buildroot}%{_datadir}/pixmaps/gambas3.png
+
+desktop-file-install --vendor="" \
+                     --dir %{buildroot}%{_datadir}/applications \
+                     %{SOURCE1}
 
 #-----------------------------------------------------------------------------
 
@@ -94,7 +100,6 @@ This package includes the Gambas interpreter needed to run Gambas applications.
 %{_libdir}/%{name}/gb.component
 %{_libdir}/%{name}/gb.debug.*
 %{_libdir}/%{name}/gb.eval.component
-%{_libdir}/%{name}/gb.eval.la
 %{_libdir}/%{name}/gb.eval.so*
 %{_libdir}/%{name}/gb.draw.*
 %dir %{_datadir}/%{name}
@@ -105,7 +110,7 @@ This package includes the Gambas interpreter needed to run Gambas applications.
 %{_datadir}/%{name}/info/gb.eval.list
 %{_datadir}/%{name}/info/gb.eval.info
 %dir %{_datadir}/%{name}/icons
-%{_datadir}/%{name}/icons/application-x-gambas.png
+%{_datadir}/%{name}/icons/application-x-%{name}.png
 
 #-----------------------------------------------------------------------------
 
@@ -171,6 +176,9 @@ database manager, the help files, and all components.
 %defattr(-, root, root, 0755)
 %{_bindir}/%{name}
 %{_bindir}/%{name}.gambas
+%{_datadir}/applications/%{name}.desktop
+%{_iconsdir}/hicolor/*/*/%{name}.png
+%{_datadir}/pixmaps/%{name}.png
 
 #-----------------------------------------------------------------------------
 
@@ -260,7 +268,6 @@ provided that you install the needed driver packages.
 
 %files gb-db
 %defattr(-,root,root)
-%{_libdir}/%{name}/gb.db.la
 %{_libdir}/%{name}/gb.db.so*
 %{_libdir}/%{name}/gb.db.component
 %{_libdir}/%{name}/gb.db.gambas
@@ -395,7 +402,7 @@ the xdg-utils scripts of the Portland project.
 %package gb-eval-highlight
 Summary: The Gambas eval-highlight component
 Group: Development/Other
-Requires: %{name}-runtime = %{version},%{name}
+Requires: %{name}-runtime = %{version}
 
 %description gb-eval-highlight
 This component implements the eval-highlight componet.
@@ -519,7 +526,6 @@ This component allows you to apply various effects to images.
 %files gb-image
 %defattr(-,root,root)
 %{_libdir}/%{name}/gb.image.component
-%{_libdir}/%{name}/gb.image.la
 %{_libdir}/%{name}/gb.image.so*
 %{_datadir}/%{name}/info/gb.image.info
 %{_datadir}/%{name}/info/gb.image.list
@@ -597,7 +603,6 @@ any serial ports.
 
 %files gb-net
 %defattr(-,root,root)
-%{_libdir}/%{name}/gb.net.la
 %{_libdir}/%{name}/gb.net.so*
 %{_libdir}/%{name}/gb.net.component
 %{_datadir}/%{name}/info/gb.net.info
@@ -615,7 +620,6 @@ This component allows your programs to easily become FTP or HTTP clients.
 
 %files gb-net-curl
 %defattr(-,root,root)
-%{_libdir}/%{name}/gb.net.curl.la
 %{_libdir}/%{name}/gb.net.curl.so*
 %{_libdir}/%{name}/gb.net.curl.component
 %{_datadir}/%{name}/info/gb.net.curl.info
@@ -649,7 +653,6 @@ This component allows you to use the Mesa libraries to do 3D operations.
 %files gb-opengl
 %defattr(-,root,root)
 %{_libdir}/%{name}/gb.opengl.component
-%{_libdir}/%{name}/gb.opengl.la
 %{_libdir}/%{name}/gb.opengl.so*
 %{_datadir}/%{name}/info/gb.opengl.info
 %{_datadir}/%{name}/info/gb.opengl.list
@@ -744,7 +747,6 @@ This package includes the Gambas QT GUI component.
 %defattr(-,root,root)
 %{_libdir}/%{name}/gb.qt4.component
 %{_libdir}/%{name}/gb.qt4.gambas
-%{_libdir}/%{name}/gb.qt4.la
 %{_libdir}/%{name}/gb.qt4.so*
 %{_datadir}/%{name}/info/gb.qt4.info
 %{_datadir}/%{name}/info/gb.qt4.list
@@ -825,7 +827,6 @@ accelerate 2D and 3D drawing.
 
 %files gb-sdl
 %defattr(-,root,root)
-%{_libdir}/%{name}/gb.sdl.la
 %{_libdir}/%{name}/gb.sdl.so
 %{_libdir}/%{name}/gb.sdl.so.*
 %{_libdir}/%{name}/gb.sdl.component
@@ -942,7 +943,6 @@ This component allows you to use xml.
 
 %files gb-xml
 %defattr(-,root,root)
-%{_libdir}/%{name}/gb.xml.la
 %{_libdir}/%{name}/gb.xml.so*
 %{_libdir}/%{name}/gb.xml.component
 %{_datadir}/%{name}/info/gb.xml.info
@@ -977,10 +977,4 @@ This component allows you to use xml-xslt.
 %defattr(-,root,root)
 %{_libdir}/%{name}/gb.xml.xslt*
 %{_datadir}/%{name}/info/gb.xml.xslt*
-
-#-----------------------------------------------------------------------------
-
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 
