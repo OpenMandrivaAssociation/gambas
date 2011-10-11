@@ -40,6 +40,7 @@ BuildRequires: libxtst-devel
 BuildRequires: xdg-utils
 BuildRequires: desktop-file-utils
 BuildRequires: pkgconfig(sqlite)
+BuildRequires: libstdc++-static-devel
 
 %description
 Gambas is a free development environment based on a Basic interpreter
@@ -73,6 +74,7 @@ done
 %makeinstall_std
 
 find %{buildroot} -name '*.la' | xargs rm
+rm -f %{buildroot}%{_libdir}/%{name}/gb.so %{buildroot}%{_libdir}/%{name}/gb.so.*
 
 %__install -D -m 755 app/src/%{name}/img/logo/logo-16.png %{buildroot}%{_iconsdir}/hicolor/16x16/apps/gambas3.png
 %__install -D -m 755 app/src/%{name}/img/logo/logo-32.png %{buildroot}%{_iconsdir}/hicolor/32x32/apps/gambas3.png
