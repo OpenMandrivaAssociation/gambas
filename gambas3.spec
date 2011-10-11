@@ -23,7 +23,7 @@ BuildRequires: libxcursor-devel
 BuildRequires: SDL_ttf-devel
 BuildRequires: mysql-devel
 BuildRequires: cairo-devel
-BuildRequires: poppler-devel
+BuildRequires: libpoppler-devel
 BuildRequires: SDL_sound-devel
 BuildRequires: SDL_mixer-devel
 BuildRequires: curl-devel
