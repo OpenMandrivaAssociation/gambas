@@ -1,7 +1,7 @@
 Name: gambas3
 Summary: Complete IDE based on a BASIC interpreter with object extensions
-Version: 2.99.5
-Release: %mkrel 1
+Version: 2.99.6
+Release: 1
 License: GPLv2+
 Group: Development/Other
 URL: http://gambas.sourceforge.net/
@@ -17,6 +17,7 @@ BuildRequires: imagemagick
 BuildRequires: jpeg-devel
 BuildRequires: sqlite3-devel
 BuildRequires: qt4-devel
+BuildRequires: pkgconfig(QtWebKit)
 BuildRequires: glew-devel
 BuildRequires: SDL-devel
 BuildRequires: libxcursor-devel
@@ -40,7 +41,6 @@ BuildRequires: libxtst-devel
 BuildRequires: xdg-utils
 BuildRequires: desktop-file-utils
 BuildRequires: pkgconfig(sqlite)
-BuildRequires: libstdc++-static-devel
 
 %description
 Gambas is a free development environment based on a Basic interpreter
@@ -49,7 +49,7 @@ With Gambas, you can quickly design your program GUI, access MySQL or
 PostgreSQL databases, translate your program into many languages, 
 create network applications easily, build RPMs of your apps 
 automatically, and so on...
-This is %{name} RC5
+This is %{name} RC6
 
 %prep
 %setup -q -n %{name}-%{version}
@@ -167,6 +167,7 @@ Requires: %{name}-gb-qt4 = %{version}
 Requires: %{name}-gb-qt4-ext = %{version}
 Requires: %{name}-gb-qt4-webkit = %{version}
 Requires: %{name}-gb-settings = %{version}
+Requires: %{name}-examples = %{version}
 Requires: gettext
 Requires: rpm-build
 
@@ -187,7 +188,8 @@ database manager, the help files, and all components.
 %package examples
 Summary: The Gambas examples
 Group: Development/Other
-Requires: %{name}-ide = %{version}
+BuildArch: noarch
+Suggests: %{name}-ide = %{version}
 
 %description examples
 This package includes all the example projects provided with Gambas.
