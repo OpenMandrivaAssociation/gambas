@@ -42,6 +42,7 @@ BuildRequires: xdg-utils
 BuildRequires: desktop-file-utils
 BuildRequires: pkgconfig(sqlite)
 BuildRequires: libstdc++-static-devel
+BuildRequires: freetype2-devel
 
 %description
 Gambas is a free development environment based on a Basic interpreter
