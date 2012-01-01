@@ -1,12 +1,14 @@
 Name: gambas3
 Summary: Complete IDE based on a BASIC interpreter with object extensions
-Version: 2.99.6
+Version: 3.0.0
 Release: 1
 License: GPLv2+
 Group: Development/Other
 URL: http://gambas.sourceforge.net/
 Source0: http://ovh.dl.sourceforge.net/sourceforge/gambas/%{name}-%{version}.tar.bz2
 Source1: %{name}.desktop
+# Use libv4l1
+Patch4:		%{name}-2.99.1-use-libv4l1.patch
 
 BuildRequires: bzip2-devel
 BuildRequires: autoconf automake libtool
@@ -43,6 +45,8 @@ BuildRequires: desktop-file-utils
 BuildRequires: pkgconfig(sqlite)
 BuildRequires: libstdc++-static-devel
 BuildRequires: freetype2-devel
+# We need this since linux/videodev.h is dead
+BuildRequires:	libv4l-devel
 
 %description
 Gambas is a free development environment based on a Basic interpreter
@@ -51,10 +55,29 @@ With Gambas, you can quickly design your program GUI, access MySQL or
 PostgreSQL databases, translate your program into many languages, 
 create network applications easily, build RPMs of your apps 
 automatically, and so on...
-This is %{name} RC6
+This is %{name}
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch4 -p1 -b .libv4l1
+# We used to patch these out, but this is simpler.
+for i in `find . |grep acinclude.m4`; do
+	sed -i 's|$AM_CFLAGS -O3|$AM_CFLAGS|g' $i
+	sed -i 's|$AM_CXXFLAGS -Os -fno-omit-frame-pointer|$AM_CXXFLAGS|g' $i
+	sed -i 's|$AM_CFLAGS -Os|$AM_CFLAGS|g' $i
+	sed -i 's|$AM_CFLAGS -O0|$AM_CFLAGS|g' $i
+	sed -i 's|$AM_CXXFLAGS -O0|$AM_CXXFLAGS|g' $i
+done
+# Need this for gcc44
+sed -i 's|-fno-exceptions||g' gb.db.sqlite3/acinclude.m4
+./reconf-all
+
+# clean up some spurious exec perms
+chmod -x main/gbx/gbx_local.h
+chmod -x main/gbx/gbx_subr_file.c
+chmod -x gb.qt4/src/CContainer.cpp
+chmod -x main/lib/option/getoptions.*
+chmod -x main/lib/option/main.c
 
 %build
 %setup_compile_flags
@@ -72,20 +95,32 @@ done
 %make
 
 %install
-%__rm -rf %{buildroot}
 %makeinstall_std
 
-find %{buildroot} -name '*.la' | xargs rm
-rm -f %{buildroot}%{_libdir}/%{name}/gb.so %{buildroot}%{_libdir}/%{name}/gb.so.*
+find %{buildroot} -name '*.la' -delete
+
+%__rm -f %{buildroot}%{_libdir}/%{name}/gb.so %{buildroot}%{_libdir}/%{name}/gb.so.*
 
 %__install -D -m 755 app/src/%{name}/img/logo/logo-16.png %{buildroot}%{_iconsdir}/hicolor/16x16/apps/gambas3.png
 %__install -D -m 755 app/src/%{name}/img/logo/logo-32.png %{buildroot}%{_iconsdir}/hicolor/32x32/apps/gambas3.png
 %__install -D -m 755 app/src/%{name}/img/logo/logo-64.png %{buildroot}%{_iconsdir}/hicolor/64x64/apps/gambas3.png
 %__install -D -m 755 app/src/%{name}/img/logo/logo-ide.png %{buildroot}%{_datadir}/pixmaps/gambas3.png
+%__install -D -m 644 %{SOURCE1} %{buildroot}%{_datadir}/applications/%{name}.desktop
 
-desktop-file-install --vendor="" \
-                     --dir %{buildroot}%{_datadir}/applications \
-                     %{SOURCE1}
+desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
+
+# Replace the bundled font with a symlink to our system copy
+pushd %{buildroot}%{_datadir}/%{name}/gb.sdl/
+rm -f DejaVuSans.ttf
+ln -s ../../fonts/dejavu/DejaVuSans.ttf DejaVuSans.ttf
+popd
+
+chmod -x %{buildroot}%{_datadir}/%{name}/gb.sdl/LICENSE
+
+# Mime types.
+mkdir -p %{buildroot}%{_datadir}/mime/packages/
+install -m 0644 -p app/mime/application-x-gambasscript.xml %{buildroot}%{_datadir}/mime/packages/
+install -m 0644 -p main/mime/application-x-gambas3.xml %{buildroot}%{_datadir}/mime/packages/
 
 #-----------------------------------------------------------------------------
 
@@ -115,6 +150,7 @@ This package includes the Gambas interpreter needed to run Gambas applications.
 %{_datadir}/%{name}/info/gb.eval.info
 %dir %{_datadir}/%{name}/icons
 %{_datadir}/%{name}/icons/application-x-%{name}.png
+%{_datadir}/mime/packages/*.xml
 
 #-----------------------------------------------------------------------------
 
@@ -984,3 +1020,14 @@ This component allows you to use xml-xslt.
 %{_libdir}/%{name}/gb.xml.xslt*
 %{_datadir}/%{name}/info/gb.xml.xslt*
 
+%post runtime
+update-mime-database %{_datadir}/mime &> /dev/null || :
+
+%postun runtime
+update-mime-database %{_datadir}/mime &> /dev/null || :
+
+%post script
+update-mime-database %{_datadir}/mime &> /dev/null || :
+
+%postun script
+update-mime-database %{_datadir}/mime &> /dev/null || :
