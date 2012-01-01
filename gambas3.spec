@@ -1,7 +1,7 @@
 Name: gambas3
 Summary: Complete IDE based on a BASIC interpreter with object extensions
 Version: 3.0.0
-Release: 1
+Release: 2
 License: GPLv2+
 Group: Development/Other
 URL: http://gambas.sourceforge.net/
@@ -119,7 +119,7 @@ chmod -x %{buildroot}%{_datadir}/%{name}/gb.sdl/LICENSE
 
 # Mime types.
 mkdir -p %{buildroot}%{_datadir}/mime/packages/
-install -m 0644 -p app/mime/application-x-gambasscript.xml %{buildroot}%{_datadir}/mime/packages/
+install -m 0644 -p app/mime/application-x-gambasscript.xml %{buildroot}%{_datadir}/mime/packages/application-x-gambasscript3.xml
 install -m 0644 -p main/mime/application-x-gambas3.xml %{buildroot}%{_datadir}/mime/packages/
 
 #-----------------------------------------------------------------------------
@@ -150,7 +150,7 @@ This package includes the Gambas interpreter needed to run Gambas applications.
 %{_datadir}/%{name}/info/gb.eval.info
 %dir %{_datadir}/%{name}/icons
 %{_datadir}/%{name}/icons/application-x-%{name}.png
-%{_datadir}/mime/packages/*.xml
+%{_datadir}/mime/packages/application-x-%{name}.xml
 
 #-----------------------------------------------------------------------------
 
@@ -187,6 +187,7 @@ in Gambas.
 %{_bindir}/gbw3
 %{_datadir}/%{name}/icons/application-x-gambasserverpage.png
 %{_datadir}/%{name}/icons/application-x-gambasscript.png
+%{_datadir}/mime/packages/application-x-gambasscript3.xml
 
 #-----------------------------------------------------------------------------
 
