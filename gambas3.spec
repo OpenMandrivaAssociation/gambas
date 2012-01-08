@@ -1,7 +1,7 @@
 Name: gambas3
 Summary: Complete IDE based on a BASIC interpreter with object extensions
 Version: 3.0.0
-Release: 2
+Release: 3
 License: GPLv2+
 Group: Development/Other
 URL: http://gambas.sourceforge.net/
@@ -199,9 +199,12 @@ Requires: %{name}-devel = %{version}
 Requires: %{name}-gb-db = %{version}
 Requires: %{name}-gb-db-form = %{version}
 Requires: %{name}-gb-desktop = %{version}
+Requires: %{name}-gb-eval-highlight = %{version}
 Requires: %{name}-gb-form = %{version}
 Requires: %{name}-gb-form-dialog = %{version}
 Requires: %{name}-gb-form-mdi = %{version}
+Requires: %{name}-gb-image = %{version}
+Requires: %{name}-gb-gb-image-effect = %{version}
 Requires: %{name}-gb-qt4 = %{version}
 Requires: %{name}-gb-qt4-ext = %{version}
 Requires: %{name}-gb-qt4-webkit = %{version}
