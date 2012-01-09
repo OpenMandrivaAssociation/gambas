@@ -1,12 +1,12 @@
-Name: gambas3
-Summary: Complete IDE based on a BASIC interpreter with object extensions
-Version: 3.0.0
-Release: 4
-License: GPLv2+
-Group: Development/Other
-URL: http://gambas.sourceforge.net/
-Source0: http://ovh.dl.sourceforge.net/sourceforge/gambas/%{name}-%{version}.tar.bz2
-Source1: %{name}.desktop
+Name:		gambas3
+Summary:	Complete IDE based on a BASIC interpreter with object extensions
+Version:	3.0.0
+Release:	%mkrel 4
+License:	GPLv2+
+Group:		Development/Other
+URL:		http://gambas.sourceforge.net/
+Source0:	http://ovh.dl.sourceforge.net/sourceforge/gambas/%{name}-%{version}.tar.bz2
+Source1:	%{name}.desktop
 # Use libv4l1
 Patch4:		%{name}-2.99.1-use-libv4l1.patch
 
