@@ -1,0 +1,30 @@
+diff -up gambas3-2.99.1/gb.v4l/configure.ac.libv4l1 gambas3-2.99.1/gb.v4l/configure.ac
+--- gambas3-2.99.1/gb.v4l/configure.ac.libv4l1	2011-05-21 07:24:20.000000000 -0400
++++ gambas3-2.99.1/gb.v4l/configure.ac	2011-05-28 15:54:10.434733359 -0400
+@@ -17,9 +17,9 @@ GB_COMPONENT(
+   V4L,
+   [Video For Linux component],
+   [src],
+-  [GB_FIND(png.h jpeglib.h linux/videodev2.h, /usr/local/lib /usr/local /usr/lib /usr, include)],
++  [GB_FIND(png.h jpeglib.h libv4l1-videodev.h linux/videodev2.h, /usr/local/lib /usr/local /usr/lib /usr, include)],
+   [GB_FIND(libpng.$SHLIBEXT libjpeg.$SHLIBEXT, /usr/local /usr, lib)],
+-  [$C_LIB -ljpeg -lpng])
++  [$C_LIB -ljpeg -lpng -lv4l1])
+ 
+ AC_OUTPUT( \
+ Makefile \
+diff -up gambas3-2.99.1/gb.v4l/src/CWebcam.h.libv4l1 gambas3-2.99.1/gb.v4l/src/CWebcam.h
+--- gambas3-2.99.1/gb.v4l/src/CWebcam.h.libv4l1	2011-05-21 07:24:20.000000000 -0400
++++ gambas3-2.99.1/gb.v4l/src/CWebcam.h	2011-05-28 15:54:46.073523622 -0400
+@@ -26,10 +26,10 @@
+ #include <sys/types.h>
+ #include <sys/ioctl.h>
+ #include <linux/types.h>
++#include <libv4l1-videodev.h>
+ #include <linux/videodev2.h>
+ #include <libv4lconvert.h>
+ 
+-#include "videodev.h"
+ #include "gambas.h"
+ 
+ #ifndef __CWEBCAM_C
