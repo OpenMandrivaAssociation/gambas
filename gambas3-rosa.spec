@@ -2,7 +2,7 @@
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
 Version:	3.3.3
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
@@ -10,7 +10,7 @@ Source0:	http://ovh.dl.sourceforge.net/sourceforge/gambas/%{name}-%{version}.tar
 Source1:	%{name}.desktop
 Patch1:		gambas3-3.3.1-iconv.patch
 Patch2:		gambas3-3.3.1-intl.patch
-BuildRequires:	libbzip2-devel
+BuildRequires:	bzip2-devel
 BuildRequires:	autoconf automake libtool
 BuildRequires:	unixODBC-devel
 BuildRequires:	gettext-devel
@@ -40,13 +40,12 @@ BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(libexslt)
 BuildRequires:	pkgconfig(xtst)
-BuildRequires:  freetype2-devel
+BuildRequires:  pkgconfig(freetype2)
 BuildRequires:	xdg-utils
 BuildRequires:	desktop-file-utils
 BuildRequires:	pkgconfig(sqlite)
 BuildRequires:  libstdc++-static-devel 
 BuildRequires:  libstdc++-devel
-BuildRequires:  freetype-devel
 BuildRequires:  pkgconfig(gsl)
 BuildRequires:  pkgconfig(gnome-keyring-1)
 BuildRequires:  pkgconfig(libpcre)
@@ -1167,7 +1166,6 @@ New component that implements a POP3 client.
 #---------------------------------------------------------------------------
 
 
-%description gb-net-pop3
 %post runtime
 update-mime-database %{_datadir}/mime &> /dev/null || :
 
@@ -1180,6 +1178,3 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %postun script
 update-mime-database %{_datadir}/mime &> /dev/null || :
 
-
-
-This package contains the Gambas media component.
