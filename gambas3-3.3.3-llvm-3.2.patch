@@ -1,0 +1,42 @@
+--- gambas3-3.3.3/gb.jit/src/jit_codegen.cpp.bero	2013-05-13 17:55:03.444294932 +0200
++++ gambas3-3.3.3/gb.jit/src/jit_codegen.cpp	2013-05-13 17:55:48.137736187 +0200
+@@ -3614,7 +3614,7 @@ void TryExpression::codegen(){
+ 		create_gep(temp_errcontext1, TARGET_BITS, 0, TARGET_BITS, 0));
+ 	
+ 	llvm::Function* f = llvm::cast<llvm::Function>(get_global_function(_setjmp, 'i', "p"));
+-	f->addFnAttr(llvm::Attribute::ReturnsTwice);
++	f->addFnAttr(llvm::Attributes::ReturnsTwice);
+ 	
+ 	llvm::Value* setjmp_return = builder->CreateCall(f, jmpbuf);
+ 	
+@@ -3665,7 +3665,7 @@ void LargeTryExpression::codegen(){
+ 		create_gep(temp_errcontext2, TARGET_BITS, 0, TARGET_BITS, 0));
+ 	
+ 	llvm::Function* f = llvm::cast<llvm::Function>(get_global_function(_setjmp, 'i', "p"));
+-	f->addFnAttr(llvm::Attribute::ReturnsTwice);
++	f->addFnAttr(llvm::Attributes::ReturnsTwice);
+ 	
+ 	llvm::Value* setjmp_return = builder->CreateCall(f, jmpbuf);
+ 	
+--- gambas3-3.3.3/gb.jit/src/jit_gambas_pass.cpp.bero	2013-05-13 17:51:58.571606159 +0200
++++ gambas3-3.3.3/gb.jit/src/jit_gambas_pass.cpp	2013-05-13 17:52:03.313546876 +0200
+@@ -25,7 +25,7 @@
+ 
+ #include "llvm/Pass.h"
+ #include "llvm/Function.h"
+-#include "llvm/Support/IRBuilder.h"
++#include "llvm/IRBuilder.h"
+ #include "llvm/Support/raw_ostream.h"
+ 
+ #include "main.h"
+--- gambas3-3.3.3/gb.jit/src/jit.h.bero	2013-05-13 17:52:16.397383306 +0200
++++ gambas3-3.3.3/gb.jit/src/jit.h	2013-05-13 17:52:28.802228224 +0200
+@@ -39,7 +39,7 @@
+ #include "llvm/Support/TargetSelect.h"
+ #include "llvm/Support/ManagedStatic.h"
+ #include "llvm/Support/raw_ostream.h"
+-#include "llvm/Support/IRBuilder.h"
++#include "llvm/IRBuilder.h"
+ #include "llvm/Support/DynamicLibrary.h"
+ #include "llvm/Support/CFG.h"
+ #include "llvm/PassManager.h"

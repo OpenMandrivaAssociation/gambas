@@ -2,7 +2,7 @@
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
 Version:	3.3.3
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
@@ -10,6 +10,7 @@ Source0:	http://ovh.dl.sourceforge.net/sourceforge/gambas/%{name}-%{version}.tar
 Source1:	%{name}.desktop
 Patch1:		gambas3-3.3.1-iconv.patch
 Patch2:		gambas3-3.3.1-intl.patch
+Patch3:		gambas3-3.3.3-llvm-3.2.patch
 BuildRequires:	bzip2-devel
 BuildRequires:	autoconf automake libtool
 BuildRequires:	unixODBC-devel
@@ -79,8 +80,9 @@ chmod -x gb.qt4/src/CContainer.cpp
 chmod -x main/lib/option/getoptions.*
 chmod -x main/lib/option/main.c
 
-%patch1 -p1 
-%patch2 -p1 
+%apply_patches
+
+find . -name "*.m4" |xargs sed -i -e 's,AM_CONFIG_HEADER,AC_CONFIG_HEADERS,g'
 
 %build
 %setup_compile_flags
