@@ -8,6 +8,7 @@ Group:		Development/Other
 URL:		http://gambas.sourceforge.net
 Source0:	http://ovh.dl.sourceforge.net/sourceforge/gambas/%{name}-%{version}.tar.bz2
 Source1:	%{name}.desktop
+Source100:	%name.rpmlintrc
 Patch1:		gambas3-3.3.1-iconv.patch
 Patch2:		gambas3-3.3.1-intl.patch
 Patch3:		gambas3-3.3.3-llvm-3.2.patch
@@ -55,6 +56,9 @@ BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(SDL_image)
 # keep gmime-devel for portability
 BuildRequires:  pkgconfig(gmime-2.6)
+# Versions prior to 0.31.31-2 would barf on directories with a
+# "*.desktop" name
+BuildRequires:	spec-helper >= 0.31.31-2
 # no media.component for rosalts
 %if %{mdvver} >= 201210
 BuildRequires:  llvm-devel
@@ -127,7 +131,7 @@ This package includes the Gambas interpreter needed to run Gambas applications.
 #
 %files runtime 
 
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_bindir}/gbx3
 %{_bindir}/gbr3
 %{_libdir}/%{name}/gb.component
@@ -156,7 +160,7 @@ This package includes all tools needed to compile Gambas projects
 without having to install the complete development environment.
 
 %files devel
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_bindir}/gbc3
 %{_bindir}/gba3
 %{_bindir}/gbi3
@@ -174,7 +178,7 @@ This package includes the scripter program that allows to write script files
 in Gambas.
 
 %files script
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_bindir}/gbs3
 %{_bindir}/gbs3.gambas
 %{_bindir}/gbw3
@@ -211,7 +215,7 @@ This package includes the complete Gambas Development Environment, with the
 database manager, the help files, and all components.
 
 %files ide 
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_bindir}/%{name}
 %{_bindir}/%{name}.gambas
 %{_datadir}/applications/%{name}.desktop
@@ -230,7 +234,7 @@ Requires: %{name}-ide = %{version}
 This package includes all the example projects provided with Gambas.
 
 %files examples
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_datadir}/%{name}/examples
 
 #-----------------------------------------------------------------------------
@@ -244,7 +248,7 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas Cario components.
 
 %files gb-cairo
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.cairo.*
 %{_datadir}/%{name}/info/gb.cairo.*
 
@@ -259,7 +263,7 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas Chart components.
 
 %files gb-chart
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.chart.*
 %{_datadir}/%{name}/info/gb.chart.*
 
@@ -275,7 +279,7 @@ This component allows you to compress/uncompress data or files with
 the bzip2 and zip algorithms.
 
 %files gb-compress
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.compress.*
 %{_datadir}/%{name}/info/gb.compress.*
 
@@ -290,7 +294,7 @@ Requires: %{name}-runtime = %{version}
 This component allows you to use cryptography in your projects.
 
 %files gb-crypt
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.crypt.*
 %{_datadir}/%{name}/info/gb.crypt.*
 
@@ -306,7 +310,7 @@ This component allows you to access many databases management systems,
 provided that you install the needed driver packages.
 
 %files gb-db
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.db.so*
 %{_libdir}/%{name}/gb.db.component
 %{_libdir}/%{name}/gb.db.gambas
@@ -324,7 +328,7 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas Database form components.
 
 %files gb-db-form
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.db.form.*
 %{_datadir}/%{name}/info/gb.db.form.*
 %{_datadir}/%{name}/control/gb.db.form
@@ -340,7 +344,7 @@ Requires: %{name}-runtime = %{version},%{name}-gb-db = %{version}
 This component allows you to access MySQL databases.
 
 %files gb-db-mysql
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.db.mysql.*
 %{_datadir}/%{name}/info/gb.db.mysql.*
 
@@ -355,7 +359,7 @@ Requires: %{name}-runtime = %{version},%{name}-gb-db = %{version}
 This component allows you to access ODBC databases.
 
 %files gb-db-odbc
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.db.odbc.*
 %{_datadir}/%{name}/info/gb.db.odbc.*
 
@@ -370,7 +374,7 @@ Requires: %{name}-runtime = %{version},%{name}-gb-db = %{version}
 This component allows you to access PostgreSQL databases.
 
 %files gb-db-postgresql
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.db.postgresql.*
 %{_datadir}/%{name}/info/gb.db.postgresql.*
 
@@ -385,7 +389,7 @@ Requires: %{name}-runtime = %{version},%{name}-gb-db = %{version}
 This component allows you to access SQLite 2 databases.
 
 %files gb-db-sqlite2
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.db.sqlite2.*
 %{_datadir}/%{name}/info/gb.db.sqlite2.*
 
@@ -400,7 +404,7 @@ Requires: %{name}-runtime = %{version},%{name}-gb-db = %{version}
 This component allows you to access SQLite 3 databases.
 
 %files gb-db-sqlite3
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.db.sqlite3.*
 %{_datadir}/%{name}/info/gb.db.sqlite3.*
 
@@ -415,7 +419,7 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas D-bus components.
 
 %files gb-dbus
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.dbus.*
 %{_datadir}/%{name}/info/gb.dbus.*
 
@@ -431,7 +435,7 @@ This component allows you to use desktop-agnostic routines based on
 the xdg-utils scripts of the Portland project.
 
 %files gb-desktop
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.desktop.*
 %{_datadir}/%{name}/info/gb.desktop.*
 %{_datadir}/%{name}/control/gb.desktop
@@ -447,7 +451,7 @@ Requires: %{name}-runtime = %{version}
 This component implements the eval-highlight componet.
 
 %files gb-eval-highlight
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.eval.highlight.*
 %{_datadir}/%{name}/info/gb.eval.highlight.*
 
@@ -462,7 +466,7 @@ Requires: %{name}-runtime = %{version}
 This component implements the form control.
 
 %files gb-form
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.form.component
 %{_libdir}/%{name}/gb.form.gambas
 %{_datadir}/%{name}/control/gb.form
@@ -480,7 +484,7 @@ Requires: %{name}-runtime = %{version}
 This component implements the form-dialog control.
 
 %files gb-form-dialog
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.form.dialog.component
 %{_libdir}/%{name}/gb.form.dialog.gambas
 %{_datadir}/%{name}/info/gb.form.dialog.info
@@ -497,7 +501,7 @@ Requires: %{name}-runtime = %{version}
 This component implements the form-mdi control.
 
 %files gb-form-mdi
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.form.mdi.component
 %{_libdir}/%{name}/gb.form.mdi.gambas
 %{_datadir}/%{name}/control/gb.form.mdi
@@ -515,7 +519,7 @@ Requires: %{name}-runtime = %{version}
 This component implements the form-stock control.
 
 %files gb-form-stock
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.form.stock.component
 %{_libdir}/%{name}/gb.form.stock.gambas
 %{_datadir}/%{name}/info/gb.form.stock.info
@@ -532,7 +536,7 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas GTK+ GUI components.
 
 %files gb-gtk
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.gtk.*
 %{_datadir}/%{name}/info/gb.gtk.*
 
@@ -546,7 +550,7 @@ Requires: %{name}-runtime = %{version}
 This component provides an interface to the GNU Scientific Library.
 
 %files gb-gsl
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.gsl.*
 %{_datadir}/%{name}/info/gb.gsl.*
 
@@ -561,7 +565,7 @@ This is a component that just loads gb.qt if you are running KDE or
 gb.gtk in the other cases.
 
 %files gb-gui
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.gui.*
 %{_datadir}/%{name}/info/gb.gui.*
 
@@ -576,9 +580,9 @@ Requires: %{name}-runtime = %{version}
 This component provides the jit compiler for gambas.
 
 %files gb-jit
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.jit.*
-%{_datadir}/%{name}/info/gb.jit.*
+%optional %{_datadir}/%{name}/info/gb.jit.*
 %endif
 #-----------------------------------------------------------------------------
 %package gb-image
@@ -590,7 +594,7 @@ Requires: %{name}-runtime = %{version}
 This component allows you to apply various effects to images.
 
 %files gb-image
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.image.component
 %{_libdir}/%{name}/gb.image.so*
 %{_datadir}/%{name}/info/gb.image.info
@@ -607,7 +611,7 @@ Requires: %{name}-runtime = %{version}
 This component allows you to apply various effects to images.
 
 %files gb-image-effect
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.image.effect.*
 %{_datadir}/%{name}/info/gb.image.effect.*
 
@@ -622,7 +626,7 @@ Requires: %{name}-runtime = %{version}
 This component allows you to manipulate images with imlibs.
 
 %files gb-image-imlib
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.image.imlib.*
 %{_datadir}/%{name}/info/gb.image.imlib.*
 
@@ -637,7 +641,7 @@ Requires: %{name}-runtime = %{version}
 This component allows you to perform images input output operations.
 
 %files gb-image-io
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.image.io.*
 %{_datadir}/%{name}/info/gb.image.io.*
 
@@ -652,7 +656,7 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas media component.
 
 %files gb-media
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.media.*
 %{_datadir}/%{name}/info/gb.media.*
 %endif
@@ -666,7 +670,7 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas MySQL components.
 
 %files gb-mysql
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.mysql.*
 %{_datadir}/%{name}/info/gb.mysql.*
 
@@ -680,7 +684,7 @@ Requires: %{name}-runtime = %{version}
 This component allows you to use ncurses with gambas.
 
 %files gb-ncurses
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.ncurses.so*
 %{_libdir}/%{name}/gb.ncurses.component
 %{_datadir}/%{name}/info/gb.ncurses.info
@@ -697,7 +701,7 @@ This component allows you to use TCP/IP and UDP sockets, and to access
 any serial ports.
 
 %files gb-net
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.net.so*
 %{_libdir}/%{name}/gb.net.component
 %{_datadir}/%{name}/info/gb.net.info
@@ -714,7 +718,7 @@ Requires: %{name}-runtime = %{version},%{name}-gb-net = %{version}
 This component allows your programs to easily become FTP or HTTP clients.
 
 %files gb-net-curl
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.net.curl.so*
 %{_libdir}/%{name}/gb.net.curl.component
 %{_datadir}/%{name}/info/gb.net.curl.info
@@ -731,7 +735,7 @@ Requires: %{name}-runtime = %{version},%{name}-gb-net = %{version}
 This component allows you to send emails using the SMTP protocol.
 
 %files gb-net-smtp
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.net.smtp.*
 %{_datadir}/%{name}/info/gb.net.smtp.*
 
@@ -746,7 +750,7 @@ Requires: %{name}-runtime = %{version}
 This component allows you to use the Mesa libraries to do 3D operations.
 
 %files gb-opengl
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.opengl.component
 %{_libdir}/%{name}/gb.opengl.so*
 %{_datadir}/%{name}/info/gb.opengl.info
@@ -763,7 +767,7 @@ Requires: %{name}-runtime = %{version}
 This component allows you to use the Mesa libraries to do 3D operations.
 
 %files gb-opengl-glsl
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.opengl.glsl.*
 %{_datadir}/%{name}/info/gb.opengl.glsl.*
 
@@ -778,7 +782,7 @@ Requires: %{name}-runtime = %{version}
 This component allows you to use the Mesa libraries to do 3D operations.
 
 %files gb-opengl-glu
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.opengl.glu.*
 %{_datadir}/%{name}/info/gb.opengl.glu.*
 
@@ -793,7 +797,7 @@ Requires: %{name}-runtime = %{version}
 This component allows you to interpret command-line options.
 
 %files gb-option
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.option.*
 %{_datadir}/%{name}/info/gb.option.*
 
@@ -809,7 +813,7 @@ This component allows you to use Perl compatible regular expresions
 within Gambas code.
 
 %files gb-pcre
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.pcre.*
 %{_datadir}/%{name}/info/gb.pcre.*
 
@@ -824,7 +828,7 @@ Requires: %{name}-runtime = %{version}
 This component allows you to manipulate pdf files with Gambas code.
 
 %files gb-pdf
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.pdf.*
 %{_datadir}/%{name}/info/gb.pdf.*
 
@@ -839,7 +843,7 @@ Requires: %{name}-runtime = %{version}
 This package includes the Gambas QT GUI component.
 
 %files gb-qt4
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.qt4.component
 %{_libdir}/%{name}/gb.qt4.gambas
 %{_libdir}/%{name}/gb.qt4.so*
@@ -857,7 +861,7 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas qt-ext components.
 
 %files gb-qt4-ext
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.qt4.ext.*
 %{_datadir}/%{name}/info/gb.qt4.ext.*
 
@@ -872,7 +876,7 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas qt-opengl components.
 
 %files gb-qt4-opengl
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.qt4.opengl.*
 %{_datadir}/%{name}/info/gb.qt4.opengl.*
 
@@ -887,7 +891,7 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas qt-webkit components.
 
 %files gb-qt4-webkit
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.qt4.webkit.*
 %{_datadir}/%{name}/info/gb.qt4.webkit.*
 
@@ -902,7 +906,7 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas Report components.
 
 %files gb-report
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.report.*
 %{_datadir}/%{name}/info/gb.report.*
 %{_datadir}/%{name}/control/gb.report
@@ -921,7 +925,7 @@ stored in a file. If OpenGL drivers are installed it uses them to
 accelerate 2D and 3D drawing.
 
 %files gb-sdl
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.sdl.so
 %{_libdir}/%{name}/gb.sdl.so.*
 %{_libdir}/%{name}/gb.sdl.component
@@ -943,7 +947,7 @@ one music track that can play music from a file. Everything is mixed
 in real time. 
 
 %files gb-sdl-sound
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.sdl.sound.*
 %{_datadir}/%{name}/info/gb.sdl.sound.*
 
@@ -958,7 +962,7 @@ Requires: %{name}-runtime = %{version}
 This components allows you to deal with configuration files.
 
 %files gb-settings
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.settings.*
 %{_datadir}/%{name}/info/gb.settings.*
 
@@ -973,7 +977,7 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas Signal components.
 
 %files gb-signal
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.signal.*
 %{_datadir}/%{name}/info/gb.signal.*
 
@@ -989,7 +993,7 @@ This components allows you to use the Video4Linux interface with
 Gambas.
 
 %files gb-v4l
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.v4l.*
 %{_datadir}/%{name}/info/gb.v4l.*
 
@@ -1006,7 +1010,7 @@ behaviour of Visual Basic(TM) functions. Use it only if you want to
 port some VB projects.
 
 %files gb-vb
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.vb.*
 %{_datadir}/%{name}/info/gb.vb.*
 
@@ -1022,7 +1026,7 @@ This components allows you to make CGI web applications using Gambas,
 with an ASP-like interface.
 
 %files gb-web
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.web.*
 %{_datadir}/%{name}/info/gb.web.*
 
@@ -1036,7 +1040,7 @@ Requires: %{name}-runtime = %{version}
 This component allows you to use xml.
 
 %files gb-libxml
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.libxml.so*
 %{_libdir}/%{name}/gb.libxml.component
 %{_datadir}/%{name}/info/gb.libxml.info
@@ -1052,7 +1056,7 @@ Requires: %{name}-runtime = %{version}
 This component allows you to use xml.
 
 %files gb-xml
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.xml.gambas
 %{_libdir}/%{name}/gb.xml.so*
 %{_libdir}/%{name}/gb.xml.component
@@ -1070,7 +1074,7 @@ Requires: %{name}-gb-xml
 This component allows you to use xml html.
 
 %files gb-xml-html
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.xml.html.so*
 %{_libdir}/%{name}/gb.xml.html.component
 %{_datadir}/%{name}/info/gb.xml.html.info
@@ -1087,7 +1091,7 @@ Requires: %{name}-gb-xml
 This component allows you to use xml-rpc.
 
 %files gb-xml-rpc
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.xml.rpc*
 # added info, list
 %{_datadir}/%{name}/info/gb.xml.rpc.info
@@ -1105,7 +1109,7 @@ Requires: %{name}-runtime = %{version}
 This component allows you to use xml-xslt.
 
 %files gb-xml-xslt
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.xml.xslt*
 %{_datadir}/%{name}/info/gb.xml.xslt*
 
@@ -1122,7 +1126,7 @@ number constant is encountered and no loaded component
 can already handle complex numbers.
 
 %files gb-complex
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.complex*
 %{_datadir}/%{name}/info/gb.complex*
 #-----------------------------------------------------------------------------
@@ -1136,7 +1140,7 @@ Requires: %{name}-runtime = %{version}
 New component that adds new container datatypes to Gambas.
 
 %files gb-data
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.data*
 %{_datadir}/%{name}/info/gb.data*
 #-----------------------------------------------------------------------------
@@ -1149,20 +1153,20 @@ Requires: %{name}-runtime = %{version}
 New component that allows to encode and decode MIME messages.
 
 %files gb-mime
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.mime.* 
 %{_datadir}/%{name}/info/gb.mime.*         
 #----------------------------------------------------------------------------
 %package gb-net-pop3
 Summary:	Gambas3 component package for net-pop3
-Group:		Development/Tools
+Group:		Development/Other
 Requires:	%{name}-runtime = %{version}-%{release}
 
 %description gb-net-pop3
 New component that implements a POP3 client.
 
 %files gb-net-pop3
-%doc README AUTHORS ChangeLog
+%doc README ChangeLog
 %{_libdir}/%{name}/gb.net.pop3.*
 %{_datadir}/%{name}/info/gb.net.pop3.*
 #---------------------------------------------------------------------------
