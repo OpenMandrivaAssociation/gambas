@@ -1,17 +1,16 @@
 %define debug_package	%{nil}
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.3.3
-Release:	3
+Version:	3.4.1
+Release:	1
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
-Source0:	http://ovh.dl.sourceforge.net/sourceforge/gambas/%{name}-%{version}.tar.bz2
+Source0:	http://ovh.dl.sourceforge.net/sourceforge/gambas/gambas3/%{name}-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
 Patch1:		gambas3-3.3.1-iconv.patch
 Patch2:		gambas3-3.3.1-intl.patch
-Patch3:		gambas3-3.3.3-llvm-3.2.patch
 BuildRequires:	bzip2-devel
 BuildRequires:	autoconf automake libtool
 BuildRequires:	unixODBC-devel
@@ -845,7 +844,6 @@ This package includes the Gambas QT GUI component.
 %files gb-qt4
 %doc README ChangeLog
 %{_libdir}/%{name}/gb.qt4.component
-%{_libdir}/%{name}/gb.qt4.gambas
 %{_libdir}/%{name}/gb.qt4.so*
 %{_datadir}/%{name}/info/gb.qt4.info
 %{_datadir}/%{name}/info/gb.qt4.list
@@ -1170,6 +1168,65 @@ New component that implements a POP3 client.
 %{_libdir}/%{name}/gb.net.pop3.*
 %{_datadir}/%{name}/info/gb.net.pop3.*
 #---------------------------------------------------------------------------
+
+%package gb-args
+Summary:	Gambas3 component package for args
+Group:		Development/Other
+Requires:	%{name}-runtime = %{version}-%{release}
+
+%description gb-args
+Gambas3 component package that implements argument parsing
+
+%files gb-args
+%_libdir/%{name}/gb.args.component
+%_libdir/%{name}/gb.args.gambas
+%_datadir/%{name}/info/gb.args.*
+
+#---------------------------------------------------------------------------
+
+%package gb-httpd
+Summary:	Gambas3 component package for HTTP servers
+Group:		Development/Other
+Requires:	%{name}-runtime = %{version}-%{release}
+
+%description gb-httpd
+Gambas3 component package that implements an HTTP server
+
+%files gb-httpd
+%_libdir/%{name}/gb.httpd.component
+%_libdir/%{name}/gb.httpd.so*
+%_datadir/%{name}/info/gb.httpd.*
+
+#---------------------------------------------------------------------------
+
+%package gb-map
+Summary:	Gambas3 component package for viewing maps
+Group:		Development/Other
+Requires:	%{name}-runtime = %{version}-%{release}
+
+%description gb-map
+Gambas3 component package that implements viewing maps
+
+%files gb-map
+%_libdir/%{name}/gb.map.component
+%_libdir/%{name}/gb.map.gambas
+%_datadir/%name/control/gb.map
+%_datadir/%{name}/info/gb.map.*
+
+#---------------------------------------------------------------------------
+
+%package gb-memcached
+Summary:	Gambas3 component package for handling memory caching
+Group:		Development/Other
+Requires:	%{name}-runtime = %{version}-%{release}
+
+%description gb-memcached
+Gambas3 component package that implements communication with memcached
+
+%files gb-memcached
+%_libdir/%{name}/gb.memcached.component
+%_libdir/%{name}/gb.memcached.gambas
+%_datadir/%{name}/info/gb.memcached.*
 
 
 %post runtime
