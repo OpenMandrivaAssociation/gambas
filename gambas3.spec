@@ -35,7 +35,7 @@ BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(gdk-2.0)
 BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	pkgconfig(gdkglext-1.0)
-BuildRequires:	libffi-devel
+BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(imlib2)
 BuildRequires:	postgresql-devel
 BuildRequires:	pkgconfig(libv4l2)
