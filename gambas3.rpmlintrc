@@ -1,2 +1,18 @@
-# Those are bogus
+# info e component needed by gb components
+addFilter("E: zero-length")
+# hidden file are a must in gambas
+addFilter("W: hidden-file-or-dir")
+# headers needed by ide component
+addFilter("E: devel-dependency")
+# some .component file threated as binary (WTF)
+#
+#only for lts
+addFilter("W: only-non-binary-in-usr-lib")
+# wtf
+addFilter("W: no-changelogname-tag")
+# wtf again
+addFilter("W: no-manual-page-for-binary")
+# read above
+addFilter("W: no-signature")
+# no deps on locales.
 addFilter("E: no-dependency-on")

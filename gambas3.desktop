@@ -1,5 +1,4 @@
 [Desktop Entry]
-Encoding=UTF-8
 Exec=gambas3
 Icon=gambas3
 Terminal=false
@@ -8,6 +7,7 @@ GenericName=Basic IDE
 Comment=IDE based on a Basic interpreter
 Comment[es_ES]=Gambas3 casi es Visual Basic
 Comment[it_IT]=IDE basato su un interprete Basic
+Comment[ru]=IDE на основе интерпретатор Basic
 Type=Application
 Categories=Development;IDE;
 StartupNotify=true
