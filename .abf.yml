@@ -1,5 +1,2 @@
-removed_sources:
-  gambas3-3.3.3.tar.bz2: 957b9ef68ccc3e2f3c0d4ef34654fd66e089c35a
-  gambas3-3.4.1.tar.bz2: c1ab1e954b17a9f546b4eceb56961beac65e0d05
 sources:
-  gambas3-3.5.2.tar.bz2: 5caf7e87b499ad63891428806c6cfbd450693c13
+  gambas3-3.5.4.tar.bz2: 1e8e7f13427522d6d3036e1fe3913a6e2f4aca4f

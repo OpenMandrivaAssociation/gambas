@@ -14,5 +14,3 @@ addFilter("W: no-changelogname-tag")
 addFilter("W: no-manual-page-for-binary")
 # read above
 addFilter("W: no-signature")
-# no deps on locales.
-addFilter("E: no-dependency-on")

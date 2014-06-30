@@ -1,13 +1,12 @@
-#define distsuffix mrb
-
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.5.2
+Version:	3.5.4
 Release:	1
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
-Source0:    http://sourceforge.net/projects/gambas/files/gambas3/gambas3-3.5.2.tar.bz2
+Source0:    http://garr.dl.sourceforge.net/project/gambas/gambas3/%{name}-%{version}.tar.bz2
+
 
 Source1:	%{name}.desktop
 Source100:	%{name}.rpmlintrc
@@ -37,12 +36,12 @@ BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	pkgconfig(gdkglext-1.0)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(imlib2)
-BuildRequires:	postgresql-devel
+BuildRequires:	pkgconfig(libecpg)
 BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(libexslt)
 BuildRequires:	pkgconfig(xtst)
-BuildRequires:  freetype1-devel
+BuildRequires:  freetype-devel
 BuildRequires:	xdg-utils
 BuildRequires:	desktop-file-utils
 BuildRequires:	pkgconfig(sqlite)
@@ -58,11 +57,14 @@ BuildRequires:  pkgconfig(SDL_image)
 # no pkgconfig for gmime for portability
 BuildRequires:  gmime-devel
 BuildRequires:  pkgconfig(libv4lconvert)
+#
 %if %{mdvver} >= 201210
 BuildRequires:  llvm-devel
-%else
+%if %{mdvver} == 201200
 BuildRequires:	llvm
 %endif
+%endif
+# No jit modules in 2014.1, won't build against llvm3.4.2
 # we don't have gst-1 in lts
 BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(gstreamer-app-1.0)
@@ -70,7 +72,10 @@ BuildRequires:  pkgconfig(openssl)
 BuildRequires:  gmp-devel
 BuildRequires:  pkgconfig(openal)
 BuildRequires:  pkgconfig(alure)
-
+BuildRequires:  pkgconfig(sndfile)
+BuildRequires:  pkgconfig(libmpg123)
+BuildRequires:  pkgconfig(fluidsynth)
+BuildRequires:  dumb-devel
 
 %description
 Gambas is a free development environment based on a Basic interpreter
@@ -86,7 +91,13 @@ automatically, and so on...
 for i in `find . -name "acinclude.m4"`;
 do
 	sed -i -e 's|AM_CONFIG_HEADER|AC_CONFIG_HEADERS|g' ${i}
+	sed -i 's|$AM_CFLAGS -O3|$AM_CFLAGS|g' ${i}
+	sed -i 's|$AM_CXXFLAGS -Os -fno-omit-frame-pointer|$AM_CXXFLAGS|g' ${i}
+	sed -i 's|$AM_CFLAGS -Os|$AM_CFLAGS|g' ${i}
+	sed -i 's|$AM_CFLAGS -O0|$AM_CFLAGS|g' ${i}
+	sed -i 's|$AM_CXXFLAGS -O0|$AM_CXXFLAGS|g' ${i}
 done
+
 
 # debug linting fix
 chmod -x main/gbx/gbx_local.h
@@ -103,6 +114,15 @@ chmod -x gb.xml/src/xslt/CXSLT.cpp
 
 
 %build
+%if %{mdvver} == 201410
+# add math's functions to the linker
+export LDFLAGS="$LDFLAGS -lm"
+# export pow, ceil a.s.o math's functions
+# in both compilers , gb.image component is in C
+export CXXFLAGS="%{optflags} -lm"
+export CFLAGS="%{optflags} -lm"
+%endif
+
 %setup_compile_flags
 ./reconf-all
 for i in `find -name configure`
@@ -113,6 +133,7 @@ do
           popd
         )
 done
+
 
 %configure2_5x
 %make
@@ -1735,7 +1756,7 @@ gb.gtk in the other cases.
 %{_datadir}/%{name}/info/gb.gui.*
 
 #-----------------------------------------------------------------------------
-%if %{mdvver} >= 201210
+%if %{mdvver} < 201410
 %package gb-jit
 Summary: The Gambas JIT component
 Group: Development/Other
@@ -2511,6 +2532,49 @@ libcrypto from the OpenSSL project.
 %{_datadir}/%{name}/info/gb.openssl.*
 
 #---------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
