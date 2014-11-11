@@ -1,0 +1,15 @@
+┌─[ symbianflo @ symbianflo ] - [ Mandrivausers.ro ] 
+└─[ MRB:aint-no-shit $]: diff -u gb.jit/configure.ac.orig gb.jit/configure.ac
+--- gb.jit/configure.ac.orig    2014-11-08 18:24:40.175013256 +0100
++++ gb.jit/configure.ac 2014-11-08 18:24:57.567919254 +0100
+@@ -29,8 +29,8 @@
+ GB_COMPONENT(
+   jit, JIT, gb.jit, [src],
+   [GB_FIND(llvm/Config/llvm-config.h llvm-c/Core.h, `$LLVM_CONFIG --prefix` /usr/lib/llvm* /usr/local /usr, include)],
+-  [GB_FIND(libLLVM-$LLVM_VERSION.$SHLIBEXT, `$LLVM_CONFIG --prefix` /usr/lib/llvm* /usr/local /usr, lib)],
+-  [$C_LIB `$LLVM_CONFIG --ldflags` -lLLVM-$LLVM_VERSION],
++  [GB_FIND(libLLVM-3.5.$SHLIBEXT, `$LLVM_CONFIG --prefix` /usr/lib/llvm* /usr/local /usr, lib)],
++  [$C_LIB `$LLVM_CONFIG --ldflags` -lLLVM-3.5],
+   [-I../../main/gbx -I../../main/share -D_DEBUG -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS])
+ 
+ AC_OUTPUT(Makefile src/Makefile)

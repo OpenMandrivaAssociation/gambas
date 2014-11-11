@@ -1,16 +1,15 @@
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.5.4
+Version:	3.6.1
 Release:	1
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
 Source0:    http://garr.dl.sourceforge.net/project/gambas/gambas3/%{name}-%{version}.tar.bz2
-
-
 Source1:	%{name}.desktop
 Source100:	%{name}.rpmlintrc
-
+# libs major is 3.5, but llvm-config --version is 3.5.0  #Sflo
+Patch0:		gambas-llvm-3.5.0.patch
 BuildRequires:	bzip2-devel
 BuildRequires:	autoconf automake libtool
 BuildRequires:	unixODBC-devel
@@ -32,6 +31,7 @@ BuildRequires:	SDL_sound-devel
 BuildRequires:	pkgconfig(SDL_mixer)
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(gdk-2.0)
+BuildRequires:	pkgconfig(gtk+-3.0)
 BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	pkgconfig(gdkglext-1.0)
 BuildRequires:	pkgconfig(libffi)
@@ -59,7 +59,8 @@ BuildRequires:  gmime-devel
 BuildRequires:  pkgconfig(libv4lconvert)
 #
 %if %{mdvver} >= 201210
-BuildRequires:  llvm-devel
+BuildRequires:  llvm-devel >= 3.4
+BuildRequires:  llvm >= 3.4
 %if %{mdvver} == 201200
 BuildRequires:	llvm
 %endif
@@ -87,6 +88,7 @@ automatically, and so on...
 
 %prep
 %setup -q
+#patch0 -p0
 
 for i in `find . -name "acinclude.m4"`;
 do
@@ -97,6 +99,7 @@ do
 	sed -i 's|$AM_CFLAGS -O0|$AM_CFLAGS|g' ${i}
 	sed -i 's|$AM_CXXFLAGS -O0|$AM_CXXFLAGS|g' ${i}
 done
+
 
 
 # debug linting fix
@@ -159,13 +162,17 @@ install -D -m 755 app/src/%{name}/img/logo/logo-32.png %{buildroot}%{_iconsdir}/
 install -D -m 755 app/src/%{name}/img/logo/logo-64.png %{buildroot}%{_iconsdir}/hicolor/64x64/apps/%{name}.png
 install -D -m 755 app/src/%{name}/img/logo/logo-ide.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
 install -D -m 644 %{SOURCE1} %{buildroot}%{_datadir}/applications/%{name}.desktop
-# attr fix
-chmod -x %{buildroot}%{_datadir}/gambas3/gb.sdl/LICENSE
 
 desktop-file-install %{SOURCE1} %{buildroot}%{_datadir}/applications/%{name}.desktop
 chmod -x %{buildroot}%{_datadir}/applications/%{name}.desktop 
+chmod -x %{buildroot}%{_datadir}/appdata/gambas3.appdata.xml
 
 mkdir -p %{buildroot}%{_docdir}
+
+
+
+
+
 
 #------------------------------------------------------------------------
 
@@ -196,6 +203,7 @@ This package includes the Gambas interpreter needed to run Gambas applications.
 %{_datadir}/%{name}/info/gb.eval.info
 %dir %{_datadir}/%{name}/icons
 %{_datadir}/%{name}/icons/application-x-%{name}.png
+%{_datadir}/appdata/gambas3.appdata.xml
 
 #-----------------------------------------------------------------------------
 
@@ -286,7 +294,6 @@ This package includes all the example projects provided with Gambas.
 
 %files examples
 %doc README  ChangeLog
-%dir %{_datadir}/%{name}/examples/Automation/
 %dir %{_datadir}/%{name}/examples/Basic/
 %dir %{_datadir}/%{name}/examples/Control/
 %dir %{_datadir}/%{name}/examples/Database/
@@ -298,20 +305,7 @@ This package includes all the example projects provided with Gambas.
 %dir %{_datadir}/%{name}/examples/Networking/
 %dir %{_datadir}/%{name}/examples/OpenGL/
 %dir %{_datadir}/%{name}/examples/Printing/
-%dir %{_datadir}/%{name}/examples/Automation/DBusExplorer/
-%{_datadir}/%{name}/examples/Automation/DBusExplorer/dbus*.png
-%{_datadir}/%{name}/examples/Automation/DBusExplorer/DBusExplorer.gambas
-%{_datadir}/%{name}/examples/Automation/DBusExplorer/.directory
-%{_datadir}/%{name}/examples/Automation/DBusExplorer/.gambas/
-%{_datadir}/%{name}/examples/Automation/DBusExplorer/.hidden
-%{_datadir}/%{name}/examples/Automation/DBusExplorer/.icon.png
-%{_datadir}/%{name}/examples/Automation/DBusExplorer/method.png
-%{_datadir}/%{name}/examples/Automation/DBusExplorer/.project
-%{_datadir}/%{name}/examples/Automation/DBusExplorer/property.png
-%{_datadir}/%{name}/examples/Automation/DBusExplorer/.settings
-%{_datadir}/%{name}/examples/Automation/DBusExplorer/signal.png
-%{_datadir}/%{name}/examples/Automation/DBusExplorer/.src/
-%{_datadir}/%{name}/examples/Automation/DBusExplorer/.startup
+%dir %{_datadir}/%{name}/examples/Web/
 
 %dir %{_datadir}/%{name}/examples/Basic/Blights/
 %dir %{_datadir}/%{name}/examples/Basic/Blights/.lang/
@@ -415,6 +409,19 @@ This package includes all the example projects provided with Gambas.
 %{_datadir}/%{name}/examples/Control/HighlightEditor/HighlightEditor.gambas
 %{_datadir}/%{name}/examples/Control/HighlightEditor/download.html
 %{_datadir}/%{name}/examples/Control/HighlightEditor/editor.png
+
+%dir %{_datadir}/%{name}/examples/Control/LCDLabel/
+%{_datadir}/%{name}/examples/Control/LCDLabel/.directory
+%{_datadir}/%{name}/examples/Control/LCDLabel/.gambas/
+%{_datadir}/%{name}/examples/Control/LCDLabel/.icon.png
+%{_datadir}/%{name}/examples/Control/LCDLabel/.info
+%{_datadir}/%{name}/examples/Control/LCDLabel/.list
+%{_datadir}/%{name}/examples/Control/LCDLabel/.project
+%{_datadir}/%{name}/examples/Control/LCDLabel/.src/
+%{_datadir}/%{name}/examples/Control/LCDLabel/.startup
+%{_datadir}/%{name}/examples/Control/LCDLabel/LCDLabel.gambas
+%{_datadir}/%{name}/examples/Control/LCDLabel/alarm.ogg
+%{_datadir}/%{name}/examples/Control/LCDLabel/lcdlabel.png
 
 %dir %{_datadir}/%{name}/examples/Control/MapView/
 %{_datadir}/%{name}/examples/Control/MapView/.directory
@@ -603,6 +610,26 @@ This package includes all the example projects provided with Gambas.
 %{_datadir}/%{name}/examples/Drawing/Painting/image.jpg
 %{_datadir}/%{name}/examples/Drawing/Painting/Painting.gambas
 
+%dir %{_datadir}/%{name}/examples/Drawing/QuasiRegular/
+%{_datadir}/%{name}/examples/Drawing/QuasiRegular/.directory
+%{_datadir}/%{name}/examples/Drawing/QuasiRegular/.gambas/
+%{_datadir}/%{name}/examples/Drawing/QuasiRegular/.icon.png
+%{_datadir}/%{name}/examples/Drawing/QuasiRegular/.project
+%{_datadir}/%{name}/examples/Drawing/QuasiRegular/.src/
+%{_datadir}/%{name}/examples/Drawing/QuasiRegular/.startup
+%{_datadir}/%{name}/examples/Drawing/QuasiRegular/QuasiRegular.gambas
+%{_datadir}/%{name}/examples/Drawing/QuasiRegular/icon.png
+
+%dir %{_datadir}/%{name}/examples/Drawing/RandomColorSort/
+%{_datadir}/%{name}/examples/Drawing/RandomColorSort/.directory
+%{_datadir}/%{name}/examples/Drawing/RandomColorSort/.gambas/
+%{_datadir}/%{name}/examples/Drawing/RandomColorSort/.icon.png
+%{_datadir}/%{name}/examples/Drawing/RandomColorSort/.project
+%{_datadir}/%{name}/examples/Drawing/RandomColorSort/.src/
+%{_datadir}/%{name}/examples/Drawing/RandomColorSort/.startup
+%{_datadir}/%{name}/examples/Drawing/RandomColorSort/RandomColorSort.gambas
+%{_datadir}/%{name}/examples/Drawing/RandomColorSort/RandomColorSort.png
+
 %dir %{_datadir}/%{name}/examples/Drawing/GSLSpline/
 %{_datadir}/%{name}/examples/Drawing/GSLSpline/.directory
 %{_datadir}/%{name}/examples/Drawing/GSLSpline/.gambas/
@@ -705,7 +732,7 @@ This package includes all the example projects provided with Gambas.
 %{_datadir}/%{name}/examples/Games/GNUBoxWorld/movible.png
 %{_datadir}/%{name}/examples/Games/GNUBoxWorld/obstaculo*.png
 %{_datadir}/%{name}/examples/Games/GNUBoxWorld/piso.png
-%dir %{_datadir}/%{name}/examples/Games/Invaders
+
 %{_datadir}/%{name}/examples/Games/Invaders/invaders.png
 %{_datadir}/%{name}/examples/Games/Invaders/.directory
 %{_datadir}/%{name}/examples/Games/Invaders/.gambas/
@@ -872,6 +899,20 @@ This package includes all the example projects provided with Gambas.
 %{_datadir}/%{name}/examples/Misc/Console/terminal.png
 %{_datadir}/%{name}/examples/Misc/Console/.src/
 
+%dir %{_datadir}/%{name}/examples/Misc/DBusExplorer/
+%{_datadir}/%{name}/examples/Misc/DBusExplorer/.directory
+%{_datadir}/%{name}/examples/Misc/DBusExplorer/.gambas/
+%{_datadir}/%{name}/examples/Misc/DBusExplorer/.icon.png
+%{_datadir}/%{name}/examples/Misc/DBusExplorer/.project
+%{_datadir}/%{name}/examples/Misc/DBusExplorer/.src/
+%{_datadir}/%{name}/examples/Misc/DBusExplorer/.startup
+%{_datadir}/%{name}/examples/Misc/DBusExplorer/DBusExplorer.gambas
+%{_datadir}/%{name}/examples/Misc/DBusExplorer/dbus22.png
+%{_datadir}/%{name}/examples/Misc/DBusExplorer/dbus64.png
+%{_datadir}/%{name}/examples/Misc/DBusExplorer/method.png
+%{_datadir}/%{name}/examples/Misc/DBusExplorer/property.png
+%{_datadir}/%{name}/examples/Misc/DBusExplorer/signal.png
+
 %dir %{_datadir}/%{name}/examples/Misc/Evaluator/
 %dir %{_datadir}/%{name}/examples/Misc/Evaluator/.lang/
 %{_datadir}/%{name}/examples/Misc/Evaluator/.directory
@@ -920,6 +961,28 @@ This package includes all the example projects provided with Gambas.
 %{_datadir}/%{name}/examples/Misc/PDFViewer/PDFViewer.gambas
 %{_datadir}/%{name}/examples/Misc/PDFViewer/pdf.png
 
+%dir %{_datadir}/%{name}/examples/Misc/SystemTray/
+%{_datadir}/%{name}/examples/Misc/SystemTray/.directory
+%{_datadir}/%{name}/examples/Misc/SystemTray/.gambas/
+%{_datadir}/%{name}/examples/Misc/SystemTray/.gitignore
+%{_datadir}/%{name}/examples/Misc/SystemTray/.icon.png
+%{_datadir}/%{name}/examples/Misc/SystemTray/.project
+%{_datadir}/%{name}/examples/Misc/SystemTray/.src/
+%{_datadir}/%{name}/examples/Misc/SystemTray/.startup
+%{_datadir}/%{name}/examples/Misc/SystemTray/SystemTray.gambas
+%{_datadir}/%{name}/examples/Misc/SystemTray/bg.png
+%{_datadir}/%{name}/examples/Misc/SystemTray/icon.png
+
+%dir %{_datadir}/%{name}/examples/Misc/WatchGambasDirectory/
+%{_datadir}/%{name}/examples/Misc/WatchGambasDirectory/.directory
+%{_datadir}/%{name}/examples/Misc/WatchGambasDirectory/.gambas/
+%{_datadir}/%{name}/examples/Misc/WatchGambasDirectory/.icon.png
+%{_datadir}/%{name}/examples/Misc/WatchGambasDirectory/.project
+%{_datadir}/%{name}/examples/Misc/WatchGambasDirectory/.src/
+%{_datadir}/%{name}/examples/Misc/WatchGambasDirectory/.startup
+%{_datadir}/%{name}/examples/Misc/WatchGambasDirectory/WatchGambasDirectory.gambas
+%{_datadir}/%{name}/examples/Misc/WatchGambasDirectory/watch.svg
+
 %dir %{_datadir}/%{name}/examples/Multimedia/CDPlayer/
 %dir %{_datadir}/%{name}/examples/Multimedia/CDPlayer/.lang/
 %{_datadir}/%{name}/examples/Multimedia/CDPlayer/.directory
@@ -935,7 +998,6 @@ This package includes all the example projects provided with Gambas.
 %{_datadir}/%{name}/examples/Multimedia/MediaPlayer/.directory
 %{_datadir}/%{name}/examples/Multimedia/MediaPlayer/.icon*
 %{_datadir}/%{name}/examples/Multimedia/MediaPlayer/.info
-#need gst1
 %{_datadir}/%{name}/examples/Multimedia/MediaPlayer/.gambas/
 %{_datadir}/%{name}/examples/Multimedia/MediaPlayer/.list
 %{_datadir}/%{name}/examples/Multimedia/MediaPlayer/.project
@@ -976,6 +1038,16 @@ This package includes all the example projects provided with Gambas.
 %{_datadir}/%{name}/examples/Multimedia/MyWebCam/.startup
 %{_datadir}/%{name}/examples/Multimedia/MyWebCam/MyWebCam.gambas
 %{_datadir}/%{name}/examples/Multimedia/MyWebCam/camera.png
+
+%dir %{_datadir}/%{name}/examples/Multimedia/WaveGenerator/
+%{_datadir}/%{name}/examples/Multimedia/WaveGenerator/.directory
+%{_datadir}/%{name}/examples/Multimedia/WaveGenerator/.gambas/
+%{_datadir}/%{name}/examples/Multimedia/WaveGenerator/.icon.png
+%{_datadir}/%{name}/examples/Multimedia/WaveGenerator/.project
+%{_datadir}/%{name}/examples/Multimedia/WaveGenerator/.src/
+%{_datadir}/%{name}/examples/Multimedia/WaveGenerator/.startup
+%{_datadir}/%{name}/examples/Multimedia/WaveGenerator/WaveGenerator.gambas
+%{_datadir}/%{name}/examples/Multimedia/WaveGenerator/audio-headphones.png
 
 %dir %{_datadir}/%{name}/examples/Multimedia/WebCam/
 %{_datadir}/%{name}/examples/Multimedia/WebCam/.directory
@@ -1218,62 +1290,89 @@ This package includes all the example projects provided with Gambas.
 %{_datadir}/%{name}/examples/Printing/ReportExample/ReportExample.gambas
 %{_datadir}/%{name}/examples/Printing/ReportExample/gambas.svg
 
+%dir %{_datadir}/%{name}/examples/Web/SmallWiki/
+%{_datadir}/%{name}/examples/Web/SmallWiki/.directory
+%{_datadir}/%{name}/examples/Web/SmallWiki/.gambas/
+%{_datadir}/%{name}/examples/Web/SmallWiki/.icon.png
+%{_datadir}/%{name}/examples/Web/SmallWiki/.info
+%{_datadir}/%{name}/examples/Web/SmallWiki/.list
+%{_datadir}/%{name}/examples/Web/SmallWiki/.project
+%{_datadir}/%{name}/examples/Web/SmallWiki/.public/
+%{_datadir}/%{name}/examples/Web/SmallWiki/.src/
+%{_datadir}/%{name}/examples/Web/SmallWiki/.startup
+%{_datadir}/%{name}/examples/Web/SmallWiki/SmallWiki.gambas
+%{_datadir}/%{name}/examples/Web/SmallWiki/page
+%{_datadir}/%{name}/examples/Web/SmallWiki/passwd
+
 # Translation files
 %lang(ca) %{_datadir}/%{name}/examples/Basic/Blights/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Basic/Blights/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Basic/Blights/.lang/de.*o
 %lang(es) %{_datadir}/%{name}/examples/Basic/Blights/.lang/es.*o
+%lang(nl) %{_datadir}/%{name}/examples/Basic/Blights/.lang/nl.*o
 %lang(fr) %{_datadir}/%{name}/examples/Basic/Blights/.lang/fr.*o
 %lang(sv) %{_datadir}/%{name}/examples/Basic/Blights/.lang/sv.*o
 %lang(ca) %{_datadir}/%{name}/examples/Basic/Collection/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Basic/Collection/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Basic/Collection/.lang/de.*o
 %lang(es) %{_datadir}/%{name}/examples/Basic/Collection/.lang/es.*o
+%lang(nl) %{_datadir}/%{name}/examples/Basic/Collection/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Basic/Object/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Basic/Object/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Basic/Object/.lang/de.*o
 %lang(es) %{_datadir}/%{name}/examples/Basic/Object/.lang/es.*o
+%lang(nl) %{_datadir}/%{name}/examples/Basic/Object/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Basic/Timer/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Basic/Timer/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Basic/Timer/.lang/de.*o
 %lang(es) %{_datadir}/%{name}/examples/Basic/Timer/.lang/es.*o
+%lang(nl) %{_datadir}/%{name}/examples/Basic/Timer/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Control/ArrayOfControls/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Control/ArrayOfControls/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Control/ArrayOfControls/.lang/de.*o
+%lang(nl) %{_datadir}/%{name}/examples/Control/ArrayOfControls/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Control/Embedder/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Control/Embedder/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Control/Embedder/.lang/de.*o
 %lang(es) %{_datadir}/%{name}/examples/Control/Embedder/.lang/es.*o
+%lang(nl) %{_datadir}/%{name}/examples/Control/Embedder/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Control/HighlightEditor/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Control/HighlightEditor/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Control/HighlightEditor/.lang/de.*o
 %lang(es) %{_datadir}/%{name}/examples/Control/HighlightEditor/.lang/es.*o
+%lang(nl) %{_datadir}/%{name}/examples/Control/HighlightEditor/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Control/TextEdit/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Control/TextEdit/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Control/TextEdit/.lang/de.*o
 %lang(es) %{_datadir}/%{name}/examples/Control/TextEdit/.lang/es.*o
 %lang(fr) %{_datadir}/%{name}/examples/Control/TextEdit/.lang/fr.*o
+%lang(nl) %{_datadir}/%{name}/examples/Control/TextEdit/.lang/nl.*o
 %lang(sv) %{_datadir}/%{name}/examples/Control/TextEdit/.lang/sv.*o
 %lang(ca) %{_datadir}/%{name}/examples/Control/TreeView/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Control/TreeView/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Control/TreeView/.lang/de.*o
 %lang(es) %{_datadir}/%{name}/examples/Control/TreeView/.lang/es.*o
+%lang(nl) %{_datadir}/%{name}/examples/Control/TreeView/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Control/Wizard/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Control/Wizard/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Control/Wizard/.lang/de.*o
+%lang(nl) %{_datadir}/%{name}/examples/Control/Wizard/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Database/Database/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Database/Database/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Database/Database/.lang/de.*o
 %lang(es) %{_datadir}/%{name}/examples/Database/Database/.lang/es.*o
+%lang(nl) %{_datadir}/%{name}/examples/Database/Database/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Database/MySQLExample/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Database/MySQLExample/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Database/MySQLExample/.lang/de.*o
 %lang(es) %{_datadir}/%{name}/examples/Database/MySQLExample/.lang/es.*o
 %lang(fr) %{_datadir}/%{name}/examples/Database/MySQLExample/.lang/fr.*o
+%lang(nl) %{_datadir}/%{name}/examples/Database/MySQLExample/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Database/PictureDatabase/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Database/PictureDatabase/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Database/PictureDatabase/.lang/de.*o
 %lang(es) %{_datadir}/%{name}/examples/Database/PictureDatabase/.lang/es.*o
+%lang(nl) %{_datadir}/%{name}/examples/Database/PictureDatabase/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Drawing/Barcode/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Drawing/Barcode/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Drawing/Barcode/.lang/de.*o
@@ -1337,11 +1436,14 @@ This package includes all the example projects provided with Gambas.
 %lang(cs) %{_datadir}/%{name}/examples/Image/ImageViewer/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Image/ImageViewer/.lang/de.*o
 %lang(es) %{_datadir}/%{name}/examples/Image/ImageViewer/.lang/es.*o
+%lang(nl) %{_datadir}/%{name}/examples/Image/ImageViewer/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Image/Lighttable/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Image/Lighttable/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Image/Lighttable/.lang/de.*o
 %lang(en) %{_datadir}/%{name}/examples/Image/Lighttable/.lang/en.*o
+%lang(nl) %{_datadir}/%{name}/examples/Image/Lighttable/.lang/nl.*o
 %lang(fr) %{_datadir}/%{name}/examples/Image/PhotoTouch/.lang/fr.*o
+%lang(nl) %{_datadir}/%{name}/examples/Image/PhotoTouch/.lang/nl.*o
 %lang(fr) %{_datadir}/%{name}/examples/Misc/Console/.lang/fr.*o
 %lang(ca) %{_datadir}/%{name}/examples/Misc/Evaluator/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Misc/Evaluator/.lang/cs.*o
@@ -1362,7 +1464,6 @@ This package includes all the example projects provided with Gambas.
 %lang(ca) %{_datadir}/%{name}/examples/Multimedia/CDPlayer/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Multimedia/CDPlayer/.lang/cs.*o
 %lang(es) %{_datadir}/%{name}/examples/Multimedia/CDPlayer/.lang/es.*o
-%dir %{_datadir}/%{name}/examples/Multimedia/MediaPlayer/.lang
 %lang(fr) %{_datadir}/%{name}/examples/Multimedia/MediaPlayer/.lang/fr.*o
 %lang(ca) %{_datadir}/%{name}/examples/Multimedia/MoviePlayer/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Multimedia/MoviePlayer/.lang/cs.*o
@@ -1378,32 +1479,36 @@ This package includes all the example projects provided with Gambas.
 %lang(cs) %{_datadir}/%{name}/examples/Networking/ClientSocket/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Networking/ClientSocket/.lang/de.*o
 %lang(es) %{_datadir}/%{name}/examples/Networking/ClientSocket/.lang/es.*o
+%lang(nl) %{_datadir}/%{name}/examples/Networking/ClientSocket/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Networking/DnsClient/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Networking/DnsClient/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Networking/DnsClient/.lang/de.*o
 %lang(es) %{_datadir}/%{name}/examples/Networking/DnsClient/.lang/es.*o
+%lang(nl) %{_datadir}/%{name}/examples/Networking/DnsClient/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Networking/HTTPGet/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Networking/HTTPGet/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Networking/HTTPGet/.lang/de.*o
 %lang(es) %{_datadir}/%{name}/examples/Networking/HTTPGet/.lang/es.*o
+%lang(en_GB) %{_datadir}/%{name}/examples/Networking/HTTPGet/.lang/en_GB.*o
+%lang(nl) %{_datadir}/%{name}/examples/Networking/HTTPGet/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Networking/HTTPPost/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Networking/HTTPPost/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Networking/HTTPPost/.lang/de.*o
 %lang(es) %{_datadir}/%{name}/examples/Networking/HTTPPost/.lang/es.*o
-%lang(ca) %{_datadir}/%{name}/examples/Networking/SerialPort/.lang/ca.*o
-%lang(cs) %{_datadir}/%{name}/examples/Networking/SerialPort/.lang/cs.*o
-%lang(es) %{_datadir}/%{name}/examples/Networking/SerialPort/.lang/es.*o
+%lang(nl) %{_datadir}/%{name}/examples/Networking/HTTPPost/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Networking/ServerSocket/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Networking/ServerSocket/.lang/cs.*o
 %lang(es) %{_datadir}/%{name}/examples/Networking/ServerSocket/.lang/es.*o
+%lang(nl) %{_datadir}/%{name}/examples/Networking/ServerSocket/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Networking/UDPServerClient/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Networking/UDPServerClient/.lang/cs.*o
 %lang(es) %{_datadir}/%{name}/examples/Networking/UDPServerClient/.lang/es.*o
+%lang(nl) %{_datadir}/%{name}/examples/Networking/UDPServerClient/.lang/nl.*o
 %lang(ca) %{_datadir}/%{name}/examples/Networking/WebBrowser/.lang/ca.*o
 %lang(cs) %{_datadir}/%{name}/examples/Networking/WebBrowser/.lang/cs.*o
 %lang(de) %{_datadir}/%{name}/examples/Networking/WebBrowser/.lang/de.*o
-%lang(es) %{_datadir}/%{name}/examples/Networking/WebBrowser/.lang/es.*
-
+%lang(es) %{_datadir}/%{name}/examples/Networking/WebBrowser/.lang/es.*o
+%lang(nl) %{_datadir}/%{name}/examples/Networking/WebBrowser/.lang/nl.*o
 #-----------------------------------------------------------------------------
 
 %package gb-cairo
@@ -1756,7 +1861,7 @@ gb.gtk in the other cases.
 %{_datadir}/%{name}/info/gb.gui.*
 
 #-----------------------------------------------------------------------------
-%if %{mdvver} < 201410
+#%if %{mdvver} < 201410
 %package gb-jit
 Summary: The Gambas JIT component
 Group: Development/Other
@@ -1771,7 +1876,7 @@ This component provides the jit compiler for gambas.
 %dir %{_datadir}/%{name}/info
 %{_datadir}/%{name}/info/gb.jit.info
 %{_datadir}/%{name}/info/gb.jit.list
-%endif
+#%endif
 #-----------------------------------------------------------------------------
 %package gb-image
 Summary: The Gambas image manipulation component
@@ -1848,6 +1953,7 @@ This package contains the Gambas media component.
 %doc README  ChangeLog
 %{_libdir}/%{name}/gb.media.*
 %{_datadir}/%{name}/info/gb.media.*
+%{_datadir}/%{name}/control/gb.media.form/mediaview.png
 %endif
 
 #-----------------------------------------------------------------------------
@@ -1932,6 +2038,7 @@ This component allows you to send emails using the SMTP protocol.
 %doc README  ChangeLog
 %{_libdir}/%{name}/gb.net.smtp.*
 %{_datadir}/%{name}/info/gb.net.smtp.*
+%{_datadir}/%{name}/control/gb.net.smtp/smtpclient.png
 
 #-----------------------------------------------------------------------------
 
@@ -2128,7 +2235,6 @@ accelerate 2D and 3D drawing.
 %{_libdir}/%{name}/gb.sdl.component
 %{_datadir}/%{name}/info/gb.sdl.info
 %{_datadir}/%{name}/info/gb.sdl.list
-%{_datadir}/%{name}/gb.sdl
 
 #-----------------------------------------------------------------------------
 
@@ -2381,6 +2487,7 @@ New component that implements a POP3 client.
 %doc README  ChangeLog
 %{_libdir}/%{name}/gb.net.pop3.*
 %{_datadir}/%{name}/info/gb.net.pop3.*
+%{_datadir}/%{name}/control/gb.net.pop3/pop3client.png
 
 #---------------------------------------------------------------------------
 
@@ -2532,17 +2639,57 @@ libcrypto from the OpenSSL project.
 %{_datadir}/%{name}/info/gb.openssl.*
 
 #---------------------------------------------------------------------------
+%package gb-inotify
+Summary:       Gambas3 component package for inotify
+Group:   Development/Other
+Requires:      %{name}-runtime = %{version}-%{release}
+
+%description gb-inotify
+Gambas3 component package for inotify.
 
 
+%files gb-inotify
+%doc README  ChangeLog
+%{_libdir}/%{name}/gb.inotify.component
+%{_libdir}/%{name}/gb.inotify.so*
+%{_datadir}/%{name}/info/gb.inotify.info
+%{_datadir}/%{name}/info/gb.inotify.list
+
+#---------------------------------------------------------------------------
+%package gb-markdown
+Summary:	Gambas3 component package for markdown
+Group:		Development/Other
+Requires:	%{name}-runtime = %{version}-%{release}
+
+%description gb-markdown
+Gambas3 component package for markdown.
 
 
+%files gb-markdown
+%doc README  ChangeLog
+%{_libdir}/%{name}/gb.markdown.component
+%{_libdir}/%{name}/gb.markdown.gambas
+%{_datadir}/%{name}/info/gb.markdown.info
+%{_datadir}/%{name}/info/gb.markdown.list
+
+#-----------------------------------------------------------------------------
+%package gb-gtk3
+Summary:	Gambas3 component package for gtk3
+Group:		Development/Other
+Requires:	%{name}-runtime = %{version}-%{release}
+
+%description gb-gtk3
+Gambas3 component package for gtk3.
 
 
+%files gb-gtk3
+%doc README  ChangeLog
+%{_libdir}/%{name}/gb.gtk3.component
+%{_libdir}/%{name}/gb.gtk3.so*
+%{_datadir}/%{name}/info/gb.gtk3.info
+%{_datadir}/%{name}/info/gb.gtk3.list
 
-
-
-
-
+#-----------------------------------------------------------------------------
 
 
 

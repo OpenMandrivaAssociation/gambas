@@ -14,3 +14,5 @@ addFilter("W: no-changelogname-tag")
 addFilter("W: no-manual-page-for-binary")
 # read above
 addFilter("W: no-signature")
+addFilter("W: no-dependency-on")
+addFilter("E: version-control-internal-file")
