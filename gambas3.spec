@@ -1,6 +1,6 @@
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.6.1
+Version:	3.6.2
 Release:	1
 License:	GPLv2+
 Group:		Development/Other
@@ -8,8 +8,7 @@ URL:		http://gambas.sourceforge.net
 Source0:    http://garr.dl.sourceforge.net/project/gambas/gambas3/%{name}-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Source100:	%{name}.rpmlintrc
-# libs major is 3.5, but llvm-config --version is 3.5.0  #Sflo
-Patch0:		gambas-llvm-3.5.0.patch
+
 BuildRequires:	bzip2-devel
 BuildRequires:	autoconf automake libtool
 BuildRequires:	unixODBC-devel
@@ -57,16 +56,7 @@ BuildRequires:  pkgconfig(SDL_image)
 # no pkgconfig for gmime for portability
 BuildRequires:  gmime-devel
 BuildRequires:  pkgconfig(libv4lconvert)
-#
-%if %{mdvver} >= 201210
 BuildRequires:  llvm-devel >= 3.4
-BuildRequires:  llvm >= 3.4
-%if %{mdvver} == 201200
-BuildRequires:	llvm
-%endif
-%endif
-# No jit modules in 2014.1, won't build against llvm3.4.2
-# we don't have gst-1 in lts
 BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(gstreamer-app-1.0)
 BuildRequires:  pkgconfig(openssl)
@@ -88,7 +78,6 @@ automatically, and so on...
 
 %prep
 %setup -q
-#patch0 -p0
 
 for i in `find . -name "acinclude.m4"`;
 do
@@ -117,14 +106,13 @@ chmod -x gb.xml/src/xslt/CXSLT.cpp
 
 
 %build
-%if %{mdvver} == 201410
 # add math's functions to the linker
 export LDFLAGS="$LDFLAGS -lm"
 # export pow, ceil a.s.o math's functions
 # in both compilers , gb.image component is in C
 export CXXFLAGS="%{optflags} -lm"
 export CFLAGS="%{optflags} -lm"
-%endif
+
 
 %setup_compile_flags
 ./reconf-all
@@ -1861,7 +1849,6 @@ gb.gtk in the other cases.
 %{_datadir}/%{name}/info/gb.gui.*
 
 #-----------------------------------------------------------------------------
-#%if %{mdvver} < 201410
 %package gb-jit
 Summary: The Gambas JIT component
 Group: Development/Other
@@ -1876,7 +1863,7 @@ This component provides the jit compiler for gambas.
 %dir %{_datadir}/%{name}/info
 %{_datadir}/%{name}/info/gb.jit.info
 %{_datadir}/%{name}/info/gb.jit.list
-#%endif
+
 #-----------------------------------------------------------------------------
 %package gb-image
 Summary: The Gambas image manipulation component
