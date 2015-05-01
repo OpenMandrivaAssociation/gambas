@@ -1,6 +1,6 @@
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.6.2
+Version:	3.7.1
 Release:	1
 License:	GPLv2+
 Group:		Development/Other
@@ -2677,7 +2677,78 @@ Gambas3 component package for gtk3.
 %{_datadir}/%{name}/info/gb.gtk3.list
 
 #-----------------------------------------------------------------------------
+#-----------------------------------------------------------------------------
+# since 3.7.0
+%package gb-report2
+Summary:	Gambas3 component package for reporting
+Group:		Development/Other
+Requires:	%{name}-runtime = %{EVRD}
 
+%description gb-report2
+gb.report2 is a new and better implementation of the reporting component.
+
+%files gb-report2
+%doc README  ChangeLog
+%{_libdir}/%{name}/gb.report2.component
+%{_libdir}/%{name}/gb.report2.gambas
+%{_datadir}/%{name}/control/gb.report2/*.png
+%{_datadir}/%{name}/info/gb.report2.info
+%{_datadir}/%{name}/info/gb.report2.list
+
+#-----------------------------------------------------------------------------
+%package gb-scanner
+Summary:	Gambas3 component package for SANE
+Group:		Development/Other
+Requires:	%{name}-runtime = %{EVRD}
+
+%description gb-scanner
+Is a new component based on SANE to help dealing with scanners.
+
+%files gb-scanner
+%doc README  ChangeLog
+%{_libdir}/%{name}/gb.scanner.component
+%{_libdir}/%{name}/gb.scanner.gambas
+%{_datadir}/%{name}/info/gb.scanner.info
+%{_datadir}/%{name}/info/gb.scanner.list
+
+#-----------------------------------------------------------------------------
+%package gb-util
+Summary:	Gambas3 component package for utility functions
+Group:		Development/Other
+Requires:	%{name}-runtime = %{EVRD}
+
+%description gb-util
+Is a new component written in Gambas that 
+provides utility functions to the interpreter.
+
+%files gb-util
+%doc README  ChangeLog
+%{_libdir}/%{name}/gb.util.component
+%{_libdir}/%{name}/gb.util.gambas
+%{_datadir}/%{name}/info/gb.util.info
+%{_datadir}/%{name}/info/gb.util.list
+
+#-----------------------------------------------------------------------------
+%package gb-util-web
+Summary:	Gambas3 component package for web applications
+Group:		Development/Other
+Requires:	%{name}-runtime = %{EVRD}
+
+
+%description gb-util-web
+Is a new component written in Gambas that 
+provides utility functions to web applications.
+
+%files gb-util-web
+%doc README  ChangeLog
+%{_libdir}/%{name}/gb.util.web.component
+%{_libdir}/%{name}/gb.util.web.gambas
+%{_datadir}/%{name}/control/gb.util.web/ccontainer.png
+%{_datadir}/%{name}/control/gb.util.web/ccontrol.png
+%{_datadir}/%{name}/info/gb.util.web.info
+%{_datadir}/%{name}/info/gb.util.web.list
+
+#-----------------------------------------------------------------------------
 
 
 
