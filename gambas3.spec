@@ -20,14 +20,24 @@ BuildRequires:	pkgconfig(sqlite3)
 BuildRequires:	qt4-devel
 BuildRequires:	pkgconfig(QtWebKit)
 BuildRequires:	pkgconfig(glew)
+#
 BuildRequires:	pkgconfig(sdl)
-BuildRequires:	pkgconfig(xcursor)
+BuildRequires:	pkgconfig(SDL_mixer)
+BuildRequires:	SDL_sound-devel
+BuildRequires:  pkgconfig(SDL_image)
 BuildRequires:	pkgconfig(SDL_ttf)
+#
+#sdl2 has to be ported to 2014.0
+BuildRequires:	pkgconfig(sdl2) >= 2.0.2
+BuildRequires:	pkgconfig(SDL2_mixer) >= 2.0.0
+BuildRequires:	SDL_sound-devel
+BuildRequires:  pkgconfig(SDL2_image) >= 2.0.0
+BuildRequires:	pkgconfig(SDL2_ttf) >= 2.0.12
+#
+BuildRequires:	pkgconfig(xcursor)
 BuildRequires:	mysql-devel
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(poppler)
-BuildRequires:	SDL_sound-devel
-BuildRequires:	pkgconfig(SDL_mixer)
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(gdk-2.0)
 BuildRequires:	pkgconfig(gtk+-3.0)
@@ -52,7 +62,7 @@ BuildRequires:  pkgconfig(gnome-keyring-1)
 BuildRequires:  pkgconfig(libpcre)
 BuildRequires:  pkgconfig(ice)
 BuildRequires:  pkgconfig(dbus-1)
-BuildRequires:  pkgconfig(SDL_image)
+
 # no pkgconfig for gmime for portability
 BuildRequires:  gmime-devel
 BuildRequires:  pkgconfig(libv4lconvert)
