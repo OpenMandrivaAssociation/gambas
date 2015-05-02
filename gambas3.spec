@@ -26,7 +26,6 @@ BuildRequires:	pkgconfig(SDL_mixer)
 BuildRequires:	SDL_sound-devel
 BuildRequires:  pkgconfig(SDL_image)
 BuildRequires:	pkgconfig(SDL_ttf)
-BuildRequires:	SDL_sound-devel
 #
 #sdl2 has to be ported to 2014.0
 BuildRequires:	pkgconfig(sdl2) >= 2.0.2
