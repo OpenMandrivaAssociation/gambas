@@ -1,4 +1,6 @@
 %define debug_package	%{nil}
+%define _disable_rebuild_configure 1
+
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
 Version:	3.8.1
