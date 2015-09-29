@@ -53,10 +53,12 @@ BuildRequires:  pkgconfig(libpcre)
 BuildRequires:  pkgconfig(ice)
 BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(SDL_image)
-BuildRequires:	qt5base-devel
+BuildRequires:	qt5-devel
 BuildRequires:	pkgconfig(Qt5WebKit)
 BuildRequires:	pkgconfig(Qt5X11Extras)
 BuildRequires:	qt5-macros
+BuildRequires:	qt5-qtbase-devel
+BuildRequires:	pkgconfig(Qt5Sql)
 
 # keep gmime-devel for portability
 BuildRequires:  pkgconfig(gmime-2.6)
