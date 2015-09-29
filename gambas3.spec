@@ -1,8 +1,8 @@
 %define debug_package	%{nil}
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.4.1
-Release:	2
+Version:	3.8.1
+Release:	1
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
@@ -53,6 +53,11 @@ BuildRequires:  pkgconfig(libpcre)
 BuildRequires:  pkgconfig(ice)
 BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(SDL_image)
+BuildRequires:	qt5base-devel
+BuildRequires:	pkgconfig(Qt5WebKit)
+BuildRequires:	pkgconfig(Qt5X11Extras)
+BuildRequires:	qt5-macros
+
 # keep gmime-devel for portability
 BuildRequires:  pkgconfig(gmime-2.6)
 # Versions prior to 0.31.31-2 would barf on directories with a
@@ -1228,6 +1233,69 @@ Gambas3 component package that implements communication with memcached
 %_libdir/%{name}/gb.memcached.gambas
 %_datadir/%{name}/info/gb.memcached.*
 
+%package gb-form-editor
+Summary:	Gambas3 component text editor
+Group:		Development/Other
+Requires:	%{name}-runtime = %{EVRD}
+Requires:	gb-eval-highlight = %{EVRD}
+
+%description gb-form-editor
+This component provides the TextEditor control, 
+which is a text editor with syntax highlighting support.
+
+%files gb-form-editor
+%doc README  ChangeLog
+%{_libdir}/%{name}/gb.form.editor.component
+%{_libdir}/%{name}/gb.form.editor.gambas
+%{_datadir}/%{name}/info/gb.form.editor.info
+%{_datadir}/%{name}/info/gb.form.editor.list
+%{_datadir}/%{name}/control/gb.form.editor/texteditor.png
+#-----------------------------------------------------------------------------
+
+%package gb-qt5
+Summary: The Gambas Qt GUI component
+Group: Development/Other
+Requires: %{name}-runtime = %{EVRD}
+
+%description gb-qt5
+This package includes the Gambas QT GUI component.
+
+%files gb-qt5
+%doc README  ChangeLog
+%{_libdir}/%{name}/gb.qt5.component
+%{_libdir}/%{name}/gb.qt5.so*
+%{_datadir}/%{name}/info/gb.qt5.info
+%{_datadir}/%{name}/info/gb.qt5.list
+
+#-----------------------------------------------------------------------------
+%package gb-qt5-opengl
+
+Summary: The Gambas qt-opengl component
+Group: Development/Other
+Requires: %{name}-runtime = %{EVRD}
+
+%description gb-qt5-opengl
+This package contains the Gambas qt-opengl components.
+
+%files gb-qt5-opengl
+%doc README  ChangeLog
+%{_libdir}/%{name}/gb.qt5.opengl.*
+%{_datadir}/%{name}/info/gb.qt5.opengl.*
+#-----------------------------------------------------------------------------
+%package gb-qt5-webkit
+
+Summary: The Gambas qt-webkit component
+Group: Development/Other
+Requires: %{name}-runtime = %{EVRD}
+
+%description gb-qt5-webkit
+This package contains the Gambas qt-webkit components.
+
+%files gb-qt5-webkit
+%doc README  ChangeLog
+%{_libdir}/%{name}/gb.qt5.webkit.*
+%{_datadir}/%{name}/info/gb.qt5.webkit.*
+#-----------------------------------------------------------------------------
 
 %post runtime
 update-mime-database %{_datadir}/mime &> /dev/null || :
