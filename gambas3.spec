@@ -84,15 +84,31 @@ automatically, and so on...
 
 %prep
 %setup -q 
-chmod -x main/gbx/gbx_local.h
-chmod -x main/gbx/gbx_subr_file.c
-chmod -x gb.qt4/src/CContainer.cpp
-chmod -x main/lib/option/getoptions.*
-chmod -x main/lib/option/main.c
-
 %apply_patches
 
-find . -name "*.m4" |xargs sed -i -e 's,AM_CONFIG_HEADER,AC_CONFIG_HEADERS,g'
+for i in `find . -name "acinclude.m4"`;
+do
+	sed -i -e 's|AM_CONFIG_HEADER|AC_CONFIG_HEADERS|g' ${i}
+	sed -i 's|$AM_CFLAGS -O3|$AM_CFLAGS|g' ${i}
+	sed -i 's|$AM_CXXFLAGS -Os -fno-omit-frame-pointer|$AM_CXXFLAGS|g' ${i}
+	sed -i 's|$AM_CFLAGS -Os|$AM_CFLAGS|g' ${i}
+	sed -i 's|$AM_CFLAGS -O0|$AM_CFLAGS|g' ${i}
+	sed -i 's|$AM_CXXFLAGS -O0|$AM_CXXFLAGS|g' ${i}
+done
+
+
+
+# debug linting fix
+chmod -x main/gbx/gbx_local.h
+chmod -x gb.xml/src/xslt/CXSLT.h
+chmod -x main/lib/option/main.h
+chmod -x main/lib/option/main.c
+chmod -x main/lib/option/getoptions.c
+chmod -x main/lib/option/getoptions.h
+chmod -x main/gbx/gbx_subr_file.c
+chmod -x gb.xml/src/xslt/main.cpp
+chmod -x gb.qt4/src/CContainer.cpp
+chmod -x gb.xml/src/xslt/CXSLT.cpp
 
 %build
 %setup_compile_flags
@@ -106,23 +122,38 @@ do
         )
 done
 
-%configure2_5x
+%configure
 %make
 
 %install
 %makeinstall_std
 
-find %{buildroot} -name '*.la' -delete
+# Get the SVN noise out of the main tree
+find %{buildroot}%{_datadir}/%{name}/ -type d -name .svn -exec rm -rf {} 2>/dev/null ';' || :
 
+# Mime types.
+mkdir -p %{buildroot}%{_datadir}/mime/packages/
+install -m 0644 -p app/mime/application-x-gambasscript.xml %{buildroot}%{_datadir}/mime/packages/
+install -m 0644 -p main/mime/application-x-gambas3.xml %{buildroot}%{_datadir}/mime/packages/
+
+# clean, should be done upstream
+find %{buildroot} -name '*.la' -delete
 rm -f %{buildroot}%{_libdir}/%{name}/gb.so %{buildroot}%{_libdir}/%{name}/gb.so.*
 
+# menu entry && icons
 install -D -m 755 app/src/%{name}/img/logo/logo-16.png %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{name}.png
 install -D -m 755 app/src/%{name}/img/logo/logo-32.png %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{name}.png
 install -D -m 755 app/src/%{name}/img/logo/logo-64.png %{buildroot}%{_iconsdir}/hicolor/64x64/apps/%{name}.png
 install -D -m 755 app/src/%{name}/img/logo/logo-ide.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
 install -D -m 644 %{SOURCE1} %{buildroot}%{_datadir}/applications/%{name}.desktop
 
-desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
+desktop-file-install %{SOURCE1} %{buildroot}%{_datadir}/applications/%{name}.desktop
+chmod -x %{buildroot}%{_datadir}/applications/%{name}.desktop 
+chmod -x %{buildroot}%{_datadir}/appdata/gambas3.appdata.xml
+chmod -x %{buildroot}%{_libdir}/%{name}/gb.component
+mkdir -p %{buildroot}%{_docdir}
+
+
 
 
 
