@@ -118,6 +118,12 @@ do
 done
 
 
+###TODO: patch as follow ###
+# function definition hack
+sed -i '28i#include <stdlib.h>' main/gbc/gb_error.c
+
+# hack max llvm version
+perl -pi -e "s|max_llvm_version=3.5|max_llvm_version=3.7|" gb.jit/configure.ac
 
 # debug linting fix
 chmod -x main/gbx/gbx_local.h
