@@ -1,5 +1,7 @@
 %define debug_package	%{nil}
 %define _disable_rebuild_configure 1
+%define _disable_ld_no_undefined 1
+%define Werror_cflags %nil
 
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
@@ -30,10 +32,25 @@ BuildRequires:	pkgconfig(SDL_ttf)
 BuildRequires:	mysql-devel
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(poppler)
+#SDL
+BuildRequires:	pkgconfig(sdl)
 BuildRequires:	SDL_sound-devel
+BuildRequires:  pkgconfig(SDL_image)
+BuildRequires:  pkgconfig(SDL_ttf)
 BuildRequires:	pkgconfig(SDL_mixer)
+#SDL2
+BuildRequires:	pkgconfig(SDL2_mixer)
+BuildRequires:	pkgconfig(SDL2_image)
+BuildRequires:	pkgconfig(SDL2_ttf)
+BuildRequires:	pkgconfig(sdl2)
+#
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(gdk-2.0)
+BuildRequires:	pkgconfig(gdk-3.0)
+BuildRequires:	gmp-devel
+BuildRequires:	pkgconfig(openal)
+BuildRequires:	pkgconfig(alure)
+
 BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	pkgconfig(gdkglext-1.0)
 BuildRequires:	pkgconfig(libffi)
@@ -54,13 +71,15 @@ BuildRequires:  pkgconfig(gnome-keyring-1)
 BuildRequires:  pkgconfig(libpcre)
 BuildRequires:  pkgconfig(ice)
 BuildRequires:  pkgconfig(dbus-1)
-BuildRequires:  pkgconfig(SDL_image)
+
 BuildRequires:	qt5-devel
 BuildRequires:	pkgconfig(Qt5WebKit)
+BuildRequires:	pkgconfig(Qt5WebKitWidgets)
 BuildRequires:	pkgconfig(Qt5X11Extras)
 BuildRequires:	qt5-macros
 BuildRequires:	qt5-qtbase-devel
 BuildRequires:	pkgconfig(Qt5Sql)
+BuildRequires:	pkgconfig(Qt5Svg)
 
 # keep gmime-devel for portability
 BuildRequires:  pkgconfig(gmime-2.6)
