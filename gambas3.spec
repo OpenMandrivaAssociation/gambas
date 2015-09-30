@@ -95,6 +95,8 @@ BuildRequires:  pkgconfig(gstreamer-app-0.10) >= 0.10.36
 BuildRequires:	llvm
 %endif
 
+
+
 %description
 Gambas is a free development environment based on a Basic interpreter
 with object extensions, like Visual Basic(tm) (but it is NOT a clone!). 
@@ -123,7 +125,7 @@ done
 sed -i '28i#include <stdlib.h>' main/gbc/gb_error.c
 
 # hack max llvm version
-perl -pi -e "s|max_llvm_version=3.5|max_llvm_version=3.7|" gb.jit/configure.ac
+perl -pi -e "s|max_llvm_version=3.5|max_llvm_version=3.7.0|" gb.jit/configure.ac
 
 # debug linting fix
 chmod -x main/gbx/gbx_local.h
@@ -138,6 +140,9 @@ chmod -x gb.qt4/src/CContainer.cpp
 chmod -x gb.xml/src/xslt/CXSLT.cpp
 
 %build
+export CC=gcc
+export CXX=g++
+
 %setup_compile_flags
 ./reconf-all
 for i in `find -name configure`
