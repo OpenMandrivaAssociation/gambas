@@ -1612,7 +1612,22 @@ provides utility functions to web applications.
 %{_datadir}/%{name}/info/gb.util.web.list
 
 #-----------------------------------------------------------------------------
+%package gb-scanner
+Summary:	Gambas3 component package for SANE
+Group:		Development/Other
+Requires:	%{name}-runtime = %{EVRD}
 
+%description gb-scanner
+Is a new component based on SANE to help dealing with scanners.
+
+%files gb-scanner
+%doc README  ChangeLog
+%{_libdir}/%{name}/gb.scanner.component
+%{_libdir}/%{name}/gb.scanner.gambas
+%{_datadir}/%{name}/info/gb.scanner.info
+%{_datadir}/%{name}/info/gb.scanner.list
+
+#-----------------------------------------------------------------------------
 
 
 
