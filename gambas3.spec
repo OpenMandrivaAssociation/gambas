@@ -125,7 +125,8 @@ done
 sed -i '28i#include <stdlib.h>' main/gbc/gb_error.c
 
 # hack max llvm version
-perl -pi -e "s|next_max_llvm_version=3.6|next_max_llvm_version=3.7|" gb.jit/configure.ac
+perl -pi -e "s|max_llvm_version=3.5|max_llvm_version=3.7|" gb.jit/configure.ac
+perl -pi -e "s|next_max_llvm_version=3.6|next_max_llvm_version=3.8|" gb.jit/configure.ac
 
 # debug linting fix
 chmod -x main/gbx/gbx_local.h
@@ -657,7 +658,7 @@ gb.gtk in the other cases.
 
 #%files gb-jit
 #%doc README ChangeLog
-$%{_libdir}/%{name}/gb.jit.*
+#%{_libdir}/%{name}/gb.jit.*
 #%optional %{_datadir}/%{name}/info/gb.jit.*
 #%endif
 #-----------------------------------------------------------------------------
