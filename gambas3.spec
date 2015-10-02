@@ -1320,7 +1320,7 @@ Gambas3 component package that implements communication with memcached
 Summary:	Gambas3 component text editor
 Group:		Development/Other
 Requires:	%{name}-runtime = %{EVRD}
-Requires:	gb-eval-highlight = %{EVRD}
+Requires:	%{name}-gb-eval-highlight = %{EVRD}
 
 %description gb-form-editor
 This component provides the TextEditor control, 
