@@ -1,2 +1,11 @@
 # Those are bogus
 addFilter("E: no-dependency-on")
+# file info and list are to be fulled ad install time
+addFilter("E: zero-length")
+# the components are modules and not libs
+addFilter("W: only-non-binary-in-usr-lib")
+# oma crap bug in linting
+addFilter("W: not-standard-release-extension")
+# I won't write manuals
+addFilter("W: no-manual-page-for-binary")
+addFilter("E: devel-dependency")
