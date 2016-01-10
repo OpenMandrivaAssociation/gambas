@@ -5,7 +5,7 @@
 
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.8.1
+Version:	3.8.4
 Release:	1
 License:	GPLv2+
 Group:		Development/Other
@@ -89,8 +89,8 @@ BuildRequires:	spec-helper >= 0.31.31-2
 # no media.component for rosalts
 %if %{mdvver} >= 201210
 BuildRequires:  llvm-devel
-BuildRequires:  pkgconfig(gstreamer-0.10) >= 0.10.36
-BuildRequires:  pkgconfig(gstreamer-app-0.10) >= 0.10.36
+BuildRequires:  pkgconfig(gstreamer-1.0) >= 0.10.36
+BuildRequires:  pkgconfig(gstreamer-app-1.0) >= 0.10.36
 %else
 BuildRequires:	llvm
 %endif
@@ -174,9 +174,7 @@ find %{buildroot} -name '*.la' -delete
 rm -f %{buildroot}%{_libdir}/%{name}/gb.so %{buildroot}%{_libdir}/%{name}/gb.so.*
 
 # menu entry && icons
-install -D -m 755 app/src/%{name}/img/logo/logo-16.png %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{name}.png
-install -D -m 755 app/src/%{name}/img/logo/logo-32.png %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{name}.png
-install -D -m 755 app/src/%{name}/img/logo/logo-64.png %{buildroot}%{_iconsdir}/hicolor/64x64/apps/%{name}.png
+install -D -m 755 app/src/%{name}/img/logo/logo.png %{buildroot}%{_iconsdir}/hicolor/64x64/apps/%{name}.png
 install -D -m 755 app/src/%{name}/img/logo/logo-ide.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
 install -D -m 644 %{SOURCE1} %{buildroot}%{_datadir}/applications/%{name}.desktop
 
