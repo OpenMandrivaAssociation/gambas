@@ -5,16 +5,18 @@
 
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.8.4
+Version:	3.9.2
 Release:	1
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
-Source0:	http://ovh.dl.sourceforge.net/sourceforge/gambas/gambas3/%{name}-%{version}.tar.bz2
+Source0:	https://downloads.sourceforge.net/project/gambas/gambas3/%{name}-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
 Patch1:		gambas3-3.3.1-iconv.patch
 Patch2:		gambas3-3.3.1-intl.patch
+# We meet the required versions... But somehow the pkgconfig detection fails
+Patch3:		gambas3-3.9.2-workaround-pkgconf-SDL2detection.patch
 BuildRequires:	bzip2-devel
 BuildRequires:	autoconf automake libtool
 BuildRequires:	unixODBC-devel
@@ -1106,6 +1108,7 @@ with an ASP-like interface.
 %doc README ChangeLog
 %{_libdir}/%{name}/gb.web.*
 %{_datadir}/%{name}/info/gb.web.*
+%{_datadir}/%{name}/control/gb.web.form
 
 #-----------------------------------------------------------------------------
 %package gb-libxml
@@ -1315,6 +1318,7 @@ Gambas3 component package that implements communication with memcached
 %_libdir/%{name}/gb.memcached.gambas
 %_datadir/%{name}/info/gb.memcached.*
 
+#-----------------------------------------------------------------------------
 %package gb-form-editor
 Summary:	Gambas3 component text editor
 Group:		Development/Other
@@ -1332,6 +1336,26 @@ which is a text editor with syntax highlighting support.
 %{_datadir}/%{name}/info/gb.form.editor.info
 %{_datadir}/%{name}/info/gb.form.editor.list
 %{_datadir}/%{name}/control/gb.form.editor/texteditor.png
+
+#-----------------------------------------------------------------------------
+%package gb-form-terminal
+Summary:	Gambas3 component for VT220 terminals
+Group:		Development/Other
+Requires:	%{name}-runtime = %{EVRD}
+Requires:	%{name}-gb-eval-highlight = %{EVRD}
+
+%description gb-form-terminal
+This component provides the Terminal control, 
+a VT220 compatible terminal widget.
+
+%files gb-form-terminal
+%doc README  ChangeLog
+%{_libdir}/%{name}/gb.form.terminal.component
+%{_libdir}/%{name}/gb.form.terminal.gambas
+%{_datadir}/%{name}/info/gb.form.terminal.info
+%{_datadir}/%{name}/info/gb.form.terminal.list
+%{_datadir}/%{name}/control/gb.form.terminal
+
 #-----------------------------------------------------------------------------
 
 %package gb-qt5
@@ -1348,6 +1372,23 @@ This package includes the Gambas QT GUI component.
 %{_libdir}/%{name}/gb.qt5.so*
 %{_datadir}/%{name}/info/gb.qt5.info
 %{_datadir}/%{name}/info/gb.qt5.list
+
+
+#-----------------------------------------------------------------------------
+
+%package gb-qt5-ext
+Summary: The Gambas Qt GUI extensions component
+Group: Development/Other
+Requires: %{name}-gb-qt5 = %{EVRD}
+
+%description gb-qt5-ext
+This package includes the Gambas QT GUI extensions component.
+
+%files gb-qt5-ext
+%{_libdir}/%{name}/gb.qt5.ext.component
+%{_libdir}/%{name}/gb.qt5.ext.so*
+%{_datadir}/%{name}/info/gb.qt5.ext.info
+%{_datadir}/%{name}/info/gb.qt5.ext.list
 
 #-----------------------------------------------------------------------------
 %package gb-qt5-opengl
