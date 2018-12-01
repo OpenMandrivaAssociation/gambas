@@ -1251,6 +1251,7 @@ This package contains the Gambas qt-webkit components.
 #-----------------------------------------------------------------------------
 
 %package gb-clipper
+Summary: The gambas clipboard component
 Group:   Development/Other
 Requires:      %{name}-runtime = %{EVRD}
 
