@@ -15,9 +15,7 @@ Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
 Patch1:		gambas3-3.3.1-iconv.patch
 Patch2:		gambas3-3.3.1-intl.patch
-# We meet the required versions... But somehow the pkgconfig detection fails
-#Patch3:		gambas3-3.9.2-workaround-pkgconf-SDL2detection.patch
-#Patch4:		gambas3-3.10.0-sdl2_mixer.patch
+Patch3:		gambas3-3.11.4-bool.patch
 BuildRequires:	bzip2-devel
 BuildRequires:	autoconf automake libtool
 BuildRequires:	unixODBC-devel
