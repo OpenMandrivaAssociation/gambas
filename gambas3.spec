@@ -5,18 +5,19 @@
 
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.9.2
+Version:	3.11.4
 Release:	1
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
-Source0:	https://downloads.sourceforge.net/project/gambas/gambas3/%{name}-%{version}.tar.bz2
+Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
 Patch1:		gambas3-3.3.1-iconv.patch
 Patch2:		gambas3-3.3.1-intl.patch
 # We meet the required versions... But somehow the pkgconfig detection fails
-Patch3:		gambas3-3.9.2-workaround-pkgconf-SDL2detection.patch
+#Patch3:		gambas3-3.9.2-workaround-pkgconf-SDL2detection.patch
+#Patch4:		gambas3-3.10.0-sdl2_mixer.patch
 BuildRequires:	bzip2-devel
 BuildRequires:	autoconf automake libtool
 BuildRequires:	unixODBC-devel
@@ -25,21 +26,11 @@ BuildRequires:	pkgconfig(libpng)
 BuildRequires:	imagemagick
 BuildRequires:	jpeg-devel
 BuildRequires:	pkgconfig(sqlite3)
-BuildRequires:	qt4-devel
-BuildRequires:	pkgconfig(QtWebKit)
 BuildRequires:	pkgconfig(glew)
-BuildRequires:	pkgconfig(sdl)
 BuildRequires:	pkgconfig(xcursor)
-BuildRequires:	pkgconfig(SDL_ttf)
 BuildRequires:	mysql-devel
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(poppler)
-#SDL
-BuildRequires:	pkgconfig(sdl)
-BuildRequires:	SDL_sound-devel
-BuildRequires:  pkgconfig(SDL_image)
-BuildRequires:  pkgconfig(SDL_ttf)
-BuildRequires:	pkgconfig(SDL_mixer)
 #SDL2
 BuildRequires:	pkgconfig(SDL2_mixer)
 BuildRequires:	pkgconfig(SDL2_image)
@@ -54,7 +45,6 @@ BuildRequires:	pkgconfig(openal)
 BuildRequires:	pkgconfig(alure)
 
 BuildRequires:	pkgconfig(librsvg-2.0)
-BuildRequires:	pkgconfig(gdkglext-1.0)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(imlib2)
 BuildRequires:	postgresql-devel
@@ -65,7 +55,6 @@ BuildRequires:	pkgconfig(xtst)
 BuildRequires:  pkgconfig(freetype2)
 BuildRequires:	xdg-utils
 BuildRequires:	desktop-file-utils
-BuildRequires:	pkgconfig(sqlite)
 BuildRequires:  libstdc++-static-devel 
 BuildRequires:  libstdc++-devel
 BuildRequires:  pkgconfig(gsl)
@@ -89,14 +78,9 @@ BuildRequires:  pkgconfig(gmime-2.6)
 # "*.desktop" name
 BuildRequires:	spec-helper >= 0.31.31-2
 # no media.component for rosalts
-%if %{mdvver} >= 201210
 BuildRequires:  llvm-devel
 BuildRequires:  pkgconfig(gstreamer-1.0) >= 0.10.36
 BuildRequires:  pkgconfig(gstreamer-app-1.0) >= 0.10.36
-%else
-BuildRequires:	llvm
-%endif
-
 
 
 %description
@@ -108,7 +92,7 @@ create network applications easily, build RPMs of your apps
 automatically, and so on...
 
 %prep
-%setup -q 
+%setup -qn gambas-%version
 %apply_patches
 
 for i in `find . -name "acinclude.m4"`;
@@ -139,7 +123,6 @@ chmod -x main/lib/option/getoptions.c
 chmod -x main/lib/option/getoptions.h
 chmod -x main/gbx/gbx_subr_file.c
 chmod -x gb.xml/src/xslt/main.cpp
-chmod -x gb.qt4/src/CContainer.cpp
 chmod -x gb.xml/src/xslt/CXSLT.cpp
 
 %build
@@ -157,7 +140,7 @@ do
         )
 done
 
-%configure
+%configure --disable-gtk --disable-qt4 --disable-sdl --disable-sdlsound
 %make
 
 %install
@@ -271,15 +254,15 @@ Group: Development/Other
 Requires: %{name}-runtime = %{version}
 Requires: %{name}-devel = %{version}
 Requires: %{name}-gb-db = %{version}
+Requires: %{name}-gb-qt5 = %{version}
+Requires: %{name}-gb-qt5-ext = %{version}
+Requires: %{name}-gb-qt5-webkit = %{version}
 Requires: %{name}-gb-db-form = %{version}
 Requires: %{name}-gb-desktop = %{version}
 Requires: %{name}-gb-form = %{version}
 Requires: %{name}-gb-form-dialog = %{version}
 Requires: %{name}-gb-form-mdi = %{version}
 Requires: %{name}-gb-form-stock = %{version}
-Requires: %{name}-gb-qt4 = %{version}
-Requires: %{name}-gb-qt4-ext = %{version}
-Requires: %{name}-gb-qt4-webkit = %{version}
 Requires: %{name}-gb-settings = %{version}
 #Requires: %{name}-examples = %{version}
 Requires: %{name}-gb-eval-highlight = %{version}
@@ -329,21 +312,6 @@ This package contains the Gambas Cario components.
 %doc README ChangeLog
 %{_libdir}/%{name}/gb.cairo.*
 %{_datadir}/%{name}/info/gb.cairo.*
-
-#-----------------------------------------------------------------------------
-
-%package gb-chart
-Summary: The Gambas chart component
-Group: Development/Other
-Requires: %{name}-runtime = %{version}
-
-%description gb-chart
-This package contains the Gambas Chart components.
-
-%files gb-chart
-%doc README ChangeLog
-%{_libdir}/%{name}/gb.chart.*
-%{_datadir}/%{name}/info/gb.chart.*
 
 #-----------------------------------------------------------------------------
 
@@ -455,21 +423,6 @@ This component allows you to access PostgreSQL databases.
 %doc README ChangeLog
 %{_libdir}/%{name}/gb.db.postgresql.*
 %{_datadir}/%{name}/info/gb.db.postgresql.*
-
-#-----------------------------------------------------------------------------
-
-%package gb-db-sqlite2
-Summary: The SQLite 2 driver for the Gambas database component
-Group: Development/Other
-Requires: %{name}-runtime = %{version},%{name}-gb-db = %{version}
-
-%description gb-db-sqlite2
-This component allows you to access SQLite 2 databases.
-
-%files gb-db-sqlite2
-%doc README ChangeLog
-%{_libdir}/%{name}/gb.db.sqlite2.*
-%{_datadir}/%{name}/info/gb.db.sqlite2.*
 
 #-----------------------------------------------------------------------------
 
@@ -605,20 +558,6 @@ This component implements the form-stock control.
 
 #-----------------------------------------------------------------------------
 
-%package gb-gtk
-Summary: The Gambas GTK+ GUI component
-Group: Development/Other
-Requires: %{name}-runtime = %{version}
-
-%description gb-gtk
-This package contains the Gambas GTK+ GUI components.
-
-%files gb-gtk
-%doc README ChangeLog
-%{_libdir}/%{name}/gb.gtk.*
-%{_datadir}/%{name}/info/gb.gtk.*
-
-#-----------------------------------------------------------------------------
 %package gb-gsl
 Summary: The Gambas interface to the GNU Scientific Library 
 Group: Development/Other
@@ -647,22 +586,6 @@ gb.gtk in the other cases.
 %{_libdir}/%{name}/gb.gui.*
 %{_datadir}/%{name}/info/gb.gui.*
 
-#-----------------------------------------------------------------------------
-#%if %{mdvver} >= 201210
-#%package gb-jit
-#Summary: The Gambas JIT component
-#Group: Development/Other
-#Requires: %{name}-runtime = %{version}
-
-#%description gb-jit
-#This component provides the jit compiler for gambas.
-
-#%files gb-jit
-#%doc README ChangeLog
-#%{_libdir}/%{name}/gb.jit.*
-#%optional %{_datadir}/%{name}/info/gb.jit.*
-#%endif
-#-----------------------------------------------------------------------------
 %package gb-image
 Summary: The Gambas image manipulation component
 Group: Development/Other
@@ -724,7 +647,6 @@ This component allows you to perform images input output operations.
 %{_datadir}/%{name}/info/gb.image.io.*
 
 #-----------------------------------------------------------------------------
-%if %{mdvver} >= 201210
 %package gb-media
 Summary: The Gambas media component
 Group: Development/Other
@@ -738,7 +660,7 @@ This package contains the Gambas media component.
 %{_libdir}/%{name}/gb.media.*
 %{_datadir}/%{name}/info/gb.media.*
 %{_datadir}/%{name}/control/gb.media.form/mediaview.png
-%endif
+
 #-----------------------------------------------------------------------------
 %package gb-mysql
 Summary: The Gambas mysql component
@@ -915,68 +837,6 @@ This component allows you to manipulate pdf files with Gambas code.
 
 #-----------------------------------------------------------------------------
 
-%package gb-qt4
-Summary: The Gambas Qt GUI component
-Group: Development/Other
-Requires: %{name}-runtime = %{version}
-
-%description gb-qt4
-This package includes the Gambas QT GUI component.
-
-%files gb-qt4
-%doc README ChangeLog
-%{_libdir}/%{name}/gb.qt4.component
-%{_libdir}/%{name}/gb.qt4.so*
-%{_datadir}/%{name}/info/gb.qt4.info
-%{_datadir}/%{name}/info/gb.qt4.list
-
-#-----------------------------------------------------------------------------
-
-%package gb-qt4-ext
-Summary: The Gambas qt-ext component
-Group: Development/Other
-Requires: %{name}-runtime = %{version}
-
-%description gb-qt4-ext
-This package contains the Gambas qt-ext components.
-
-%files gb-qt4-ext
-%doc README ChangeLog
-%{_libdir}/%{name}/gb.qt4.ext.*
-%{_datadir}/%{name}/info/gb.qt4.ext.*
-
-#-----------------------------------------------------------------------------
-
-%package gb-qt4-opengl
-Summary: The Gambas qt-opengl component
-Group: Development/Other
-Requires: %{name}-runtime = %{version}
-
-%description gb-qt4-opengl
-This package contains the Gambas qt-opengl components.
-
-%files gb-qt4-opengl
-%doc README ChangeLog
-%{_libdir}/%{name}/gb.qt4.opengl.*
-%{_datadir}/%{name}/info/gb.qt4.opengl.*
-
-#-----------------------------------------------------------------------------
-
-%package gb-qt4-webkit
-Summary: The Gambas qt-webkit component
-Group: Development/Other
-Requires: %{name}-runtime = %{version}
-
-%description gb-qt4-webkit
-This package contains the Gambas qt-webkit components.
-
-%files gb-qt4-webkit
-%doc README ChangeLog
-%{_libdir}/%{name}/gb.qt4.webkit.*
-%{_datadir}/%{name}/info/gb.qt4.webkit.*
-
-#-----------------------------------------------------------------------------
-
 %package gb-report
 Summary: The Gambas report component
 Group: Development/Other
@@ -990,45 +850,6 @@ This package contains the Gambas Report components.
 %{_libdir}/%{name}/gb.report.*
 %{_datadir}/%{name}/info/gb.report.*
 %{_datadir}/%{name}/control/gb.report
-
-#-----------------------------------------------------------------------------
-
-%package gb-sdl
-Summary: The Gambas SDL component
-Group: Development/Other
-Requires: %{name}-runtime = %{version}
-
-%description gb-sdl
-This component use the sound, image and TTF fonts parts of the SDL
-library. It allows you to simultaneously play many sounds and music
-stored in a file. If OpenGL drivers are installed it uses them to 
-accelerate 2D and 3D drawing.
-
-%files gb-sdl
-%doc README ChangeLog
-%{_libdir}/%{name}/gb.sdl.so
-%{_libdir}/%{name}/gb.sdl.so.*
-%{_libdir}/%{name}/gb.sdl.component
-%{_datadir}/%{name}/info/gb.sdl.info
-%{_datadir}/%{name}/info/gb.sdl.list
-
-#-----------------------------------------------------------------------------
-
-%package gb-sdl-sound
-Summary: The Gambas SDL sound component
-Group: Development/Other
-Requires: %{name}-runtime = %{version}
-
-%description gb-sdl-sound
-This component allows you to play sounds in Gambas. This component 
-manages up to 32 sound tracks that can play sounds from memory, and
-one music track that can play music from a file. Everything is mixed
-in real time. 
-
-%files gb-sdl-sound
-%doc README ChangeLog
-%{_libdir}/%{name}/gb.sdl.sound.*
-%{_datadir}/%{name}/info/gb.sdl.sound.*
 
 #-----------------------------------------------------------------------------
 
@@ -1418,6 +1239,7 @@ This package contains the Gambas qt-webkit components.
 %doc README  ChangeLog
 %{_libdir}/%{name}/gb.qt5.webkit.*
 %{_datadir}/%{name}/info/gb.qt5.webkit.*
+%{_datadir}/%{name}/control/gb.qt5.webkit
 #-----------------------------------------------------------------------------
 
 %package gb-clipper
@@ -1667,6 +1489,21 @@ Is a new component based on SANE to help dealing with scanners.
 %{_libdir}/%{name}/gb.scanner.gambas
 %{_datadir}/%{name}/info/gb.scanner.info
 %{_datadir}/%{name}/info/gb.scanner.list
+
+#-----------------------------------------------------------------------------
+
+%package gb-term
+Summary:        Gambas3 component package for terminal
+Group:          Development/Other
+Requires:       %{name}-runtime = %{EVRD}
+
+%description gb-term
+Is a new component for terminal emulation
+
+%files gb-term
+%{_libdir}/%{name}/gb.term.*
+%{_datadir}/%{name}/control/gb.term.form
+%{_datadir}/%{name}/info/gb.term.*
 
 #-----------------------------------------------------------------------------
 
