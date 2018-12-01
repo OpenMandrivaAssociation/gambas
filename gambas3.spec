@@ -253,6 +253,7 @@ Summary: The Gambas IDE
 Group: Development/Other
 Requires: %{name}-runtime = %{version}
 Requires: %{name}-devel = %{version}
+Requires: %{name}-gb-clipper = %{version}
 Requires: %{name}-gb-db = %{version}
 Requires: %{name}-gb-qt5 = %{version}
 Requires: %{name}-gb-qt5-ext = %{version}
@@ -263,6 +264,13 @@ Requires: %{name}-gb-form = %{version}
 Requires: %{name}-gb-form-dialog = %{version}
 Requires: %{name}-gb-form-mdi = %{version}
 Requires: %{name}-gb-form-stock = %{version}
+Requires: %{name}-gb-gui = %{version}
+Requires: %{name}-gb-term = %{version}
+Requires: %{name}-gb-net = %{version}
+Requires: %{name}-gb-net-curl = %{version}
+Requires: %{name}-gb-markdown = %{version}
+Requires: %{name}-gb-signal = %{version}
+Requires: %{name}-gb-util = %{version}
 Requires: %{name}-gb-settings = %{version}
 #Requires: %{name}-examples = %{version}
 Requires: %{name}-gb-eval-highlight = %{version}
