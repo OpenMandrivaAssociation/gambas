@@ -1,0 +1,89 @@
+From: gambas <g4mba5@gmail.com>
+Date: Sat, 3 Nov 2018 11:19:42 +0100
+Subject: Make gb.pdf compile with poppler 0.71.
+
+[GB.PDF]
+* BUG: Make gb.pdf compile with poppler 0.71.
+---
+ gb.pdf/configure.ac         |  2 ++
+ gb.pdf/src/CPdfDocument.cpp | 26 +++++++++++++-------------
+ 2 files changed, 15 insertions(+), 13 deletions(-)
+
+diff --git a/gb.pdf/configure.ac b/gb.pdf/configure.ac
+index 7650077..fe87d6c 100644
+--- a/gb.pdf/configure.ac
++++ b/gb.pdf/configure.ac
+@@ -33,6 +33,8 @@ if test "$have_poppler" = "yes"; then
+   AC_DEFINE_UNQUOTED(POPPLER_VERSION_0_58, $((1-$?)), Poppler version >= 0.58)
+   pkg-config --atleast-version=0.64.0 poppler
+   AC_DEFINE_UNQUOTED(POPPLER_VERSION_0_64, $((1-$?)), Poppler version >= 0.64)
++  pkg-config --atleast-version=0.71.0 poppler
++  AC_DEFINE_UNQUOTED(POPPLER_VERSION_0_71, $((1-$?)), Poppler version >= 0.71)
+ fi
+ 
+ AC_OUTPUT( \
+diff --git a/gb.pdf/src/CPdfDocument.cpp b/gb.pdf/src/CPdfDocument.cpp
+index 291a6f4..64cc927 100644
+--- a/gb.pdf/src/CPdfDocument.cpp
++++ b/gb.pdf/src/CPdfDocument.cpp
+@@ -478,7 +478,7 @@ int32_t open_document (void *_object, char *sfile, int32_t lfile)
+ 	THIS->len=len;
+ 
+ 	white[0] = 0xFF; white[1] = 0xFF; white[2] = 0xFF;
+-	THIS->dev=new SplashOutputDev(splashModeRGB8, 3, gFalse, white);
++	THIS->dev=new SplashOutputDev(splashModeRGB8, 3, false, white);
+ 
+ 	#if POPPLER_VERSION_0_20
+ 	THIS->dev->startDoc(THIS->doc);
+@@ -922,17 +922,17 @@ static uint32_t *get_page_data(CPDFDOCUMENT *_object, int32_t x, int32_t y, int3
+ 	#if POPPLER_VERSION_0_20
+ 	THIS->page->displaySlice(THIS->dev,72.0*scale,72.0*scale,
+ 			   rotation,
+-			   gFalse,
+-			   gTrue,
++			   false,
++			   true,
+ 			   x,y,w,h,
+-			   gFalse);
++			   false);
+ 	#else
+ 	THIS->page->displaySlice(THIS->dev,72.0*scale,72.0*scale,
+ 			   rotation,
+-			   gFalse,
+-			   gTrue,
++			   false,
++			   true,
+ 			   x,y,w,h,
+-			   gFalse,
++			   false,
+ 			   THIS->doc->getCatalog ());
+ 	#endif
+ 	
+@@ -994,11 +994,11 @@ BEGIN_METHOD(PDFPAGE_select, GB_INTEGER X; GB_INTEGER Y; GB_INTEGER W; GB_INTEGE
+ 	h = VARGOPT(H, (int32_t)THIS->page->getMediaHeight());
+ 
+ 	#if POPPLER_VERSION_0_20
+-	dev = new TextOutputDev (NULL, gTrue, 0, gFalse, gFalse);
+-	gfx = THIS->page->createGfx(dev,72.0,72.0,0,gFalse,gTrue,-1, -1, -1, -1, gFalse, NULL, NULL);
++	dev = new TextOutputDev (NULL, true, 0, false, false);
++	gfx = THIS->page->createGfx(dev,72.0,72.0,0,false,true,-1, -1, -1, -1, false, NULL, NULL);
+ 	#else
+-	dev = new TextOutputDev (NULL, gTrue, gFalse, gFalse);
+-	gfx = THIS->page->createGfx(dev,72.0,72.0,0,gFalse,gTrue,-1, -1, -1, -1, gFalse,THIS->doc->getCatalog (),NULL, NULL, NULL, NULL);
++	dev = new TextOutputDev (NULL, true, false, false);
++	gfx = THIS->page->createGfx(dev,72.0,72.0,0,false,true,-1, -1, -1, -1, false,THIS->doc->getCatalog (),NULL, NULL, NULL, NULL);
+ 	#endif
+ 
+ 	THIS->page->display(gfx);
+@@ -1226,9 +1226,9 @@ BEGIN_METHOD (PDFPAGE_find,GB_STRING Text; GB_BOOLEAN Sensitive;)
+ 
+ 	count = 0;
+ 	#if POPPLER_VERSION_0_20
+-	while (textdev->findText (block,nlen,gFalse,gTrue,gTrue,gFalse,sensitive,gFalse,gFalse,&x0,&y0,&x1,&y1))
++	while (textdev->findText (block,nlen,false,true,true,false,sensitive,false,false,&x0,&y0,&x1,&y1))
+ 	#else
+-	while (textdev->findText (block,nlen,gFalse,gTrue,gTrue,gFalse,sensitive,gFalse,&x0,&y0,&x1,&y1))
++	while (textdev->findText (block,nlen,false,true,true,false,sensitive,false,&x0,&y0,&x1,&y1))
+ 	#endif
+ 	{
+ 		if (!THIS->Found)

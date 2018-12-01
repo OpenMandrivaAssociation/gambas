@@ -16,6 +16,7 @@ Source100:	%name.rpmlintrc
 Patch1:		gambas3-3.3.1-iconv.patch
 Patch2:		gambas3-3.3.1-intl.patch
 Patch3:		gambas3-3.11.4-bool.patch
+Patch4:		gambas3-3.11.4-poppler0.71.patch
 BuildRequires:	bzip2-devel
 BuildRequires:	autoconf automake libtool
 BuildRequires:	unixODBC-devel
