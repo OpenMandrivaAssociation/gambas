@@ -42,7 +42,8 @@ BuildRequires:	pkgconfig(gdk-3.0)
 BuildRequires:	gmp-devel
 BuildRequires:	pkgconfig(openal)
 BuildRequires:	pkgconfig(alure)
-
+BuildRequires:	pkgconfig(sm)
+BuildRequires:	pkgconfig(openssl)
 BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(imlib2)
@@ -139,7 +140,7 @@ do
         )
 done
 
-%configure --disable-gtk --disable-qt4 --disable-sdl --disable-sdlsound
+%configure --disable-gtk --disable-qt4 --disable-sdl --disable-sdlsound --disable-sqlite2
 %make
 
 %install
