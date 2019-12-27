@@ -5,7 +5,7 @@
 
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.11.4
+Version:	3.14.2
 Release:	1
 License:	GPLv2+
 Group:		Development/Other
@@ -13,10 +13,9 @@ URL:		http://gambas.sourceforge.net
 Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
-Patch1:		gambas3-3.3.1-iconv.patch
-Patch2:		gambas3-3.3.1-intl.patch
-Patch3:		gambas3-3.11.4-bool.patch
-Patch4:		gambas3-3.11.4-poppler0.71.patch
+
+Patch5:		gambas-poppler-0.83.patch
+
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
 BuildRequires:	autoconf automake libtool
@@ -94,7 +93,7 @@ automatically, and so on...
 
 %prep
 %setup -qn gambas-%version
-%apply_patches
+%autopatch -p1
 
 for i in `find . -name "acinclude.m4"`;
 do
@@ -127,8 +126,6 @@ chmod -x gb.xml/src/xslt/main.cpp
 chmod -x gb.xml/src/xslt/CXSLT.cpp
 
 %build
-export CC=gcc
-export CXX=g++
 
 %setup_compile_flags
 ./reconf-all
@@ -142,10 +139,10 @@ do
 done
 
 %configure --disable-gtk --disable-qt4 --disable-sdl --disable-sdlsound --disable-sqlite2
-%make
+%make_build
 
 %install
-%makeinstall_std
+%make_instal
 
 # Get the SVN noise out of the main tree
 find %{buildroot}%{_datadir}/%{name}/ -type d -name .svn -exec rm -rf {} 2>/dev/null ';' || :
@@ -169,9 +166,6 @@ chmod -x %{buildroot}%{_datadir}/applications/%{name}.desktop
 chmod -x %{buildroot}%{_datadir}/appdata/gambas3.appdata.xml
 chmod -x %{buildroot}%{_libdir}/%{name}/gb.component
 mkdir -p %{buildroot}%{_docdir}
-
-
-
 
 
 #-----------------------------------------------------------------------------
@@ -205,6 +199,7 @@ This package includes the Gambas interpreter needed to run Gambas applications.
 %dir %{_datadir}/%{name}/icons
 %{_datadir}/%{name}/icons/application-x-%{name}.png
 %{_datadir}/appdata/gambas3.appdata.xml
+%{_datadir}/metainfo/%{name}.appdata.xml
 
 #-----------------------------------------------------------------------------
 
@@ -254,6 +249,8 @@ Summary: The Gambas IDE
 Group: Development/Other
 Requires: %{name}-runtime = %{version}
 Requires: %{name}-devel = %{version}
+Requires: gambas3-gb-cairo
+Requires: gambas3-gb-chart
 Requires: %{name}-gb-clipper = %{version}
 Requires: %{name}-gb-db = %{version}
 Requires: %{name}-gb-qt5 = %{version}
@@ -265,6 +262,7 @@ Requires: %{name}-gb-form = %{version}
 Requires: %{name}-gb-form-dialog = %{version}
 Requires: %{name}-gb-form-mdi = %{version}
 Requires: %{name}-gb-form-stock = %{version}
+Requires: %{name}-gb-form-print = %{version}
 Requires: %{name}-gb-gui = %{version}
 Requires: %{name}-gb-term = %{version}
 Requires: %{name}-gb-net = %{version}
@@ -277,6 +275,7 @@ Requires: %{name}-gb-settings = %{version}
 Requires: %{name}-gb-eval-highlight = %{version}
 Requires: %{name}-gb-image = %{version}
 Requires: %{name}-gb-image-effect = %{version}
+Requires: %{name}-gb-jit = %{version}
 Requires: gettext
 Requires: rpm-build
 
@@ -321,6 +320,20 @@ This package contains the Gambas Cario components.
 %doc README ChangeLog
 %{_libdir}/%{name}/gb.cairo.*
 %{_datadir}/%{name}/info/gb.cairo.*
+
+#-----------------------------------------------------------------------------
+
+%package gb-chart
+Summary: The Gambas chart component
+Group: Development/Basic
+Requires: %{name}-runtime = %{version}
+
+%description gb-chart
+This package contains the Gambas Chart components.
+
+%files gb-chart
+%{_libdir}/%{name}/gb.chart.*
+%{_datadir}/%{name}/info/gb.chart.*
 
 #-----------------------------------------------------------------------------
 
@@ -567,6 +580,23 @@ This component implements the form-stock control.
 
 #-----------------------------------------------------------------------------
 
+%package gb-form-print
+Summary: The Gambas print form component
+Group: Development/Basic
+Requires: %{name}-runtime = %{version}
+
+%description gb-form-print
+This component implements the form-print control.
+
+%files gb-form-print
+
+%{_libdir}/%{name}/gb.form.print.component
+%{_libdir}/%{name}/gb.form.print.gambas
+%{_datadir}/%{name}/info/gb.form.print.info
+%{_datadir}/%{name}/info/gb.form.print.list
+
+#-----------------------------------------------------------------------------
+
 %package gb-gsl
 Summary: The Gambas interface to the GNU Scientific Library 
 Group: Development/Other
@@ -594,6 +624,26 @@ gb.gtk in the other cases.
 %doc README ChangeLog
 %{_libdir}/%{name}/gb.gui.*
 %{_datadir}/%{name}/info/gb.gui.*
+
+#-----------------------------------------------------------------------------
+
+%package gb-jit
+Summary: The Gambas JIT component
+Group: Development/Basic
+Requires: %{name}-runtime = %{version}
+
+%description gb-jit
+This component provides the jit compiler for gambas.
+
+%files gb-jit
+
+%{_libdir}/%{name}/gb.jit.so*
+%{_libdir}/%{name}/gb.jit.component
+%{_libdir}/%{name}/gb.jit.gambas
+%{_datadir}/%{name}/info/gb.jit.info
+%{_datadir}/%{name}/info/gb.jit.list
+
+#-----------------------------------------------------------------------------
 
 %package gb-image
 Summary: The Gambas image manipulation component
@@ -1516,8 +1566,6 @@ Is a new component for terminal emulation
 %{_datadir}/%{name}/info/gb.term.*
 
 #-----------------------------------------------------------------------------
-
-
 
 %post runtime
 update-mime-database %{_datadir}/mime &> /dev/null || :
