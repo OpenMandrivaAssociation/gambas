@@ -587,6 +587,23 @@ This component implements the form-stock control.
 
 #-----------------------------------------------------------------------------
 
+%package gb-form-print
+Summary: The Gambas print form component
+Group: Development/Basic
+Requires: %{name}-runtime = %{version}
+
+%description gb-form-print
+This component implements the form-print control.
+
+%files gb-form-print
+
+%{_libdir}/%{name}/gb.form.print.component
+%{_libdir}/%{name}/gb.form.print.gambas
+%{_datadir}/%{name}/info/gb.form.print.info
+%{_datadir}/%{name}/info/gb.form.print.list
+
+#-----------------------------------------------------------------------------
+
 %package gb-gsl
 Summary: The Gambas interface to the GNU Scientific Library 
 Group: Development/Other
