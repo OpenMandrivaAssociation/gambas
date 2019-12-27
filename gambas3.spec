@@ -142,7 +142,7 @@ done
 %make_build
 
 %install
-%make_instal
+%make_install
 
 # Get the SVN noise out of the main tree
 find %{buildroot}%{_datadir}/%{name}/ -type d -name .svn -exec rm -rf {} 2>/dev/null ';' || :
