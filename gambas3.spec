@@ -128,8 +128,8 @@ chmod -x gb.xml/src/xslt/main.cpp
 chmod -x gb.xml/src/xslt/CXSLT.cpp
 
 %build
-export CC=gcc
-export CXX=g++
+#export CC=gcc
+#export CXX=g++
 
 %setup_compile_flags
 ./reconf-all
