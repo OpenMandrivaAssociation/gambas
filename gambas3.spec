@@ -13,11 +13,9 @@ URL:		http://gambas.sourceforge.net
 Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
-#Patch1:		gambas3-3.3.1-iconv.patch
-#Patch2:		gambas3-3.3.1-intl.patch
-#Patch3:		gambas3-3.11.4-bool.patch
-#Patch4:		gambas3-3.11.4-poppler0.71.patch
+
 Patch5:		gambas-poppler-0.83.patch
+
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
 BuildRequires:	autoconf automake libtool
@@ -128,8 +126,6 @@ chmod -x gb.xml/src/xslt/main.cpp
 chmod -x gb.xml/src/xslt/CXSLT.cpp
 
 %build
-#export CC=gcc
-#export CXX=g++
 
 %setup_compile_flags
 ./reconf-all
@@ -143,10 +139,10 @@ do
 done
 
 %configure --disable-gtk --disable-qt4 --disable-sdl --disable-sdlsound --disable-sqlite2
-%make
+%make_build
 
 %install
-%makeinstall_std
+%make_instal
 
 # Get the SVN noise out of the main tree
 find %{buildroot}%{_datadir}/%{name}/ -type d -name .svn -exec rm -rf {} 2>/dev/null ';' || :
@@ -170,9 +166,6 @@ chmod -x %{buildroot}%{_datadir}/applications/%{name}.desktop
 chmod -x %{buildroot}%{_datadir}/appdata/gambas3.appdata.xml
 chmod -x %{buildroot}%{_libdir}/%{name}/gb.component
 mkdir -p %{buildroot}%{_docdir}
-
-
-
 
 
 #-----------------------------------------------------------------------------
@@ -1573,8 +1566,6 @@ Is a new component for terminal emulation
 %{_datadir}/%{name}/info/gb.term.*
 
 #-----------------------------------------------------------------------------
-
-
 
 %post runtime
 update-mime-database %{_datadir}/mime &> /dev/null || :
