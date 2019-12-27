@@ -94,7 +94,7 @@ automatically, and so on...
 
 %prep
 %setup -qn gambas-%version
-%apply_patches
+%autopatch -p1
 
 for i in `find . -name "acinclude.m4"`;
 do
