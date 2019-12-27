@@ -206,6 +206,7 @@ This package includes the Gambas interpreter needed to run Gambas applications.
 %dir %{_datadir}/%{name}/icons
 %{_datadir}/%{name}/icons/application-x-%{name}.png
 %{_datadir}/appdata/gambas3.appdata.xml
+%{_datadir}/metainfo/%{name}.appdata.xml
 
 #-----------------------------------------------------------------------------
 
@@ -266,6 +267,7 @@ Requires: %{name}-gb-form = %{version}
 Requires: %{name}-gb-form-dialog = %{version}
 Requires: %{name}-gb-form-mdi = %{version}
 Requires: %{name}-gb-form-stock = %{version}
+Requires: %{name}-gb-form-print = %{version}
 Requires: %{name}-gb-gui = %{version}
 Requires: %{name}-gb-term = %{version}
 Requires: %{name}-gb-net = %{version}
@@ -278,6 +280,7 @@ Requires: %{name}-gb-settings = %{version}
 Requires: %{name}-gb-eval-highlight = %{version}
 Requires: %{name}-gb-image = %{version}
 Requires: %{name}-gb-image-effect = %{version}
+Requires: %{name}-gb-jit = %{version}
 Requires: gettext
 Requires: rpm-build
 
@@ -322,6 +325,20 @@ This package contains the Gambas Cario components.
 %doc README ChangeLog
 %{_libdir}/%{name}/gb.cairo.*
 %{_datadir}/%{name}/info/gb.cairo.*
+
+#-----------------------------------------------------------------------------
+
+%package gb-chart
+Summary: The Gambas chart component
+Group: Development/Basic
+Requires: %{name}-runtime = %{version}
+
+%description gb-chart
+This package contains the Gambas Chart components.
+
+%files gb-chart
+%{_libdir}/%{name}/gb.chart.*
+%{_datadir}/%{name}/info/gb.chart.*
 
 #-----------------------------------------------------------------------------
 
@@ -500,6 +517,23 @@ This component implements the eval-highlight componet.
 
 %package gb-form
 Summary: The Gambas dialog form component
+Group: Development/Basic
+Requires: %{name}-runtime = %{version}
+
+%description gb-form
+This component implements the form control.
+
+%files gb-form
+%{_libdir}/%{name}/gb.form.component
+%{_libdir}/%{name}/gb.form.gambas
+%{_datadir}/%{name}/control/gb.form
+%{_datadir}/%{name}/info/gb.form.info
+%{_datadir}/%{name}/info/gb.form.list
+
+#-----------------------------------------------------------------------------
+
+%package gb-form
+Summary: The Gambas dialog form component
 Group: Development/Other
 Requires: %{name}-runtime = %{version}
 
@@ -595,6 +629,26 @@ gb.gtk in the other cases.
 %doc README ChangeLog
 %{_libdir}/%{name}/gb.gui.*
 %{_datadir}/%{name}/info/gb.gui.*
+
+#-----------------------------------------------------------------------------
+
+%package gb-jit
+Summary: The Gambas JIT component
+Group: Development/Basic
+Requires: %{name}-runtime = %{version}
+
+%description gb-jit
+This component provides the jit compiler for gambas.
+
+%files gb-jit
+
+%{_libdir}/%{name}/gb.jit.so*
+%{_libdir}/%{name}/gb.jit.component
+%{_libdir}/%{name}/gb.jit.gambas
+%{_datadir}/%{name}/info/gb.jit.info
+%{_datadir}/%{name}/info/gb.jit.list
+
+#-----------------------------------------------------------------------------
 
 %package gb-image
 Summary: The Gambas image manipulation component
