@@ -17,6 +17,7 @@ Source100:	%name.rpmlintrc
 #Patch2:		gambas3-3.3.1-intl.patch
 #Patch3:		gambas3-3.11.4-bool.patch
 #Patch4:		gambas3-3.11.4-poppler0.71.patch
+Patch5:		gambas-poppler-0.83.patch
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
 BuildRequires:	autoconf automake libtool
