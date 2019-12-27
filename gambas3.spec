@@ -13,7 +13,7 @@ URL:		http://gambas.sourceforge.net
 Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
-Patch1:		gambas3-3.3.1-iconv.patch
+#Patch1:		gambas3-3.3.1-iconv.patch
 Patch2:		gambas3-3.3.1-intl.patch
 Patch3:		gambas3-3.11.4-bool.patch
 Patch4:		gambas3-3.11.4-poppler0.71.patch
