@@ -256,6 +256,8 @@ Summary: The Gambas IDE
 Group: Development/Other
 Requires: %{name}-runtime = %{version}
 Requires: %{name}-devel = %{version}
+Requires: gambas3-gb-cairo
+Requires: gambas3-gb-chart
 Requires: %{name}-gb-clipper = %{version}
 Requires: %{name}-gb-db = %{version}
 Requires: %{name}-gb-qt5 = %{version}
@@ -512,23 +514,6 @@ This component implements the eval-highlight componet.
 %doc README ChangeLog
 %{_libdir}/%{name}/gb.eval.highlight.*
 %{_datadir}/%{name}/info/gb.eval.highlight.*
-
-#-----------------------------------------------------------------------------
-
-%package gb-form
-Summary: The Gambas dialog form component
-Group: Development/Basic
-Requires: %{name}-runtime = %{version}
-
-%description gb-form
-This component implements the form control.
-
-%files gb-form
-%{_libdir}/%{name}/gb.form.component
-%{_libdir}/%{name}/gb.form.gambas
-%{_datadir}/%{name}/control/gb.form
-%{_datadir}/%{name}/info/gb.form.info
-%{_datadir}/%{name}/info/gb.form.list
 
 #-----------------------------------------------------------------------------
 
