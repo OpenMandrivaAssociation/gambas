@@ -5,7 +5,7 @@
 
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.14.2
+Version:	3.14.3
 Release:	1
 License:	GPLv2+
 Group:		Development/Other
@@ -14,7 +14,7 @@ Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
 
-Patch5:		gambas-poppler-0.83.patch
+#Patch5:		gambas-poppler-0.83.patch
 
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
