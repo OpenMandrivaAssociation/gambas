@@ -217,7 +217,7 @@ without having to install the complete development environment.
 %{_bindir}/gba3
 %{_bindir}/gbi3
 # help will not compile reported upstream.
-%ifarch %{ix86}
+%ifarch %{ix86} %{arm}
 %{_bindir}/gbh3
 %{_bindir}/gbh3.gambas
 %endif
