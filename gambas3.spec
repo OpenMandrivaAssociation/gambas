@@ -14,7 +14,7 @@ Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
 
-Patch5:		gambas-poppler-0.83.patch
+#Patch5:		gambas-poppler-0.83.patch
 
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
