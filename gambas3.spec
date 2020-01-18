@@ -5,7 +5,7 @@
 
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.14.2
+Version:	3.14.3
 Release:	1
 License:	GPLv2+
 Group:		Development/Other
