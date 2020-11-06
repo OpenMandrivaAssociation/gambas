@@ -62,6 +62,7 @@ BuildRequires:  pkgconfig(gnome-keyring-1)
 BuildRequires:  pkgconfig(libpcre)
 BuildRequires:  pkgconfig(ice)
 BuildRequires:  pkgconfig(dbus-1)
+BuildRequires:  pkgconfig(poppler-glib)
 
 BuildRequires:	qt5-devel
 BuildRequires:	pkgconfig(Qt5WebKit)
