@@ -14,8 +14,6 @@ Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
 
-#Patch5:		gambas-poppler-0.83.patch
-
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
 BuildRequires:	autoconf automake libtool
@@ -207,6 +205,9 @@ This package includes the Gambas interpreter needed to run Gambas applications.
 %{_mandir}/man1/gbs3.1*
 %{_mandir}/man1/gbw3.1*
 %{_mandir}/man1/%{name}.1*
+%{_mandir}/man1/gbh3.1.*
+%{_mandir}/man1/gbr3.1.*
+%{_mandir}/man1/gbx3.1.*
 
 #-----------------------------------------------------------------------------
 
