@@ -364,8 +364,8 @@ This component allows you to use cryptography in your projects.
 %files gb-crypt
 %doc README ChangeLog
 %ifnarch %{ix86} %{arm}
-%{_libdir}/%{name}/gb.crypt.*
-%{_datadir}/%{name}/info/gb.crypt.*
+#{_libdir}/%{name}/gb.crypt.*
+#{_datadir}/%{name}/info/gb.crypt.*
 %endif
 
 #-----------------------------------------------------------------------------
