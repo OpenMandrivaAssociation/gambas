@@ -5,7 +5,7 @@
 
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.14.3
+Version:	3.15.2
 Release:	1
 License:	GPLv2+
 Group:		Development/Other
@@ -13,8 +13,6 @@ URL:		http://gambas.sourceforge.net
 Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
-
-#Patch5:		gambas-poppler-0.83.patch
 
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
@@ -62,6 +60,7 @@ BuildRequires:  pkgconfig(gnome-keyring-1)
 BuildRequires:  pkgconfig(libpcre)
 BuildRequires:  pkgconfig(ice)
 BuildRequires:  pkgconfig(dbus-1)
+BuildRequires:  pkgconfig(poppler-glib)
 
 BuildRequires:	qt5-devel
 BuildRequires:	pkgconfig(Qt5WebKit)
@@ -200,6 +199,15 @@ This package includes the Gambas interpreter needed to run Gambas applications.
 %{_datadir}/%{name}/icons/application-x-%{name}.png
 %{_datadir}/appdata/gambas3.appdata.xml
 %{_datadir}/metainfo/%{name}.appdata.xml
+%{_mandir}/man1/gbc3.1*
+%{_mandir}/man1/gba3.1*
+%{_mandir}/man1/gbi3.1*
+%{_mandir}/man1/gbs3.1*
+%{_mandir}/man1/gbw3.1*
+%{_mandir}/man1/%{name}.1*
+%{_mandir}/man1/gbh3.1.*
+%{_mandir}/man1/gbr3.1.*
+%{_mandir}/man1/gbx3.1.*
 
 #-----------------------------------------------------------------------------
 
@@ -253,6 +261,7 @@ Requires: gambas3-gb-cairo
 Requires: gambas3-gb-chart
 Requires: %{name}-gb-clipper = %{version}
 Requires: %{name}-gb-db = %{version}
+Requires: gambas3-gb-poppler = %{version}
 Requires: %{name}-gb-qt5 = %{version}
 Requires: %{name}-gb-qt5-ext = %{version}
 Requires: %{name}-gb-qt5-webkit = %{version}
@@ -265,6 +274,7 @@ Requires: %{name}-gb-form-stock = %{version}
 Requires: %{name}-gb-form-print = %{version}
 Requires: %{name}-gb-gui = %{version}
 Requires: %{name}-gb-term = %{version}
+Requires: gambas3-gb-test = %{version}
 Requires: %{name}-gb-net = %{version}
 Requires: %{name}-gb-net-curl = %{version}
 Requires: %{name}-gb-markdown = %{version}
@@ -276,6 +286,7 @@ Requires: %{name}-gb-eval-highlight = %{version}
 Requires: %{name}-gb-image = %{version}
 Requires: %{name}-gb-image-effect = %{version}
 Requires: %{name}-gb-jit = %{version}
+Requires: gambas3-gb-web-gui = %{version}
 Requires: gettext
 Requires: rpm-build
 
@@ -353,20 +364,20 @@ the bzip2 and zip algorithms.
 
 #-----------------------------------------------------------------------------
 
-%package gb-crypt
-Summary: The Gambas cryptography component
-Group: Development/Other
-Requires: %{name}-runtime = %{version}
-
-%description gb-crypt
-This component allows you to use cryptography in your projects.
-
-%files gb-crypt
-%doc README ChangeLog
-%ifnarch %{ix86} %{arm}
-%{_libdir}/%{name}/gb.crypt.*
-%{_datadir}/%{name}/info/gb.crypt.*
-%endif
+#%package gb-crypt
+#Summary: The Gambas cryptography component
+#Group: Development/Other
+#Requires: %{name}-runtime = %{version}
+#
+#%description gb-crypt
+#This component allows you to use cryptography in your projects.
+#
+#%files gb-crypt
+#%doc README ChangeLog
+#%ifnarch %{ix86} %{arm}
+#{_libdir}/%{name}/gb.crypt.*
+#{_datadir}/%{name}/info/gb.crypt.*
+#%endif
 
 #-----------------------------------------------------------------------------
 
@@ -929,6 +940,21 @@ This components allows you to deal with configuration files.
 
 #-----------------------------------------------------------------------------
 
+%package gb-poppler
+Summary: The Gambas Poppler component
+Group: Development/Basic
+Requires: %{name}-runtime = %{version}
+
+%description gb-poppler
+This component allows you to manipulate pdf files with Gambas code.
+ 
+%files gb-poppler
+
+%{_libdir}/%{name}/gb.poppler.*
+%{_datadir}/%{name}/info/gb.poppler.*
+ 
+#-----------------------------------------------------------------------------
+
 %package gb-signal
 Summary: The Gambas signal component
 Group: Development/Other
@@ -941,6 +967,42 @@ This package contains the Gambas Signal components.
 %doc README ChangeLog
 %{_libdir}/%{name}/gb.signal.*
 %{_datadir}/%{name}/info/gb.signal.*
+
+#-----------------------------------------------------------------------------
+
+%package gb-test
+Summary: The Gambas Test component
+Group: Development/Basic
+Requires: %{name}-runtime = %{version}
+
+%description gb-test
+This package contains the Gambas Test components.
+ 
+%files gb-test
+ 
+%{_libdir}/%{name}/gb.test.*
+%{_datadir}/%{name}/info/gb.test.info
+%{_datadir}/%{name}/info/gb.test.list
+ 
+#-----------------------------------------------------------------------------
+
+%package gb-web-gui
+Summary: The Gambas CGI web-gui component
+Group: Development/Basic
+Requires: %{name}-runtime = %{version}
+Requires: %{name}-gb-web = %{version}
+
+%description gb-web-gui
+This components allows you to make CGI web-gui applications using Gambas,
+with an ASP-like interface.
+ 	 
+%files gb-web-gui
+ 
+%{_libdir}/%{name}/gb.web.gui.component
+%{_libdir}/%{name}/gb.web.gui.gambas
+%{_datadir}/%{name}/info/gb.web.gui.info
+%{_datadir}/%{name}/info/gb.web.gui.list
+%{_datadir}/%{name}/control/gb.web.gui/
 
 #-----------------------------------------------------------------------------
 
