@@ -364,20 +364,20 @@ the bzip2 and zip algorithms.
 
 #-----------------------------------------------------------------------------
 
-#%package gb-crypt
-#Summary: The Gambas cryptography component
-#Group: Development/Other
-#Requires: %{name}-runtime = %{version}
-#
-#%description gb-crypt
-#This component allows you to use cryptography in your projects.
-#
-#%files gb-crypt
-#%doc README ChangeLog
-#%ifnarch %{ix86} %{arm}
-#{_libdir}/%{name}/gb.crypt.*
-#{_datadir}/%{name}/info/gb.crypt.*
-#%endif
+%package gb-crypt
+Summary: The Gambas cryptography component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-crypt
+This component allows you to use cryptography in your projects.
+
+%files gb-crypt
+%doc README ChangeLog
+%ifarch %{arm} %{armx}
+%{_libdir}/%{name}/gb.crypt.*
+%{_datadir}/%{name}/info/gb.crypt.*
+%endif
 
 #-----------------------------------------------------------------------------
 
