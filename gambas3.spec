@@ -13,6 +13,7 @@ URL:		http://gambas.sourceforge.net
 Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
+Patch1:		gambas-poppler-20.12.patch
 
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
