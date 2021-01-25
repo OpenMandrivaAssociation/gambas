@@ -6,7 +6,7 @@
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
 Version:	3.15.2
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
@@ -81,7 +81,6 @@ BuildRequires:	spec-helper >= 0.31.31-2
 BuildRequires:  llvm-devel
 BuildRequires:  pkgconfig(gstreamer-1.0) >= 0.10.36
 BuildRequires:  pkgconfig(gstreamer-app-1.0) >= 0.10.36
-
 
 %description
 Gambas is a free development environment based on a Basic interpreter
@@ -258,11 +257,11 @@ Summary: The Gambas IDE
 Group: Development/Other
 Requires: %{name}-runtime = %{version}
 Requires: %{name}-devel = %{version}
-Requires: gambas3-gb-cairo
-Requires: gambas3-gb-chart
+Requires: %{name}-gb-cairo
+Requires: %{name}-gb-chart
 Requires: %{name}-gb-clipper = %{version}
 Requires: %{name}-gb-db = %{version}
-Requires: gambas3-gb-poppler = %{version}
+Requires: %{name}-gb-poppler = %{version}
 Requires: %{name}-gb-qt5 = %{version}
 Requires: %{name}-gb-qt5-ext = %{version}
 Requires: %{name}-gb-qt5-webkit = %{version}
@@ -275,7 +274,7 @@ Requires: %{name}-gb-form-stock = %{version}
 Requires: %{name}-gb-form-print = %{version}
 Requires: %{name}-gb-gui = %{version}
 Requires: %{name}-gb-term = %{version}
-Requires: gambas3-gb-test = %{version}
+Requires: %{name}-gb-test = %{version}
 Requires: %{name}-gb-net = %{version}
 Requires: %{name}-gb-net-curl = %{version}
 Requires: %{name}-gb-markdown = %{version}
@@ -287,7 +286,9 @@ Requires: %{name}-gb-eval-highlight = %{version}
 Requires: %{name}-gb-image = %{version}
 Requires: %{name}-gb-image-effect = %{version}
 Requires: %{name}-gb-jit = %{version}
-Requires: gambas3-gb-web-gui = %{version}
+Requires: %{name}-gb-form-terminal = %{EVRD}
+Requires: %{name}-gb-form-editor = %{EVRD}
+Requires: %{name}-gb-web-gui = %{version}
 Requires: gettext
 Requires: rpm-build
 
