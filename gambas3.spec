@@ -6,7 +6,7 @@
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
 Version:	3.15.2
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
@@ -82,6 +82,9 @@ BuildRequires:  llvm-devel
 BuildRequires:  pkgconfig(gstreamer-1.0) >= 0.10.36
 BuildRequires:  pkgconfig(gstreamer-app-1.0) >= 0.10.36
 
+# Without those, gambas doesn't start up
+Requires:	%{name}-gb-form-terminal = %{EVRD}
+Requires:	%{name}-gb-form-editor = %{EVRD}
 
 %description
 Gambas is a free development environment based on a Basic interpreter
