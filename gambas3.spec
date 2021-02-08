@@ -62,6 +62,7 @@ BuildRequires:  pkgconfig(libpcre)
 BuildRequires:  pkgconfig(ice)
 BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(poppler-glib)
+BuildRequires:	pkgconfig(libxcrypt)
 
 BuildRequires:	qt5-devel
 BuildRequires:	pkgconfig(Qt5WebKit)
