@@ -6,7 +6,7 @@
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
 Version:	3.15.2
-Release:	4
+Release:	5
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
