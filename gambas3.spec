@@ -6,7 +6,7 @@
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
 Version:	3.15.2
-Release:	5
+Release:	6
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
@@ -173,6 +173,8 @@ mkdir -p %{buildroot}%{_docdir}
 %package runtime
 Summary: The Gambas runtime
 Group: Development/Other
+# The JIT needs a working C/C++ compiler and glibc
+Requires: task-devel
 
 %description runtime
 This package includes the Gambas interpreter needed to run Gambas applications.
