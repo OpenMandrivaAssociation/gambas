@@ -5,15 +5,14 @@
 
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.15.2
-Release:	6
+Version:	3.16.0
+Release:	1
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
 Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
-Patch1:		gambas-poppler-20.12.patch
 
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
@@ -198,8 +197,6 @@ This package includes the Gambas interpreter needed to run Gambas applications.
 %{_datadir}/%{name}/info/gb.eval.list
 %{_datadir}/%{name}/info/gb.eval.info
 %{_datadir}/%{name}/template
-%dir %{_datadir}/%{name}/icons
-%{_datadir}/%{name}/icons/application-x-%{name}.png
 %{_datadir}/appdata/gambas3.appdata.xml
 %{_datadir}/metainfo/%{name}.appdata.xml
 %{_mandir}/man1/gbc3.1*
@@ -227,11 +224,8 @@ without having to install the complete development environment.
 %{_bindir}/gbc3
 %{_bindir}/gba3
 %{_bindir}/gbi3
-# help will not compile reported upstream.
-%ifarch %{ix86} %{arm}
 %{_bindir}/gbh3
 %{_bindir}/gbh3.gambas
-%endif
 
 #-----------------------------------------------------------------------------
 
@@ -250,8 +244,6 @@ in Gambas.
 %{_bindir}/gbs3
 %{_bindir}/gbs3.gambas
 %{_bindir}/gbw3
-%{_datadir}/%{name}/icons/application-x-gambasserverpage.png
-%{_datadir}/%{name}/icons/application-x-gambasscript.png
 
 #-----------------------------------------------------------------------------
 
@@ -379,10 +371,8 @@ This component allows you to use cryptography in your projects.
 
 %files gb-crypt
 %doc README ChangeLog
-%ifarch %{arm} %{armx}
 %{_libdir}/%{name}/gb.crypt.*
 %{_datadir}/%{name}/info/gb.crypt.*
-%endif
 
 #-----------------------------------------------------------------------------
 
@@ -1319,9 +1309,20 @@ This package includes the Gambas QT GUI component.
 %doc README  ChangeLog
 %{_libdir}/%{name}/gb.qt5.component
 %{_libdir}/%{name}/gb.qt5.so*
+%{_libdir}/%{name}/gb.qt5.wayland.component
+%{_libdir}/%{name}/gb.qt5.wayland.so*
+%{_libdir}/%{name}/gb.qt5.x11.component
+%{_libdir}/%{name}/gb.qt5.x11.so*
+%{_libdir}/%{name}/gb.qt5.webview.component
+%{_libdir}/%{name}/gb.qt5.webview.so*
+%{_datadir}/%{name}/info/gb.qt5.webview.info
+%{_datadir}/%{name}/info/gb.qt5.webview.list
+%{_datadir}/%{name}/info/gb.qt5.wayland.info
+%{_datadir}/%{name}/info/gb.qt5.wayland.list
+%{_datadir}/%{name}/info/gb.qt5.x11.info
+%{_datadir}/%{name}/info/gb.qt5.x11.list
 %{_datadir}/%{name}/info/gb.qt5.info
 %{_datadir}/%{name}/info/gb.qt5.list
-
 
 #-----------------------------------------------------------------------------
 
@@ -1411,6 +1412,18 @@ Gambas3 component package for gtk3.
 %doc README  ChangeLog
 %{_libdir}/%{name}/gb.gtk3.component
 %{_libdir}/%{name}/gb.gtk3.so*
+%{_libdir}/%{name}/gb.gtk3.wayland.component
+%{_libdir}/%{name}/gb.gtk3.wayland.so*
+%{_libdir}/%{name}/gb.gtk3.webview.component
+%{_libdir}/%{name}/gb.gtk3.webview.so*
+%{_libdir}/%{name}/gb.gtk3.x11.component
+%{_libdir}/%{name}/gb.gtk3.x11.so*
+%{_datadir}/%{name}/info/gb.gtk3.wayland.info
+%{_datadir}/%{name}/info/gb.gtk3.wayland.list
+%{_datadir}/%{name}/info/gb.gtk3.webview.info
+%{_datadir}/%{name}/info/gb.gtk3.webview.list
+%{_datadir}/%{name}/info/gb.gtk3.x11.info
+%{_datadir}/%{name}/info/gb.gtk3.x11.list
 %{_datadir}/%{name}/info/gb.gtk3.info
 %{_datadir}/%{name}/info/gb.gtk3.list
 
