@@ -294,7 +294,7 @@ database manager, the help files, and all components.
 %files ide 
 %doc README ChangeLog
 %{_bindir}/%{name}
-%{_bindir}/%{name}.gambas
+#{_bindir}/%{name}.gambas
 %{_datadir}/applications/%{name}.desktop
 %{_iconsdir}/hicolor/*/*/%{name}.png
 %{_datadir}/pixmaps/%{name}.png
