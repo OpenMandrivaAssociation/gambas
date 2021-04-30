@@ -904,21 +904,6 @@ This components allows you to deal with configuration files.
 
 #-----------------------------------------------------------------------------
 
-%package gb-poppler
-Summary: The Gambas Poppler component
-Group: Development/Basic
-Requires: %{name}-runtime = %{version}
-
-%description gb-poppler
-This component allows you to manipulate pdf files with Gambas code.
- 
-%files gb-poppler
-
-%{_libdir}/%{name}/gb.poppler.*
-%{_datadir}/%{name}/info/gb.poppler.*
- 
-#-----------------------------------------------------------------------------
-
 %package gb-signal
 Summary: The Gambas signal component
 Group: Development/Other
