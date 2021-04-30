@@ -301,21 +301,6 @@ database manager, the help files, and all components.
 
 #-----------------------------------------------------------------------------
 
-#%package examples
-#Summary: The Gambas examples
-#Group: Development/Other
-#BuildArch: noarch
-#Requires: %{name}-ide = %{version}
-
-#%description examples
-#This package includes all the example projects provided with Gambas.
-
-#%files examples
-#%doc README ChangeLog
-#%{_datadir}/%{name}/examples
-
-#-----------------------------------------------------------------------------
-
 %package gb-cairo
 Summary: The Gambas Cairo component
 Group: Development/Other
@@ -360,22 +345,6 @@ the bzip2 and zip algorithms.
 %{_datadir}/%{name}/info/gb.compress.*
 
 #-----------------------------------------------------------------------------
-
-%package gb-crypt
-Summary: The Gambas cryptography component
-Group: Development/Other
-Requires: %{name}-runtime = %{version}
-
-%description gb-crypt
-This component allows you to use cryptography in your projects.
-
-%files gb-crypt
-%doc README ChangeLog
-%{_libdir}/%{name}/gb.crypt.*
-%{_datadir}/%{name}/info/gb.crypt.*
-
-#-----------------------------------------------------------------------------
-
 %package gb-db
 Summary: The Gambas database component
 Group: Development/Other
