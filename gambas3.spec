@@ -1261,16 +1261,12 @@ This package includes the Gambas QT GUI component.
 
 %files gb-qt5
 %doc README  ChangeLog
-%{_libdir}/%{name}/gb.qt5.component
-%{_libdir}/%{name}/gb.qt5.so*
 %{_libdir}/%{name}/gb.qt5.wayland.component
 %{_libdir}/%{name}/gb.qt5.wayland.so*
 %{_libdir}/%{name}/gb.qt5.x11.component
 %{_libdir}/%{name}/gb.qt5.x11.so*
 %{_libdir}/%{name}/gb.qt5.webview.component
 %{_libdir}/%{name}/gb.qt5.webview.so*
-%{_datadir}/%{name}/info/gb.qt5.webview.info
-%{_datadir}/%{name}/info/gb.qt5.webview.list
 %{_datadir}/%{name}/info/gb.qt5.wayland.info
 %{_datadir}/%{name}/info/gb.qt5.wayland.list
 %{_datadir}/%{name}/info/gb.qt5.x11.info
