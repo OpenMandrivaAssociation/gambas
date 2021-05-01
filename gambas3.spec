@@ -256,7 +256,6 @@ Requires: %{name}-gb-cairo
 Requires: %{name}-gb-chart
 Requires: %{name}-gb-clipper = %{version}
 Requires: %{name}-gb-db = %{version}
-Requires: %{name}-gb-poppler = %{version}
 Requires: %{name}-gb-qt5 = %{version}
 Requires: %{name}-gb-qt5-ext = %{version}
 Requires: %{name}-gb-qt5-webkit = %{version}
