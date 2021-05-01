@@ -256,7 +256,6 @@ Requires: %{name}-gb-cairo
 Requires: %{name}-gb-chart
 Requires: %{name}-gb-clipper = %{version}
 Requires: %{name}-gb-db = %{version}
-Requires: %{name}-gb-poppler = %{version}
 Requires: %{name}-gb-qt5 = %{version}
 Requires: %{name}-gb-qt5-ext = %{version}
 Requires: %{name}-gb-qt5-webkit = %{version}
@@ -294,25 +293,10 @@ database manager, the help files, and all components.
 %files ide 
 %doc README ChangeLog
 %{_bindir}/%{name}
-%{_bindir}/%{name}.gambas
+#{_bindir}/%{name}.gambas
 %{_datadir}/applications/%{name}.desktop
 %{_iconsdir}/hicolor/*/*/%{name}.png
 %{_datadir}/pixmaps/%{name}.png
-
-#-----------------------------------------------------------------------------
-
-#%package examples
-#Summary: The Gambas examples
-#Group: Development/Other
-#BuildArch: noarch
-#Requires: %{name}-ide = %{version}
-
-#%description examples
-#This package includes all the example projects provided with Gambas.
-
-#%files examples
-#%doc README ChangeLog
-#%{_datadir}/%{name}/examples
 
 #-----------------------------------------------------------------------------
 
@@ -360,22 +344,6 @@ the bzip2 and zip algorithms.
 %{_datadir}/%{name}/info/gb.compress.*
 
 #-----------------------------------------------------------------------------
-
-%package gb-crypt
-Summary: The Gambas cryptography component
-Group: Development/Other
-Requires: %{name}-runtime = %{version}
-
-%description gb-crypt
-This component allows you to use cryptography in your projects.
-
-%files gb-crypt
-%doc README ChangeLog
-%{_libdir}/%{name}/gb.crypt.*
-%{_datadir}/%{name}/info/gb.crypt.*
-
-#-----------------------------------------------------------------------------
-
 %package gb-db
 Summary: The Gambas database component
 Group: Development/Other
@@ -935,21 +903,6 @@ This components allows you to deal with configuration files.
 
 #-----------------------------------------------------------------------------
 
-%package gb-poppler
-Summary: The Gambas Poppler component
-Group: Development/Basic
-Requires: %{name}-runtime = %{version}
-
-%description gb-poppler
-This component allows you to manipulate pdf files with Gambas code.
- 
-%files gb-poppler
-
-%{_libdir}/%{name}/gb.poppler.*
-%{_datadir}/%{name}/info/gb.poppler.*
- 
-#-----------------------------------------------------------------------------
-
 %package gb-signal
 Summary: The Gambas signal component
 Group: Development/Other
@@ -1313,10 +1266,6 @@ This package includes the Gambas QT GUI component.
 %{_libdir}/%{name}/gb.qt5.wayland.so*
 %{_libdir}/%{name}/gb.qt5.x11.component
 %{_libdir}/%{name}/gb.qt5.x11.so*
-%{_libdir}/%{name}/gb.qt5.webview.component
-%{_libdir}/%{name}/gb.qt5.webview.so*
-%{_datadir}/%{name}/info/gb.qt5.webview.info
-%{_datadir}/%{name}/info/gb.qt5.webview.list
 %{_datadir}/%{name}/info/gb.qt5.wayland.info
 %{_datadir}/%{name}/info/gb.qt5.wayland.list
 %{_datadir}/%{name}/info/gb.qt5.x11.info
@@ -1414,14 +1363,10 @@ Gambas3 component package for gtk3.
 %{_libdir}/%{name}/gb.gtk3.so*
 %{_libdir}/%{name}/gb.gtk3.wayland.component
 %{_libdir}/%{name}/gb.gtk3.wayland.so*
-%{_libdir}/%{name}/gb.gtk3.webview.component
-%{_libdir}/%{name}/gb.gtk3.webview.so*
 %{_libdir}/%{name}/gb.gtk3.x11.component
 %{_libdir}/%{name}/gb.gtk3.x11.so*
 %{_datadir}/%{name}/info/gb.gtk3.wayland.info
 %{_datadir}/%{name}/info/gb.gtk3.wayland.list
-%{_datadir}/%{name}/info/gb.gtk3.webview.info
-%{_datadir}/%{name}/info/gb.gtk3.webview.list
 %{_datadir}/%{name}/info/gb.gtk3.x11.info
 %{_datadir}/%{name}/info/gb.gtk3.x11.list
 %{_datadir}/%{name}/info/gb.gtk3.info
