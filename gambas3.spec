@@ -1261,6 +1261,8 @@ This package includes the Gambas QT GUI component.
 
 %files gb-qt5
 %doc README  ChangeLog
+%{_libdir}/%{name}/gb.qt5.component
+%{_libdir}/%{name}/gb.qt5.so*
 %{_libdir}/%{name}/gb.qt5.wayland.component
 %{_libdir}/%{name}/gb.qt5.wayland.so*
 %{_libdir}/%{name}/gb.qt5.x11.component
