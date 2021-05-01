@@ -1362,14 +1362,10 @@ Gambas3 component package for gtk3.
 %{_libdir}/%{name}/gb.gtk3.so*
 %{_libdir}/%{name}/gb.gtk3.wayland.component
 %{_libdir}/%{name}/gb.gtk3.wayland.so*
-%{_libdir}/%{name}/gb.gtk3.webview.component
-%{_libdir}/%{name}/gb.gtk3.webview.so*
 %{_libdir}/%{name}/gb.gtk3.x11.component
 %{_libdir}/%{name}/gb.gtk3.x11.so*
 %{_datadir}/%{name}/info/gb.gtk3.wayland.info
 %{_datadir}/%{name}/info/gb.gtk3.wayland.list
-%{_datadir}/%{name}/info/gb.gtk3.webview.info
-%{_datadir}/%{name}/info/gb.gtk3.webview.list
 %{_datadir}/%{name}/info/gb.gtk3.x11.info
 %{_datadir}/%{name}/info/gb.gtk3.x11.list
 %{_datadir}/%{name}/info/gb.gtk3.info
