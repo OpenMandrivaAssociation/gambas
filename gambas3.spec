@@ -1,11 +1,11 @@
-%define debug_package	%{nil}
+#define debug_package	%{nil}
 %define _disable_rebuild_configure 1
 %define _disable_ld_no_undefined 1
 %define Werror_cflags %nil
 
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.16.0
+Version:	3.16.1
 Release:	1
 License:	GPLv2+
 Group:		Development/Other
