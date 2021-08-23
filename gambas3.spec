@@ -70,6 +70,7 @@ BuildRequires:	qt5-devel
 BuildRequires:	pkgconfig(Qt5WebKit)
 BuildRequires:	pkgconfig(Qt5WebView)
 BuildRequires:	pkgconfig(Qt5WebKitWidgets)
+BuildRequires:	pkgconfig(Qt5WebEngineWidgets)
 BuildRequires:	pkgconfig(Qt5X11Extras)
 BuildRequires:	qt5-macros
 BuildRequires:	qt5-qtbase-devel
