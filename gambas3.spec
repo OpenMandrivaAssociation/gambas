@@ -5,7 +5,7 @@
 
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.16.1
+Version:	3.16.2
 Release:	1
 License:	GPLv2+
 Group:		Development/Other
@@ -34,6 +34,7 @@ BuildRequires:	pkgconfig(SDL2_image)
 BuildRequires:	pkgconfig(SDL2_ttf)
 BuildRequires:	pkgconfig(sdl2)
 #
+BuildRequires:	pkgconfig(libcpuid)
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(gdk-2.0)
 BuildRequires:	pkgconfig(gdk-3.0)
@@ -62,9 +63,12 @@ BuildRequires:  pkgconfig(ice)
 BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(poppler-glib)
 BuildRequires:	pkgconfig(libxcrypt)
+BuildRequires:	pkgconfig(gtk+-3.0)
+BuildRequires:	pkgconfig(webkit2gtk-4.0)
 
 BuildRequires:	qt5-devel
 BuildRequires:	pkgconfig(Qt5WebKit)
+BuildRequires:	pkgconfig(Qt5WebView)
 BuildRequires:	pkgconfig(Qt5WebKitWidgets)
 BuildRequires:	pkgconfig(Qt5X11Extras)
 BuildRequires:	qt5-macros
@@ -91,9 +95,7 @@ create network applications easily, build RPMs of your apps
 automatically, and so on...
 
 %prep
-%setup -qn gambas-%version
-%autopatch -p1
-
+%autosetup -p1 -n gambas-%version
 for i in `find . -name "acinclude.m4"`;
 do
 	sed -i -e 's|AM_CONFIG_HEADER|AC_CONFIG_HEADERS|g' ${i}
@@ -293,7 +295,7 @@ database manager, the help files, and all components.
 %files ide 
 %doc README ChangeLog
 %{_bindir}/%{name}
-#{_bindir}/%{name}.gambas
+%{_bindir}/%{name}.gambas
 %{_datadir}/applications/%{name}.desktop
 %{_iconsdir}/hicolor/*/*/%{name}.png
 %{_datadir}/pixmaps/%{name}.png
@@ -1319,6 +1321,19 @@ This package contains the Gambas qt-webkit components.
 %{_datadir}/%{name}/info/gb.qt5.webkit.*
 %{_datadir}/%{name}/control/gb.qt5.webkit
 #-----------------------------------------------------------------------------
+%package gb-qt5-webview
+Summary: The Gambas qt-webview component
+Group: Development/Other
+Requires: %{name}-runtime = %{EVRD}
+
+%description gb-qt5-webview
+This package contains the Gambas qt-webview components.
+
+%files gb-qt5-webview
+%{_libdir}/gambas3/gb.qt5.webview.component
+%{_libdir}/gambas3/gb.qt5.webview.so*
+%{_datadir}/gambas3/info/gb.qt5.webview.*
+#-----------------------------------------------------------------------------
 
 %package gb-clipper
 Summary: The gambas clipboard component
@@ -1372,6 +1387,19 @@ Gambas3 component package for gtk3.
 %{_datadir}/%{name}/info/gb.gtk3.info
 %{_datadir}/%{name}/info/gb.gtk3.list
 
+#---------------------------------------------------------------------------
+%package gb-gtk3-webview
+Summary:	Gambas3 component package for gtk3 WebView
+Group:		Development/Other
+Requires:	%{name}-runtime = %{EVRD}
+
+%description gb-gtk3-webview
+Gambas3 component package for gtk3-WebView
+
+%files gb-gtk3-webview
+%{_libdir}/gambas3/gb.gtk3.webview.component
+%{_libdir}/gambas3/gb.gtk3.webview.so*
+%{_datadir}/gambas3/info/gb.gtk3.webview.*
 #-----------------------------------------------------------------------------
 %package gb-inotify
 Summary:       Gambas3 component package for inotify
@@ -1450,6 +1478,20 @@ Component that implements a simple OpenGL game engine based on the MD2 format.
 %{_libdir}/%{name}/gb.opengl.sge.*
 %dir %{_datadir}/%{name}/info
 %{_datadir}/%{name}/info/gb.opengl.sge.*
+
+#---------------------------------------------------------------------------
+%package gb-crypt
+Summary:       Gambas3 component package for cryptography
+Group:   Development/Other
+Requires:      %{name}-runtime = %{EVRD}
+
+%description gb-crypt
+Component to wrap cryptographic functions
+
+%files gb-crypt
+%{_libdir}/gambas3/gb.crypt.component
+%{_libdir}/gambas3/gb.crypt.so*
+%{_datadir}/gambas3/info/gb.crypt.*
 
 #---------------------------------------------------------------------------
 %package gb-openssl
@@ -1578,7 +1620,6 @@ Is a new component based on SANE to help dealing with scanners.
 %{_datadir}/%{name}/info/gb.scanner.list
 
 #-----------------------------------------------------------------------------
-
 %package gb-term
 Summary:        Gambas3 component package for terminal
 Group:          Development/Other
@@ -1593,6 +1634,19 @@ Is a new component for terminal emulation
 %{_datadir}/%{name}/info/gb.term.*
 
 #-----------------------------------------------------------------------------
+%package gb-poppler
+Summary:        Gambas3 component package for PDF rendering with Poppler
+Group:          Development/Other
+Requires:       %{name}-runtime = %{EVRD}
+
+%description gb-poppler
+Is a new component for PDF rendering with Poppler
+
+%files gb-poppler
+%{_libdir}/gambas3/gb.poppler.component
+%{_libdir}/gambas3/gb.poppler.so*
+%{_datadir}/gambas3/info/gb.poppler.*
+#-----------------------------------------------------------------------------
 
 %post runtime
 update-mime-database %{_datadir}/mime &> /dev/null || :
@@ -1605,4 +1659,3 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 %postun script
 update-mime-database %{_datadir}/mime &> /dev/null || :
-
