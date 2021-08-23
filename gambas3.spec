@@ -63,6 +63,7 @@ BuildRequires:  pkgconfig(ice)
 BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(poppler-glib)
 BuildRequires:	pkgconfig(libxcrypt)
+BuildRequires:	%{_lib}crypt-static-devel
 BuildRequires:	pkgconfig(gtk+-3.0)
 BuildRequires:	pkgconfig(webkit2gtk-4.0)
 
