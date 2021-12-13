@@ -1491,9 +1491,9 @@ Requires:      %{name}-runtime = %{EVRD}
 Component to wrap cryptographic functions
 
 %files gb-crypt
-%{_libdir}/gambas3/gb.crypt.component
-%{_libdir}/gambas3/gb.crypt.so*
-%{_datadir}/gambas3/info/gb.crypt.*
+#{_libdir}/gambas3/gb.crypt.component
+#{_libdir}/gambas3/gb.crypt.so*
+#{_datadir}/gambas3/info/gb.crypt.*
 
 #---------------------------------------------------------------------------
 %package gb-openssl
