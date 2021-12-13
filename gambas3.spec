@@ -1644,7 +1644,7 @@ Is a new component for terminal emulation
 #description gb-poppler
 #Is a new component for PDF rendering with Poppler
 
-%files gb-poppler
+#files gb-poppler
 #{_libdir}/gambas3/gb.poppler.component
 #_libdir}/gambas3/gb.poppler.so*
 #_datadir}/gambas3/info/gb.poppler.*
