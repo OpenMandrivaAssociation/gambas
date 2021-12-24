@@ -6,7 +6,7 @@
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
 Version:	3.16.3
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
@@ -62,6 +62,8 @@ BuildRequires:  pkgconfig(libpcre)
 BuildRequires:  pkgconfig(ice)
 BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(poppler-glib)
+BuildRequires:	pkgconfig(poppler-qt5)
+BuildRequires:	pkgconfig(poppler-cpp)
 BuildRequires:	pkgconfig(libxcrypt)
 BuildRequires:	%{_lib}crypt-static-devel
 BuildRequires:	pkgconfig(gtk+-3.0)
@@ -141,7 +143,7 @@ do
         )
 done
 
-%configure --disable-gtk --disable-qt4 --disable-sdl --disable-sdlsound --disable-sqlite2
+%configure --disable-gtk --disable-qt4 --disable-sdl --disable-sdlsound --disable-sqlite2 --with-crypt-libraries=%{_libdir} --with-poppler-libraries=%{_libdir}
 %make_build
 
 %install
@@ -1482,18 +1484,18 @@ Component that implements a simple OpenGL game engine based on the MD2 format.
 %{_datadir}/%{name}/info/gb.opengl.sge.*
 
 #---------------------------------------------------------------------------
-#package gb-crypt
-#Summary:       Gambas3 component package for cryptography
-#Group:   Development/Other
-#Requires:      %{name}-runtime = %{EVRD}
+%package gb-crypt
+Summary:       Gambas3 component package for cryptography
+Group:   Development/Other
+Requires:      %{name}-runtime = %{EVRD}
 
-#description gb-crypt
-#Component to wrap cryptographic functions
+%description gb-crypt
+Component to wrap cryptographic functions
 
-#files gb-crypt
-#{_libdir}/gambas3/gb.crypt.component
-#{_libdir}/gambas3/gb.crypt.so*
-#{_datadir}/gambas3/info/gb.crypt.*
+%files gb-crypt
+%{_libdir}/gambas3/gb.crypt.component
+%{_libdir}/gambas3/gb.crypt.so*
+%{_datadir}/gambas3/info/gb.crypt.*
 
 #---------------------------------------------------------------------------
 %package gb-openssl
@@ -1636,18 +1638,18 @@ Is a new component for terminal emulation
 %{_datadir}/%{name}/info/gb.term.*
 
 #-----------------------------------------------------------------------------
-#package gb-poppler
-#Summary:        Gambas3 component package for PDF rendering with Poppler
-#Group:          Development/Other
-#Requires:       %{name}-runtime = %{EVRD}
+%package gb-poppler
+Summary:        Gambas3 component package for PDF rendering with Poppler
+Group:          Development/Other
+Requires:       %{name}-runtime = %{EVRD}
 
-#description gb-poppler
-#Is a new component for PDF rendering with Poppler
+%description gb-poppler
+Is a new component for PDF rendering with Poppler
 
-#files gb-poppler
-#{_libdir}/gambas3/gb.poppler.component
-#_libdir}/gambas3/gb.poppler.so*
-#_datadir}/gambas3/info/gb.poppler.*
+%files gb-poppler
+%{_libdir}/gambas3/gb.poppler.component
+%_libdir}/gambas3/gb.poppler.so*
+%_datadir}/gambas3/info/gb.poppler.*
 #-----------------------------------------------------------------------------
 
 %post runtime
