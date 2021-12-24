@@ -62,6 +62,8 @@ BuildRequires:  pkgconfig(libpcre)
 BuildRequires:  pkgconfig(ice)
 BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(poppler-glib)
+BuildRequires:	pkgconfig(poppler-qt5)
+BuildRequires:	pkgconfig(poppler-cpp)
 BuildRequires:	pkgconfig(libxcrypt)
 BuildRequires:	%{_lib}crypt-static-devel
 BuildRequires:	pkgconfig(gtk+-3.0)
