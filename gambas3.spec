@@ -6,7 +6,7 @@
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
 Version:	3.16.3
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
@@ -141,7 +141,7 @@ do
         )
 done
 
-%configure --disable-gtk --disable-qt4 --disable-sdl --disable-sdlsound --disable-sqlite2
+%configure --disable-gtk --disable-qt4 --disable-sdl --disable-sdlsound --disable-sqlite2 --with-crypt-libraries=%{_libdir} --with-poppler-libraries=%{_libdir}
 %make_build
 
 %install
