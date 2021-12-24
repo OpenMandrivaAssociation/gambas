@@ -1484,18 +1484,18 @@ Component that implements a simple OpenGL game engine based on the MD2 format.
 %{_datadir}/%{name}/info/gb.opengl.sge.*
 
 #---------------------------------------------------------------------------
-#package gb-crypt
-#Summary:       Gambas3 component package for cryptography
-#Group:   Development/Other
-#Requires:      %{name}-runtime = %{EVRD}
+%package gb-crypt
+Summary:       Gambas3 component package for cryptography
+Group:   Development/Other
+Requires:      %{name}-runtime = %{EVRD}
 
-#description gb-crypt
-#Component to wrap cryptographic functions
+%description gb-crypt
+Component to wrap cryptographic functions
 
-#files gb-crypt
-#{_libdir}/gambas3/gb.crypt.component
-#{_libdir}/gambas3/gb.crypt.so*
-#{_datadir}/gambas3/info/gb.crypt.*
+%files gb-crypt
+%{_libdir}/gambas3/gb.crypt.component
+%{_libdir}/gambas3/gb.crypt.so*
+%{_datadir}/gambas3/info/gb.crypt.*
 
 #---------------------------------------------------------------------------
 %package gb-openssl
@@ -1638,18 +1638,18 @@ Is a new component for terminal emulation
 %{_datadir}/%{name}/info/gb.term.*
 
 #-----------------------------------------------------------------------------
-#package gb-poppler
-#Summary:        Gambas3 component package for PDF rendering with Poppler
-#Group:          Development/Other
-#Requires:       %{name}-runtime = %{EVRD}
+%package gb-poppler
+Summary:        Gambas3 component package for PDF rendering with Poppler
+Group:          Development/Other
+Requires:       %{name}-runtime = %{EVRD}
 
-#description gb-poppler
-#Is a new component for PDF rendering with Poppler
+%description gb-poppler
+Is a new component for PDF rendering with Poppler
 
-#files gb-poppler
-#{_libdir}/gambas3/gb.poppler.component
-#_libdir}/gambas3/gb.poppler.so*
-#_datadir}/gambas3/info/gb.poppler.*
+%files gb-poppler
+%{_libdir}/gambas3/gb.poppler.component
+%_libdir}/gambas3/gb.poppler.so*
+%_datadir}/gambas3/info/gb.poppler.*
 #-----------------------------------------------------------------------------
 
 %post runtime
