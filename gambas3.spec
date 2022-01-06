@@ -142,7 +142,7 @@ do
         )
 done
 
-CXXFLAGS="%{optflags} -std=gnu++20" \
+CXXFLAGS="%{optflags} -std=gnu++17" \
 %configure --disable-gtk --disable-qt4 --disable-sdl --disable-sdlsound --disable-sqlite2 --with-crypt-libraries=%{_libdir} --with-poppler-libraries=%{_libdir}
 %make_build
 
