@@ -1,0 +1,47 @@
+diff -up gambas-3.17.2/gb.pdf/src/CPdfDocument.cpp.omv~ gambas-3.17.2/gb.pdf/src/CPdfDocument.cpp
+--- gambas-3.17.2/gb.pdf/src/CPdfDocument.cpp.omv~	2022-05-30 11:38:49.354107086 +0200
++++ gambas-3.17.2/gb.pdf/src/CPdfDocument.cpp	2022-05-30 11:52:21.644231158 +0200
+@@ -482,7 +482,7 @@ int32_t open_document (void *_object, ch
+ 	obj.initNull();
+ 	stream=new MemStream(buf,0,(uint)len,&obj);
+ 	#endif
+-	test=new PDFDoc (stream,0,0);
++	test=new PDFDoc(stream);
+ 
+ 	if (!test->isOk())
+ 	{
+@@ -1036,7 +1036,7 @@ BEGIN_PROPERTY (PDFPAGELINKS_count)
+ 
+ 	if (!THIS->links) aux_fill_links(_object);
+ 	if (!THIS->links) { GB.ReturnInteger(0); return; }
+-	GB.ReturnInteger(THIS->links->getNumLinks());
++	GB.ReturnInteger(THIS->links->getLinks().size());
+ 
+ 
+ END_PROPERTY
+@@ -1052,14 +1052,14 @@ BEGIN_METHOD (PDFPAGELINKS_get,GB_INTEGE
+ 		if (VARG(ind)<0) pok=false;
+ 		else
+ 		{
+-			if (VARG(ind)>=THIS->links->getNumLinks()) pok=false;
++			if (VARG(ind)>=THIS->links->getLinks().size()) pok=false;
+ 		}
+ 	}
+ 
+ 	if (!pok) { GB.Error("Out of bounds"); return; }
+ 
+ 	THIS->lcurrent=VARG(ind);
+-	THIS->action=THIS->links->getLink(THIS->lcurrent)->getAction();
++	THIS->action=THIS->links->getLinks().at(THIS->lcurrent)->getAction();
+ 
+ 	RETURN_SELF();
+ 
+@@ -1131,7 +1131,7 @@ static void aux_get_link_dimensions(void
+ 	pw=THIS->page->getMediaWidth();	
+ 	ph=THIS->page->getMediaHeight();
+ 
+-	THIS->links->getLink(THIS->lcurrent)->getRect(&l, &t, &w, &h);
++	THIS->links->getLinks().at(THIS->lcurrent)->getRect(&l, &t, &w, &h);
+ 	w=w-l;
+ 	h=h-t;	
+ 

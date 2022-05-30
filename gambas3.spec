@@ -4,14 +4,15 @@
 
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.16.3
-Release:	5
+Version:	3.17.2
+Release:	1
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
 Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}.tar.gz
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
+Patch0:		gambas-3.17.2-poppler-22.05.patch
 
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
@@ -524,6 +525,20 @@ This component implements the form-dialog control.
 %{_libdir}/%{name}/gb.form.dialog.gambas
 %{_datadir}/%{name}/info/gb.form.dialog.info
 %{_datadir}/%{name}/info/gb.form.dialog.list
+
+#-----------------------------------------------------------------------------
+%package gb-form-htmlview
+Summary: The Gambas form html component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb-form-htmlview
+This component allows you to use the html form component
+
+%files gb-form-htmlview
+%{_libdir}/%{name}/gb.form.htmlview.*
+%{_datadir}/%{name}/info/gb.form.htmlview.*
+%{_datadir}/gambas3/control/gb.form.htmlview
 
 #-----------------------------------------------------------------------------
 
@@ -1380,6 +1395,7 @@ Gambas3 component package for gtk3.
 %doc README  ChangeLog
 %{_libdir}/%{name}/gb.gtk3.component
 %{_libdir}/%{name}/gb.gtk3.so*
+%{_libdir}/%{name}/gb.gtk3.opengl.*
 %{_libdir}/%{name}/gb.gtk3.wayland.component
 %{_libdir}/%{name}/gb.gtk3.wayland.so*
 %{_libdir}/%{name}/gb.gtk3.x11.component
@@ -1390,6 +1406,7 @@ Gambas3 component package for gtk3.
 %{_datadir}/%{name}/info/gb.gtk3.x11.list
 %{_datadir}/%{name}/info/gb.gtk3.info
 %{_datadir}/%{name}/info/gb.gtk3.list
+%{_datadir}/%{name}/info/gb.gtk3.opengl.*
 
 #---------------------------------------------------------------------------
 %package gb-gtk3-webview
