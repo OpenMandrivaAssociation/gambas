@@ -1,25 +1,20 @@
-diff -up gambas-3.17.2/gb.pdf/src/CPdfDocument.cpp.omv~ gambas-3.17.2/gb.pdf/src/CPdfDocument.cpp
---- gambas-3.17.2/gb.pdf/src/CPdfDocument.cpp.omv~	2022-05-30 11:38:49.354107086 +0200
-+++ gambas-3.17.2/gb.pdf/src/CPdfDocument.cpp	2022-05-30 11:52:21.644231158 +0200
-@@ -482,7 +482,7 @@ int32_t open_document (void *_object, ch
- 	obj.initNull();
- 	stream=new MemStream(buf,0,(uint)len,&obj);
- 	#endif
--	test=new PDFDoc (stream,0,0);
-+	test=new PDFDoc(stream);
- 
- 	if (!test->isOk())
- 	{
-@@ -1036,7 +1036,7 @@ BEGIN_PROPERTY (PDFPAGELINKS_count)
- 
- 	if (!THIS->links) aux_fill_links(_object);
+diff -up gambas-3.18.0/gb.pdf/src/CPdfDocument.cpp.1~ gambas-3.18.0/gb.pdf/src/CPdfDocument.cpp
+--- gambas-3.18.0/gb.pdf/src/CPdfDocument.cpp.1~	2023-01-12 23:31:22.000000000 +0100
++++ gambas-3.18.0/gb.pdf/src/CPdfDocument.cpp	2023-02-03 00:08:46.988368167 +0100
+@@ -1038,11 +1038,7 @@ BEGIN_PROPERTY (PDFPAGELINKS_count)
  	if (!THIS->links) { GB.ReturnInteger(0); return; }
--	GB.ReturnInteger(THIS->links->getNumLinks());
+ 
+ #if POPPLER_VERSION_22_06_0
+-	int numlinks = 0;
+-	for (AnnotLink *link : THIS->links->getLinks()) {
+-		numlinks++;
+-	}
+-	GB.ReturnInteger(numlinks);
 +	GB.ReturnInteger(THIS->links->getLinks().size());
- 
- 
- END_PROPERTY
-@@ -1052,14 +1052,14 @@ BEGIN_METHOD (PDFPAGELINKS_get,GB_INTEGE
+ #else
+ 	GB.ReturnInteger(THIS->links->getNumLinks());
+ #endif
+@@ -1078,14 +1074,14 @@ BEGIN_METHOD (PDFPAGELINKS_get,GB_INTEGE
  		if (VARG(ind)<0) pok=false;
  		else
  		{
@@ -35,13 +30,4 @@ diff -up gambas-3.17.2/gb.pdf/src/CPdfDocument.cpp.omv~ gambas-3.17.2/gb.pdf/src
 +	THIS->action=THIS->links->getLinks().at(THIS->lcurrent)->getAction();
  
  	RETURN_SELF();
- 
-@@ -1131,7 +1131,7 @@ static void aux_get_link_dimensions(void
- 	pw=THIS->page->getMediaWidth();	
- 	ph=THIS->page->getMediaHeight();
- 
--	THIS->links->getLink(THIS->lcurrent)->getRect(&l, &t, &w, &h);
-+	THIS->links->getLinks().at(THIS->lcurrent)->getRect(&l, &t, &w, &h);
- 	w=w-l;
- 	h=h-t;	
  

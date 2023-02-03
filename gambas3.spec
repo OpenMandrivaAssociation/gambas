@@ -4,8 +4,8 @@
 
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.17.2
-Release:	7
+Version:	3.18.0
+Release:	1
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
@@ -13,6 +13,7 @@ Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
 Patch0:		gambas-3.17.2-poppler-22.05.patch
+Patch1:		gambas-3.18.0-poppler-23.x.patch
 
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
@@ -195,6 +196,7 @@ This package includes the Gambas interpreter needed to run Gambas applications.
 %{_libdir}/%{name}/gb.eval.so*
 %{_libdir}/%{name}/gb.draw.*
 %{_libdir}/%{name}/gb.geom.*
+%{_libdir}/%{name}/gb.hash.*
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/info
 %{_datadir}/%{name}/info/gb.info
@@ -202,6 +204,8 @@ This package includes the Gambas interpreter needed to run Gambas applications.
 %{_datadir}/%{name}/info/gb.debug.*
 %{_datadir}/%{name}/info/gb.eval.list
 %{_datadir}/%{name}/info/gb.eval.info
+%{_datadir}/%{name}/info/gb.geom.*
+%{_datadir}/%{name}/info/gb.hash.*
 %{_datadir}/%{name}/template
 %{_datadir}/appdata/gambas3.appdata.xml
 %{_datadir}/metainfo/%{name}.appdata.xml
@@ -266,21 +270,25 @@ Requires: %{name}-gb-db = %{version}
 Requires: %{name}-gb-qt5 = %{version}
 Requires: %{name}-gb-qt5-ext = %{version}
 Requires: %{name}-gb-qt5-webkit = %{version}
+Requires: %{name}-gb-qt5-webview = %{version}
 Requires: %{name}-gb-db-form = %{version}
 Requires: %{name}-gb-desktop = %{version}
 Requires: %{name}-gb-form = %{version}
 Requires: %{name}-gb-form-dialog = %{version}
+Requires: %{name}-gb-form-htmlview = %{version}
 Requires: %{name}-gb-form-mdi = %{version}
 Requires: %{name}-gb-form-stock = %{version}
 Requires: %{name}-gb-form-print = %{version}
 Requires: %{name}-gb-gui = %{version}
 Requires: %{name}-gb-term = %{version}
 Requires: %{name}-gb-test = %{version}
+Requires: %{name}-gb-markdown = %{version}
 Requires: %{name}-gb-net = %{version}
 Requires: %{name}-gb-net-curl = %{version}
-Requires: %{name}-gb-markdown = %{version}
+Requires: %{name}-gb-pcre = %{version}
 Requires: %{name}-gb-signal = %{version}
 Requires: %{name}-gb-util = %{version}
+Requires: %{name}-gb-util-web = %{version}
 Requires: %{name}-gb-settings = %{version}
 #Requires: %{name}-examples = %{version}
 Requires: %{name}-gb-eval-highlight = %{version}
