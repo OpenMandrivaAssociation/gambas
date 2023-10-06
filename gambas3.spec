@@ -4,16 +4,18 @@
 
 Name:		gambas3
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.18.3
-Release:	3
+Version:	3.18.4
+Release:	1
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
 Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
-Patch0:		gambas-3.17.2-poppler-22.05.patch
-Patch1:		gambas-3.18.0-poppler-23.x.patch
+# Recognize wayland-egl, wayland-xcomposite-egl, wayland-xcomposite-glx etc. QPA platforms
+Patch0:		gambas-3.18.3-qt5-wayland.patch
+# Use Qt in LXQt and "neutral" desktops
+Patch1:		gambas-3.18.4-gui-toolkit-choice.patch
 
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
@@ -620,10 +622,12 @@ This component provides an interface to the GNU Scientific Library.
 Summary: The Gambas GUI component
 Group: Development/Other
 Requires: %{name}-runtime = %{version}
+Requires: %{name}-gui-backend = %{EVRD}
+Suggests: %{name}-gb-qt5 = %{EVRD}
 
 %description gb-gui
-This is a component that just loads gb.qt if you are running KDE or
-gb.gtk in the other cases.
+This is a component that just loads gb.gtk if you are running GNOME,
+MATE, Cinnamon or XFCE, or gb.qt5 in the other cases.
 
 %files gb-gui
 %doc README ChangeLog
@@ -1283,6 +1287,7 @@ a VT220 compatible terminal widget.
 Summary: The Gambas Qt GUI component
 Group: Development/Other
 Requires: %{name}-runtime = %{EVRD}
+Provides:	%{name}-gui-backend = %{EVRD}
 
 %description gb-qt5
 This package includes the Gambas QT GUI component.
@@ -1320,7 +1325,6 @@ This package includes the Gambas QT GUI extensions component.
 
 #-----------------------------------------------------------------------------
 %package gb-qt5-opengl
-
 Summary: The Gambas qt-opengl component
 Group: Development/Other
 Requires: %{name}-runtime = %{EVRD}
@@ -1394,6 +1398,7 @@ Library that implements big integers and big rational numbers.
 Summary:	Gambas3 component package for gtk3
 Group:		Development/Other
 Requires:	%{name}-runtime = %{EVRD}
+Provides:	%{name}-gui-backend = %{EVRD}
 
 %description gb-gtk3
 Gambas3 component package for gtk3.
