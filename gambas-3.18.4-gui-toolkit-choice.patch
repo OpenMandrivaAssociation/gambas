@@ -33,3 +33,15 @@ diff -up gambas-3.18.4/main/lib/gui/main.c.omv~ gambas-3.18.4/main/lib/gui/main.
  	}
  }
  
+diff -up gambas-3.18.4/main/lib/gui.qt/main.c.omv~ gambas-3.18.4/main/lib/gui.qt/main.c
+--- gambas-3.18.4/main/lib/gui.qt/main.c.omv~	2023-10-07 12:23:16.458242148 +0200
++++ gambas-3.18.4/main/lib/gui.qt/main.c	2023-10-07 12:23:32.251409991 +0200
+@@ -25,7 +25,7 @@
+ 
+ #include "main.h"
+ 
+-enum { USE_NOTHING, USE_GB_QT4, USE_GB_QT5 };
++enum { USE_NOTHING, USE_GB_QT4, USE_GB_QT5, USE_GB_GTK, USE_GB_GTK3 };
+ 
+ const GB_INTERFACE *GB_PTR EXPORT;
+ 
