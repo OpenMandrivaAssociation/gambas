@@ -149,6 +149,11 @@ do
         )
 done
 
+# FIXME forcing gcc for now because of build failure with clang 17.0.4
+# (dynamic goto target unreachable)
+export CC=gcc
+export CXX=g++
+
 # In the --disable-* arguments,
 # 	--disable-gtk means disable gtk2, gtk3 is still built
 #	--disable-sdl/--disable-sdlsound  means disable SDL1, SDL2 is still built
