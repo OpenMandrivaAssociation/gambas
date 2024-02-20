@@ -4,8 +4,8 @@
 
 Name:		gambas
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.18.4
-Release:	2
+Version:	3.19.0
+Release:	1
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
@@ -184,7 +184,7 @@ find %{buildroot} -name '*.la' -delete
 rm -f %{buildroot}%{_libdir}/gambas3/gb.so %{buildroot}%{_libdir}/gambas3/gb.so.*
 
 # menu entry && icons
-install -D -m 755 app/src/gambas3/img/logo/logo.png %{buildroot}%{_iconsdir}/hicolor/64x64/apps/%{name}.png
+install -D -m 755 comp/src/gb.report/img/logo.svg %{buildroot}%{_iconsdir}/hicolor/scalable/apps/%{name}.png
 install -D -m 755 app/src/gambas3/img/logo/logo-ide.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
 install -D -m 644 %{SOURCE1} %{buildroot}%{_datadir}/applications/%{name}.desktop
 
@@ -315,6 +315,7 @@ Requires: %{name}-gb.util = %{version}
 Requires: %{name}-gb.util.web = %{version}
 Requires: %{name}-gb.settings = %{version}
 #Requires: %{name}-examples = %{version}
+Requires: %{name}-gb.highlight = %{version}
 Requires: %{name}-gb.eval.highlight = %{version}
 Requires: %{name}-gb.image = %{version}
 Requires: %{name}-gb.image.effect = %{version}
@@ -335,7 +336,7 @@ database manager, the help files, and all components.
 %{_bindir}/gambas3
 %{_bindir}/gambas3.gambas
 %{_datadir}/applications/%{name}.desktop
-%{_iconsdir}/hicolor/*/*/%{name}.png
+%{_iconsdir}/hicolor/*/*/%{name}.*
 %{_datadir}/pixmaps/%{name}.png
 
 #-----------------------------------------------------------------------------
@@ -519,6 +520,21 @@ the xdg-utils scripts of the Portland project.
 %{_libdir}/gambas3/gb.desktop.*
 %{_datadir}/gambas3/info/gb.desktop.*
 %{_datadir}/gambas3/control/gb.desktop
+
+#-----------------------------------------------------------------------------
+
+%package gb.highlight
+Summary: The Gambas highlight component
+Group: Development/Other
+Requires: %{name}-runtime = %{version}
+
+%description gb.highlight
+This component implements the highlight componet.
+
+%files gb.highlight
+%doc README ChangeLog
+%{_libdir}/gambas3/gb.highlight.*
+%{_datadir}/gambas3/info/gb.highlight.*
 
 #-----------------------------------------------------------------------------
 
@@ -822,6 +838,7 @@ any serial ports.
 %doc README ChangeLog
 %{_libdir}/gambas3/gb.net.so*
 %{_libdir}/gambas3/gb.net.component
+%{_datadir}/gambas3/control/gb.net
 %{_datadir}/gambas3/info/gb.net.info
 %{_datadir}/gambas3/info/gb.net.list
 
@@ -843,6 +860,7 @@ This component allows your programs to easily become FTP or HTTP clients.
 %{_libdir}/gambas3/gb.net.curl.component
 %{_libdir}/gambas3/gb.net.curl.gambas
 %dir %{_datadir}/gambas3/info
+%{_datadir}/gambas3/control/gb.net.curl
 %{_datadir}/gambas3/info/gb.net.curl.info
 %{_datadir}/gambas3/info/gb.net.curl.list
 #-----------------------------------------------------------------------------
