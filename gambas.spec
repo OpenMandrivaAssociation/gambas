@@ -5,7 +5,7 @@
 Name:		gambas
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
 Version:	3.19.0
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
@@ -16,6 +16,7 @@ Source100:	%name.rpmlintrc
 Patch0:		gambas-3.18.3-qt5-wayland.patch
 # Use Qt in LXQt and "neutral" desktops
 Patch1:		gambas-3.18.4-gui-toolkit-choice.patch
+Patch2:		gambas-3.19.0-clang.patch
 
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
@@ -148,11 +149,6 @@ do
           popd
         )
 done
-
-# FIXME forcing gcc for now because of build failure with clang 17.0.4
-# (dynamic goto target unreachable)
-export CC=gcc
-export CXX=g++
 
 # In the --disable-* arguments,
 # 	--disable-gtk means disable gtk2, gtk3 is still built

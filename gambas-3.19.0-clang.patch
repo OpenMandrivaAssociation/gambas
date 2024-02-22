@@ -1,0 +1,155 @@
+diff -up gambas-3.19.0/main/gbx/gbx_value.h.3~ gambas-3.19.0/main/gbx/gbx_value.h
+--- gambas-3.19.0/main/gbx/gbx_value.h.3~	2024-02-16 00:33:51.000000000 +0100
++++ gambas-3.19.0/main/gbx/gbx_value.h	2024-02-22 15:04:53.748070233 +0100
+@@ -274,16 +274,16 @@ void THROW_TYPE(TYPE wanted, TYPE got) N
+ #if 0
+ 
+ #define VALUE_conv_boolean(_value) \
+-({ \
++{ \
+ 	VALUE *v = _value; \
+ 	if (v->type != T_BOOLEAN) \
+ 	{ \
+ 		VALUE_convert_boolean(v); \
+ 	} \
+-})
++}
+ 
+ #define VALUE_conv_integer(_value) \
+-({ \
++{ \
+ 	VALUE *v = _value; \
+ 	if (v->type != T_INTEGER) \
+ 	{ \
+@@ -291,10 +291,10 @@ void THROW_TYPE(TYPE wanted, TYPE got) N
+ 			THROW_TYPE_INTEGER(v->type); \
+ 		VALUE_convert_integer(v); \
+ 	} \
+-})
++}
+ 
+ #define VALUE_conv_float(_value) \
+-({ \
++{ \
+ 	VALUE *v = _value; \
+ 	if (v->type != T_FLOAT) \
+ 	{ \
+@@ -302,10 +302,10 @@ void THROW_TYPE(TYPE wanted, TYPE got) N
+ 			THROW_TYPE_FLOAT(v->type); \
+ 		VALUE_convert_float(v); \
+ 	} \
+-})
++}
+ 
+ #define VALUE_conv_string(_value) \
+-({ \
++{ \
+ 	VALUE *v = _value; \
+ 	if (v->type != T_STRING && v->type != T_CSTRING) \
+ 	{ \
+@@ -313,39 +313,39 @@ void THROW_TYPE(TYPE wanted, TYPE got) N
+ 			THROW_TYPE_STRING(v->type); \
+ 		VALUE_convert_string(v); \
+ 	} \
+-})
++}
+ 
+ #define VALUE_conv_variant(_value) \
+-({ \
++{ \
+ 	if ((_value)->type != T_VARIANT) \
+ 		VALUE_convert_variant(_value); \
+-})
++}
+ 
+ #define VALUE_conv_object(_value, _type) \
+-({ \
++{ \
+ 	if ((_value)->type != (_type)) \
+ 		VALUE_convert_object(_value, _type); \
+-})
++}
+ 
+ #else
+ 
+ #define VALUE_conv_boolean(_value) \
+-({ \
++{ \
+ 	if ((_value)->type != T_BOOLEAN) \
+ 		VALUE_convert_boolean(_value); \
+-})
++}
+ 
+ #define VALUE_conv_float(_value) \
+-({ \
++{ \
+ 	if ((_value)->type != T_FLOAT) \
+ 		VALUE_convert_float(_value); \
+-})
++}
+ 
+ #define VALUE_conv_variant(_value) \
+-({ \
++{ \
+ 	if ((_value)->type != T_VARIANT) \
+ 		VALUE_convert_variant(_value); \
+-})
++}
+ 
+ //#define VALUE_conv_boolean(_value) VALUE_conv(_value, T_BOOLEAN)
+ #define VALUE_conv_integer(_value) VALUE_conv(_value, T_INTEGER)
+@@ -354,17 +354,17 @@ void THROW_TYPE(TYPE wanted, TYPE got) N
+ #define VALUE_conv_object(_value, _type) VALUE_conv(_value, _type)
+ 
+ #define VALUE_conv_string(_value) \
+-({ \
++{ \
+ 	if ((_value)->type != T_STRING && (_value)->type != T_CSTRING) \
+ 		VALUE_conv(_value, T_STRING); \
+-})
++}
+ 
+ #endif
+ 
+ #define VALUE_is_super(_value) (EXEC_super && EXEC_super == (_value)->_object.super)
+ 
+ #define VALUE_class_read_inline(_class, _value, _addr, _ctype, _ref, _prefix) \
+-({ \
++{ \
+ 	static void *jump[17] = { \
+ 		&&__##_prefix##VOID, &&__##_prefix##BOOLEAN, &&__##_prefix##BYTE, &&__##_prefix##SHORT, &&__##_prefix##INTEGER, &&__##_prefix##LONG, &&__##_prefix##SINGLE, &&__##_prefix##FLOAT, &&__##_prefix##DATE, \
+ 		&&__##_prefix##STRING, &&__##_prefix##CSTRING, &&__##_prefix##POINTER, &&__##_prefix##VARIANT, &&__##_prefix##ARRAY, &&__##_prefix##STRUCT, &&__##_prefix##NULL, &&__##_prefix##OBJECT \
+@@ -474,10 +474,10 @@ void THROW_TYPE(TYPE wanted, TYPE got) N
+ 	__##_prefix##NULL: \
+ 		THROW_ILLEGAL(); \
+ 	} \
+-})
++}
+ 
+ #define VALUE_class_constant_inline(_class, _value, _ind) \
+-({ \
++{ \
+ 	static void *jump[] = \
+ 	{ \
+ 		&&__ILLEGAL, &&__INTEGER, &&__INTEGER, &&__INTEGER, &&__INTEGER, &&__LONG, &&__SINGLE, &&__FLOAT, \
+@@ -541,10 +541,10 @@ void THROW_TYPE(TYPE wanted, TYPE got) N
+ 		\
+ 		THROW_ILLEGAL(); \
+ 	} \
+-})
++}
+ 
+ #define VALUE_read_inline_type(_value, _addr, _ctype, _type, _label_noref, _label_ref) \
+-({ \
++{ \
+ 	static void *jump[17] = { \
+ 		&&__VOID, &&__BOOLEAN, &&__BYTE, &&__SHORT, &&__INTEGER, &&__LONG, &&__SINGLE, &&__FLOAT, &&__DATE, \
+ 		&&__STRING, &&__CSTRING, &&__POINTER, &&__VARIANT, &&__FUNCTION, &&__CLASS, &&__NULL, &&__OBJECT \
+@@ -656,6 +656,6 @@ void THROW_TYPE(TYPE wanted, TYPE got) N
+ 	__NULL: \
+ 		THROW_ILLEGAL(); \
+ 	} \
+-})
++}
+ 
+ #endif
