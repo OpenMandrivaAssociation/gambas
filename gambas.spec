@@ -5,7 +5,7 @@
 Name:		gambas
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
 Version:	3.19.0
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
@@ -74,7 +74,9 @@ BuildRequires:	pkgconfig(gtk+-3.0)
 BuildRequires:	pkgconfig(webkit2gtk-4.0)
 
 BuildRequires:	qt5-devel
+BuildRequires:	pkgconfig(Qt5WebKit)
 BuildRequires:	pkgconfig(Qt5WebView)
+BuildRequires:	pkgconfig(Qt5WebKitWidgets)
 BuildRequires:	pkgconfig(Qt5WebEngineWidgets)
 BuildRequires:	pkgconfig(Qt5X11Extras)
 BuildRequires:	qt5-macros
@@ -287,6 +289,7 @@ Requires: %{name}-gb.clipper = %{version}
 Requires: %{name}-gb.db = %{version}
 Requires: %{name}-gb.qt5 = %{version}
 Requires: %{name}-gb.qt5.ext = %{version}
+Requires: %{name}-gb.qt5.webkit = %{version}
 Requires: %{name}-gb.qt5.webview = %{version}
 Requires: %{name}-gb.db.form = %{version}
 Requires: %{name}-gb.desktop = %{version}
@@ -1420,6 +1423,22 @@ This package contains the Gambas qt-opengl components.
 %doc README  ChangeLog
 %{_libdir}/gambas3/gb.qt5.opengl.*
 %{_datadir}/gambas3/info/gb.qt5.opengl.*
+
+#-----------------------------------------------------------------------------
+%package gb.qt5.webkit
+Summary: The Gambas qt-webkit component
+Group: Development/Other
+Requires: %{name}-runtime = %{EVRD}
+%rename gambas3-gb-qt5-webkit
+
+%description gb.qt5.webkit
+This package contains the Gambas qt-webkit components.
+
+%files gb.qt5.webkit
+%doc README ChangeLog
+%{_libdir}/gambas3/gb.qt5.webkit.*
+%{_datadir}/gambas3/info/gb.qt5.webkit.*
+%{_datadir}/gambas3/control/gb.qt5.webkit
 
 #-----------------------------------------------------------------------------
 %package gb.qt5.webview
