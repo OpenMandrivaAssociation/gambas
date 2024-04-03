@@ -4,8 +4,8 @@
 
 Name:		gambas
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.19.0
-Release:	6
+Version:	3.19.1
+Release:	1
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
@@ -17,7 +17,6 @@ Patch0:		gambas-3.18.3-qt5-wayland.patch
 # Use Qt in LXQt and "neutral" desktops
 Patch1:		gambas-3.18.4-gui-toolkit-choice.patch
 Patch2:		gambas-3.19.0-clang.patch
-Patch3:		https://gitlab.com/gambas/gambas/-/commit/f5177f706b71a0ef918021c95ace9f60c0754313.patch
 
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
@@ -72,7 +71,7 @@ BuildRequires:	pkgconfig(poppler-cpp)
 BuildRequires:	pkgconfig(libxcrypt)
 BuildRequires:	%{_lib}crypt-static-devel
 BuildRequires:	pkgconfig(gtk+-3.0)
-BuildRequires:	pkgconfig(webkit2gtk-4.0)
+BuildRequires:	pkgconfig(webkit2gtk-4.1)
 
 BuildRequires:	qt5-devel
 BuildRequires:	pkgconfig(Qt5WebKit)
