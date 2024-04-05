@@ -1,3 +1,5 @@
+%bcond_without qt5webkit
+
 %define _disable_rebuild_configure 1
 %define _disable_ld_no_undefined 1
 %define Werror_cflags %nil
@@ -73,11 +75,12 @@ BuildRequires:	%{_lib}crypt-static-devel
 BuildRequires:	pkgconfig(gtk+-3.0)
 BuildRequires:	pkgconfig(webkit2gtk-4.1)
 
-BuildRequires:	qt5-devel
-BuildRequires:	pkgconfig(Qt5WebKit)
 BuildRequires:	pkgconfig(Qt5WebView)
+BuildRequires:  pkgconfig(Qt5WebEngineWidgets)
+%if %{with qt5webkit}
+BuildRequires:  pkgconfig(Qt5WebKit)
 BuildRequires:	pkgconfig(Qt5WebKitWidgets)
-BuildRequires:	pkgconfig(Qt5WebEngineWidgets)
+%endif
 BuildRequires:	pkgconfig(Qt5X11Extras)
 BuildRequires:	qt5-macros
 BuildRequires:	qt5-qtbase-devel
@@ -160,6 +163,9 @@ CXXFLAGS="%{optflags} -std=gnu++17" \
 	--disable-sdl \
 	--disable-sdlsound \
 	--disable-sqlite2 \
+	%if %{without qt5webkit}
+	--disable-qt5webkit \
+	%endif
 	--with-crypt-libraries=%{_libdir} \
 	--with-poppler-libraries=%{_libdir}
 %make_build
@@ -289,7 +295,11 @@ Requires: %{name}-gb.clipper = %{version}
 Requires: %{name}-gb.db = %{version}
 Requires: %{name}-gb.qt5 = %{version}
 Requires: %{name}-gb.qt5.ext = %{version}
+%if %{with qt5webkit}
 Requires: %{name}-gb.qt5.webkit = %{version}
+%else
+Obsoletes: %{name}-gb.qt5.webkit
+%endif
 Requires: %{name}-gb.qt5.webview = %{version}
 Requires: %{name}-gb.db.form = %{version}
 Requires: %{name}-gb.desktop = %{version}
@@ -1425,6 +1435,8 @@ This package contains the Gambas qt-opengl components.
 %{_datadir}/gambas3/info/gb.qt5.opengl.*
 
 #-----------------------------------------------------------------------------
+%if %{with qt5webkit}
+
 %package gb.qt5.webkit
 Summary: The Gambas qt-webkit component
 Group: Development/Other
@@ -1439,6 +1451,8 @@ This package contains the Gambas qt-webkit components.
 %{_libdir}/gambas3/gb.qt5.webkit.*
 %{_datadir}/gambas3/info/gb.qt5.webkit.*
 %{_datadir}/gambas3/control/gb.qt5.webkit
+
+%endif
 
 #-----------------------------------------------------------------------------
 %package gb.qt5.webview
