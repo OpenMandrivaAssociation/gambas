@@ -36,9 +36,9 @@ diff -up gambas-3.19.1/gb.pdf/src/CPdfDocument.cpp.omv~ gambas-3.19.1/gb.pdf/src
  	{
  			GB.ConvString (&uni,tmp->getCString()+2,tmp->getLength()-2,"UTF-16BE","UTF-8");
  			vl = GB.AddString(vl, uni, 0);	
-diff -up gambas-3.19.1/gb.qt5/gambas.h.omv~ gambas-3.19.1/gb.qt5/gambas.h
---- gambas-3.19.1/gb.qt5/gambas.h.omv~	2024-05-04 03:08:33.986115907 +0200
-+++ gambas-3.19.1/gb.qt5/gambas.h	2024-05-04 03:12:27.703670630 +0200
+diff -up gambas-3.19.1/main/share/gambas.h.omv~ gambas-3.19.1/main/share/gambas.h
+--- gambas-3.19.1/main/share/gambas.h.omv~	2024-05-04 03:08:33.986115907 +0200
++++ gambas-3.19.1/main/share/gambas.h	2024-05-04 03:12:27.703670630 +0200
 @@ -1304,6 +1304,9 @@ typedef
  
  #include <string.h>
