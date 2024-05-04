@@ -7,7 +7,7 @@
 Name:		gambas
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
 Version:	3.19.1
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Development/Other
 URL:		http://gambas.sourceforge.net
@@ -19,6 +19,7 @@ Patch0:		gambas-3.18.3-qt5-wayland.patch
 # Use Qt in LXQt and "neutral" desktops
 Patch1:		gambas-3.18.4-gui-toolkit-choice.patch
 Patch2:		gambas-3.19.0-clang.patch
+Patch3:		gambas-3.19.1-poppler-24.05.patch
 
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
@@ -156,7 +157,7 @@ done
 # In the --disable-* arguments,
 # 	--disable-gtk means disable gtk2, gtk3 is still built
 #	--disable-sdl/--disable-sdlsound  means disable SDL1, SDL2 is still built
-CXXFLAGS="%{optflags} -std=gnu++17" \
+CXXFLAGS="%{optflags} -std=gnu++20" \
 %configure \
 	--disable-gtk \
 	--disable-qt4 \

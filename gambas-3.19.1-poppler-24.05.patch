@@ -1,0 +1,51 @@
+diff -up gambas-3.19.1/gb.pdf/src/CPdfDocument.cpp.omv~ gambas-3.19.1/gb.pdf/src/CPdfDocument.cpp
+--- gambas-3.19.1/gb.pdf/src/CPdfDocument.cpp.omv~	2024-05-04 03:21:02.927825310 +0200
++++ gambas-3.19.1/gb.pdf/src/CPdfDocument.cpp	2024-05-04 03:23:03.500878990 +0200
+@@ -32,6 +32,7 @@
+ #include <stdint.h>
+ #include <math.h>
+ 
++#include <poppler/UTF.h>
+ #include <PDFDoc.h>
+ #include <Stream.h>
+ #include <ErrorCodes.h>
+@@ -172,7 +173,7 @@ static void aux_return_string_info(void
+ 	else {
+ 		goo_value = dst.getString();
+ 
+-		if (goo_value->hasUnicodeMarker())
++		if (hasUnicodeByteOrderMark(goo_value->toStr()))
+ 		{
+ 			GB.ConvString (&tmpstr,goo_value->getCString()+2,goo_value->getLength()-2,"UTF-16BE","UTF-8");
+ 			GB.ReturnNewZeroString(tmpstr);		
+@@ -216,7 +217,7 @@ static void aux_return_date_info(void *_
+ 	if (dst.isString ())
+ 	{
+ 		goo = dst.getString();
+-		if (goo->hasUnicodeMarker())
++		if (hasUnicodeByteOrderMark(goo->toStr()))
+ 			GB.ConvString (&datestr,goo->getCString()+2,goo->getLength()-2,"UTF-16BE","UTF-8");
+ 		else
+ 		{
+@@ -371,7 +372,7 @@ static char* aux_get_target_from_action(
+ 
+ 	if (!tmp) return NULL;
+ 
+-	if (tmp->hasUnicodeMarker())
++	if (hasUnicodeByteOrderMark(tmp->toStr()))
+ 	{
+ 			GB.ConvString (&uni,tmp->getCString()+2,tmp->getLength()-2,"UTF-16BE","UTF-8");
+ 			vl = GB.AddString(vl, uni, 0);	
+diff -up gambas-3.19.1/gb.qt5/gambas.h.omv~ gambas-3.19.1/gb.qt5/gambas.h
+--- gambas-3.19.1/gb.qt5/gambas.h.omv~	2024-05-04 03:08:33.986115907 +0200
++++ gambas-3.19.1/gb.qt5/gambas.h	2024-05-04 03:12:27.703670630 +0200
+@@ -1304,6 +1304,9 @@ typedef
+ 
+ #include <string.h>
+ #include <ctype.h>
++#ifdef __cplusplus
++#include <format> // must be included before redefinition of toupper...
++#endif
+ 
+ #ifdef tolower
+ #undef tolower
