@@ -6,11 +6,11 @@
 
 Name:		gambas
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.19.1
-Release:	3
+Version:	3.19.2
+Release:	1
 License:	GPLv2+
 Group:		Development/Other
-URL:		http://gambas.sourceforge.net
+URL:		https://gambas.sourceforge.net
 Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
