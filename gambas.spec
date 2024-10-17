@@ -10,7 +10,7 @@ Version:	3.19.4
 Release:	2
 License:	GPLv2+
 Group:		Development/Other
-URL:		http://gambas.sourceforge.net
+URL:		https://gambas.sourceforge.net
 Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
