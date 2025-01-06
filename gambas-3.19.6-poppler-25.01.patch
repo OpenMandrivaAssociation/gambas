@@ -1,0 +1,39 @@
+diff -up gambas-3.19.6/gb.pdf/src/CPdfDocument.cpp.omv~ gambas-3.19.6/gb.pdf/src/CPdfDocument.cpp
+--- gambas-3.19.6/gb.pdf/src/CPdfDocument.cpp.omv~	2025-01-06 16:16:35.325699401 +0100
++++ gambas-3.19.6/gb.pdf/src/CPdfDocument.cpp	2025-01-06 16:18:31.291650589 +0100
+@@ -1027,8 +1027,8 @@ END_PROPERTY
+ BEGIN_METHOD(PDFPAGE_select, GB_INTEGER X; GB_INTEGER Y; GB_INTEGER W; GB_INTEGER H)
+ 
+ 	TextOutputDev *dev;
+-	GooString *str;
+-	Gfx *gfx;
++	GooString str;
++	std::unique_ptr<Gfx> gfx;
+ 	int32_t x,y,w,h;
+ 
+ 	x = VARGOPT(X, 0);
+@@ -1039,22 +1039,14 @@ BEGIN_METHOD(PDFPAGE_select, GB_INTEGER
+ 	dev = new TextOutputDev (NULL, true, 0, false, false);
+ 	gfx = THIS->page->createGfx(dev,72.0,72.0,0,false,true,-1, -1, -1, -1, nullptr, NULL, NULL);
+ 
+-	THIS->page->display(gfx);
++	THIS->page->display(gfx.get());
+ 	dev->endPage();
+ 
+ 	str=dev->getText((double)x,(double)y,(double)(w+x),(double)(h+y));
+ 
+-	delete gfx;
+ 	delete dev;
+ 
+-	if (!str)
+-	{
+-		GB.ReturnNewZeroString("");
+-		return;
+-	}
+-	
+-	GB.ReturnNewString(str->getCString(),str->getLength());	
+-	delete str;
++	GB.ReturnNewString(str.getCString(),str.getLength());	
+ 
+ END_METHOD
+ 

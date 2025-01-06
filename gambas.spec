@@ -21,6 +21,7 @@ Patch1:		gambas-3.18.4-gui-toolkit-choice.patch
 Patch2:		gambas-3.19.0-clang.patch
 Patch3:		gambas-3.19.1-poppler-24.05.patch
 Patch4:		gambas-3.19.5-poppler-24.10.patch
+Patch5:		gambas-3.19.6-poppler-25.01.patch
 
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
