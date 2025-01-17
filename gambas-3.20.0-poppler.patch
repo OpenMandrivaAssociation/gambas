@@ -1,6 +1,6 @@
-diff -up gambas-3.19.6/gb.pdf/src/CPdfDocument.cpp.omv~ gambas-3.19.6/gb.pdf/src/CPdfDocument.cpp
---- gambas-3.19.6/gb.pdf/src/CPdfDocument.cpp.omv~	2025-01-06 16:16:35.325699401 +0100
-+++ gambas-3.19.6/gb.pdf/src/CPdfDocument.cpp	2025-01-06 16:18:31.291650589 +0100
+diff -up gambas-3.20.0/gb.pdf/src/CPdfDocument.cpp.fix gambas-3.20.0/gb.pdf/src/CPdfDocument.cpp
+--- gambas-3.20.0/gb.pdf/src/CPdfDocument.cpp.fix	2025-01-08 17:00:44.000000000 -0500
++++ gambas-3.20.0/gb.pdf/src/CPdfDocument.cpp	2025-01-17 11:37:52.831010018 -0500
 @@ -1027,8 +1027,8 @@ END_PROPERTY
  BEGIN_METHOD(PDFPAGE_select, GB_INTEGER X; GB_INTEGER Y; GB_INTEGER W; GB_INTEGER H)
  
@@ -12,9 +12,9 @@ diff -up gambas-3.19.6/gb.pdf/src/CPdfDocument.cpp.omv~ gambas-3.19.6/gb.pdf/src
  	int32_t x,y,w,h;
  
  	x = VARGOPT(X, 0);
-@@ -1039,22 +1039,14 @@ BEGIN_METHOD(PDFPAGE_select, GB_INTEGER
- 	dev = new TextOutputDev (NULL, true, 0, false, false);
- 	gfx = THIS->page->createGfx(dev,72.0,72.0,0,false,true,-1, -1, -1, -1, nullptr, NULL, NULL);
+@@ -1043,22 +1043,14 @@ BEGIN_METHOD(PDFPAGE_select, GB_INTEGER
+ 	gfx = THIS->page->createGfx(dev,72.0,72.0,0,false,true,-1, -1, -1, -1, false, NULL, NULL);
+ #endif
  
 -	THIS->page->display(gfx);
 +	THIS->page->display(gfx.get());
@@ -33,7 +33,7 @@ diff -up gambas-3.19.6/gb.pdf/src/CPdfDocument.cpp.omv~ gambas-3.19.6/gb.pdf/src
 -	
 -	GB.ReturnNewString(str->getCString(),str->getLength());	
 -	delete str;
-+	GB.ReturnNewString(str.getCString(),str.getLength());	
++	GB.ReturnNewString(str.getCString(),str.getLength());
  
  END_METHOD
  

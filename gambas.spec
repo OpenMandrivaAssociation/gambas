@@ -1,27 +1,20 @@
-%bcond_without qt5webkit
-
 %define _disable_rebuild_configure 1
 %define _disable_ld_no_undefined 1
 %define Werror_cflags %nil
 
 Name:		gambas
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.19.6
-Release:	2
+Version:	3.20.0
+Release:	1
 License:	GPLv2+
 Group:		Development/Other
 URL:		https://gambas.sourceforge.net
 Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
-# Recognize wayland-egl, wayland-xcomposite-egl, wayland-xcomposite-glx etc. QPA platforms
-Patch0:		gambas-3.18.3-qt5-wayland.patch
-# Use Qt in LXQt and "neutral" desktops
-Patch1:		gambas-3.18.4-gui-toolkit-choice.patch
+
 Patch2:		gambas-3.19.0-clang.patch
-Patch3:		gambas-3.19.1-poppler-24.05.patch
-Patch4:		gambas-3.19.5-poppler-24.10.patch
-Patch5:		gambas-3.19.6-poppler-25.01.patch
+Patch3:		gambas-3.20.0-poppler.patch
 
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
@@ -71,24 +64,19 @@ BuildRequires:  pkgconfig(libpcre)
 BuildRequires:  pkgconfig(ice)
 BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(poppler-glib)
-BuildRequires:	pkgconfig(poppler-qt5)
+BuildRequires:	pkgconfig(poppler-qt6)
 BuildRequires:	pkgconfig(poppler-cpp)
 BuildRequires:	pkgconfig(libxcrypt)
 BuildRequires:	%{_lib}crypt-static-devel
 BuildRequires:	pkgconfig(gtk+-3.0)
 BuildRequires:	pkgconfig(webkit2gtk-4.1)
 
-BuildRequires:	pkgconfig(Qt5WebView)
-BuildRequires:  pkgconfig(Qt5WebEngineWidgets)
-%if %{with qt5webkit}
-BuildRequires:  pkgconfig(Qt5WebKit)
-BuildRequires:	pkgconfig(Qt5WebKitWidgets)
-%endif
-BuildRequires:	pkgconfig(Qt5X11Extras)
-BuildRequires:	qt5-macros
-BuildRequires:	qt5-qtbase-devel
-BuildRequires:	pkgconfig(Qt5Sql)
-BuildRequires:	pkgconfig(Qt5Svg)
+BuildRequires:	pkgconfig(Qt6WebView)
+BuildRequires:  pkgconfig(Qt6WebEngineWidgets)
+BuildRequires:	pkgconfig(Qt6Core)
+BuildRequires:	pkgconfig(Qt6Widgets)
+BuildRequires:	pkgconfig(Qt6Sql)
+BuildRequires:	pkgconfig(Qt6Svg)
 
 # keep gmime-devel for portability
 BuildRequires:  pkgconfig(gmime-2.6)
@@ -166,9 +154,6 @@ CXXFLAGS="%{optflags} -std=gnu++20" \
 	--disable-sdl \
 	--disable-sdlsound \
 	--disable-sqlite2 \
-	%if %{without qt5webkit}
-	--disable-qt5webkit \
-	%endif
 	--with-crypt-libraries=%{_libdir} \
 	--with-poppler-libraries=%{_libdir}
 %make_build
@@ -296,14 +281,9 @@ Requires: %{name}-gb.cairo
 Requires: %{name}-gb.chart
 Requires: %{name}-gb.clipper = %{version}
 Requires: %{name}-gb.db = %{version}
-Requires: %{name}-gb.qt5 = %{version}
-Requires: %{name}-gb.qt5.ext = %{version}
-%if %{with qt5webkit}
-Requires: %{name}-gb.qt5.webkit = %{version}
-%else
-Obsoletes: %{name}-gb.qt5.webkit
-%endif
-Requires: %{name}-gb.qt5.webview = %{version}
+Requires: %{name}-gb.qt6 = %{version}
+Requires: %{name}-gb.qt6.ext = %{version}
+Requires: %{name}-gb.qt6.webview = %{version}
 Requires: %{name}-gb.db.form = %{version}
 Requires: %{name}-gb.desktop = %{version}
 Requires: %{name}-gb.form = %{version}
@@ -408,11 +388,15 @@ This component allows you to access many databases management systems,
 provided that you install the needed driver packages.
 
 %files gb.db
-%doc README ChangeLog
+%doc README
 %{_libdir}/gambas3/gb.db.so*
+%{_libdir}/gambas3/gb.db2.component
 %{_libdir}/gambas3/gb.db.component
+%{_libdir}/gambas3/gb.db2.gambas
 %{_libdir}/gambas3/gb.db.gambas
+%{_datadir}/gambas3/info/gb.db2.info
 %{_datadir}/gambas3/info/gb.db.info
+%{_datadir}/gambas3/info/gb.db2.list
 %{_datadir}/gambas3/info/gb.db.list
 
 #-----------------------------------------------------------------------------
@@ -427,9 +411,11 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas Database form components.
 
 %files gb.db.form
-%doc README ChangeLog
+%{_libdir}/gambas3/gb.db2.form.*
 %{_libdir}/gambas3/gb.db.form.*
+%{_datadir}/gambas3/info/gb.db2.form.*
 %{_datadir}/gambas3/info/gb.db.form.*
+%{_datadir}/gambas3/control/gb.db2.form
 %{_datadir}/gambas3/control/gb.db.form
 
 #-----------------------------------------------------------------------------
@@ -444,8 +430,9 @@ Requires: %{name}-runtime = %{version},%{name}-gb.db = %{version}
 This component allows you to access MariaDB and MySQL databases.
 
 %files gb.db.mysql
-%doc README ChangeLog
+%{_libdir}/gambas3/gb.db2.mysql.*
 %{_libdir}/gambas3/gb.db.mysql.*
+%{_datadir}/gambas3/info/gb.db2.mysql.*
 %{_datadir}/gambas3/info/gb.db.mysql.*
 
 #-----------------------------------------------------------------------------
@@ -460,8 +447,9 @@ Requires: %{name}-runtime = %{version},%{name}-gb.db = %{version}
 This component allows you to access ODBC databases.
 
 %files gb.db.odbc
-%doc README ChangeLog
+%{_libdir}/gambas3/gb.db2.odbc.*
 %{_libdir}/gambas3/gb.db.odbc.*
+%{_datadir}/gambas3/info/gb.db2.odbc.*
 %{_datadir}/gambas3/info/gb.db.odbc.*
 
 #-----------------------------------------------------------------------------
@@ -476,8 +464,9 @@ Requires: %{name}-runtime = %{version},%{name}-gb.db = %{version}
 This component allows you to access PostgreSQL databases.
 
 %files gb.db.postgresql
-%doc README ChangeLog
+%{_libdir}/gambas3/gb.db2.postgresql.*
 %{_libdir}/gambas3/gb.db.postgresql.*
+%{_datadir}/gambas3/info/gb.db2.postgresql.*
 %{_datadir}/gambas3/info/gb.db.postgresql.*
 
 #-----------------------------------------------------------------------------
@@ -492,8 +481,9 @@ Requires: %{name}-runtime = %{version},%{name}-gb.db = %{version}
 This component allows you to access SQLite 3 databases.
 
 %files gb.db.sqlite3
-%doc README ChangeLog
+%{_libdir}/gambas3/gb.db2.sqlite3.*
 %{_libdir}/gambas3/gb.db.sqlite3.*
+%{_datadir}/gambas3/info/gb.db2.sqlite3.*
 %{_datadir}/gambas3/info/gb.db.sqlite3.*
 
 #-----------------------------------------------------------------------------
@@ -508,7 +498,6 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas D-bus components.
 
 %files gb.dbus
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.dbus.*
 %{_datadir}/gambas3/info/gb.dbus.*
 
@@ -525,7 +514,6 @@ This component allows you to use desktop-agnostic routines based on
 the xdg-utils scripts of the Portland project.
 
 %files gb.desktop
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.desktop.*
 %{_datadir}/gambas3/info/gb.desktop.*
 %{_datadir}/gambas3/control/gb.desktop
@@ -541,7 +529,6 @@ Requires: %{name}-runtime = %{version}
 This component implements the highlight componet.
 
 %files gb.highlight
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.highlight.*
 %{_datadir}/gambas3/info/gb.highlight.*
 
@@ -557,7 +544,6 @@ Requires: %{name}-runtime = %{version}
 This component implements the eval-highlight componet.
 
 %files gb.eval.highlight
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.eval.highlight.*
 %{_datadir}/gambas3/info/gb.eval.highlight.*
 
@@ -573,7 +559,6 @@ Requires: %{name}-runtime = %{version}
 This component implements the form control.
 
 %files gb.form
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.form.component
 %{_libdir}/gambas3/gb.form.gambas
 %{_datadir}/gambas3/control/gb.form
@@ -592,7 +577,6 @@ Requires: %{name}-runtime = %{version}
 This component implements the form.dialog control.
 
 %files gb.form.dialog
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.form.dialog.component
 %{_libdir}/gambas3/gb.form.dialog.gambas
 %{_datadir}/gambas3/info/gb.form.dialog.info
@@ -625,7 +609,6 @@ Requires: %{name}-runtime = %{version}
 This component implements the form-mdi control.
 
 %files gb.form.mdi
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.form.mdi.component
 %{_libdir}/gambas3/gb.form.mdi.gambas
 %{_datadir}/gambas3/control/gb.form.mdi
@@ -644,7 +627,6 @@ Requires: %{name}-runtime = %{version}
 This component implements the form-stock control.
 
 %files gb.form.stock
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.form.stock.component
 %{_libdir}/gambas3/gb.form.stock.gambas
 %{_datadir}/gambas3/info/gb.form.stock.info
@@ -678,7 +660,6 @@ Requires: %{name}-runtime = %{version}
 This component provides an interface to the GNU Scientific Library.
 
 %files gb.gsl
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.gsl.*
 %{_datadir}/gambas3/info/gb.gsl.*
 
@@ -688,15 +669,14 @@ Summary: The Gambas GUI component
 Group: Development/Other
 Requires: %{name}-runtime = %{version}
 Requires: %{name}-gui-backend = %{EVRD}
-Suggests: %{name}-gb.qt5 = %{EVRD}
+Suggests: %{name}-gb.qt6 = %{EVRD}
 %rename gambas3-gb-gui
 
 %description gb.gui
 This is a component that just loads gb.gtk if you are running GNOME,
-MATE, Cinnamon or XFCE, or gb.qt5 in the other cases.
+MATE, Cinnamon or XFCE, or gb.qt6 in the other cases.
 
 %files gb.gui
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.gui.*
 %{_datadir}/gambas3/info/gb.gui.*
 
@@ -730,7 +710,6 @@ Requires: %{name}-runtime = %{version}
 This component allows you to apply various effects to images.
 
 %files gb.image
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.image.component
 %{_libdir}/gambas3/gb.image.so*
 %{_datadir}/gambas3/info/gb.image.info
@@ -748,7 +727,6 @@ Requires: %{name}-runtime = %{version}
 This component allows you to apply various effects to images.
 
 %files gb.image.effect
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.image.effect.*
 %{_datadir}/gambas3/info/gb.image.effect.*
 
@@ -764,7 +742,6 @@ Requires: %{name}-runtime = %{version}
 This component allows you to manipulate images with imlibs.
 
 %files gb.image.imlib
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.image.imlib.*
 %{_datadir}/gambas3/info/gb.image.imlib.*
 
@@ -780,7 +757,6 @@ Requires: %{name}-runtime = %{version}
 This component allows you to perform images input output operations.
 
 %files gb.image.io
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.image.io.*
 %{_datadir}/gambas3/info/gb.image.io.*
 
@@ -795,7 +771,6 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas media component.
 
 %files gb.media
-%doc README  ChangeLog
 %{_libdir}/gambas3/gb.media.*
 %{_datadir}/gambas3/info/gb.media.*
 %{_datadir}/gambas3/control/gb.media.form/mediaview.png
@@ -811,7 +786,6 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas MySQL components.
 
 %files gb.mysql
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.mysql.*
 %{_datadir}/gambas3/info/gb.mysql.*
 
@@ -826,7 +800,6 @@ Requires: %{name}-runtime = %{version}
 This component allows you to use ncurses with gambas.
 
 %files gb.ncurses
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.ncurses.so*
 %{_libdir}/gambas3/gb.ncurses.component
 %{_datadir}/gambas3/info/gb.ncurses.info
@@ -844,7 +817,6 @@ This component allows you to use TCP/IP and UDP sockets, and to access
 any serial ports.
 
 %files gb.net
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.net.so*
 %{_libdir}/gambas3/gb.net.component
 %{_datadir}/gambas3/control/gb.net
@@ -864,7 +836,6 @@ Requires: %{name}-gb.net = %{version}
 This component allows your programs to easily become FTP or HTTP clients.
 
 %files gb.net.curl
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.net.curl.so*
 %{_libdir}/gambas3/gb.net.curl.component
 %{_libdir}/gambas3/gb.net.curl.gambas
@@ -884,7 +855,6 @@ Requires: %{name}-runtime = %{version},%{name}-gb.net = %{version}
 This component allows you to send emails using the SMTP protocol.
 
 %files gb.net.smtp
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.net.smtp.*
 %{_datadir}/gambas3/info/gb.net.smtp.*
 %{_datadir}/gambas3/control/gb.net.smtp/smtpclient.png
@@ -900,7 +870,6 @@ Requires: %{name}-runtime = %{version}
 This component allows you to use OpenGL libraries to do 3D operations.
 
 %files gb.opengl
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.opengl.component
 %{_libdir}/gambas3/gb.opengl.so*
 %{_datadir}/gambas3/info/gb.opengl.info
@@ -919,7 +888,6 @@ This component allows you to use OpenGL libraries to do 3D operations
 with GLSL shaders.
 
 %files gb.opengl.glsl
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.opengl.glsl.*
 %{_datadir}/gambas3/info/gb.opengl.glsl.*
 
@@ -935,7 +903,6 @@ Requires: %{name}-runtime = %{version}
 This component allows you to use the Mesa libraries to do 3D operations.
 
 %files gb.opengl.glu
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.opengl.glu.*
 %{_datadir}/gambas3/info/gb.opengl.glu.*
 
@@ -951,7 +918,6 @@ Requires: %{name}-runtime = %{version}
 This component allows you to interpret command-line options.
 
 %files gb.option
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.option.*
 %{_datadir}/gambas3/info/gb.option.*
 
@@ -968,7 +934,6 @@ This component allows you to use Perl compatible regular expresions
 within Gambas code.
 
 %files gb.pcre
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.pcre.*
 %{_datadir}/gambas3/info/gb.pcre.*
 
@@ -984,7 +949,6 @@ Requires: %{name}-runtime = %{version}
 This component allows you to manipulate pdf files with Gambas code.
 
 %files gb.pdf
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.pdf.*
 %{_datadir}/gambas3/info/gb.pdf.*
 
@@ -1000,7 +964,6 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas Report components.
 
 %files gb.report
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.report.*
 %{_datadir}/gambas3/info/gb.report.*
 %{_datadir}/gambas3/control/gb.report
@@ -1017,7 +980,6 @@ Requires: %{name}-runtime = %{version}
 This components allows you to deal with configuration files.
 
 %files gb.settings
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.settings.*
 %{_datadir}/gambas3/info/gb.settings.*
 
@@ -1033,7 +995,6 @@ Requires: %{name}-runtime = %{version}
 This package contains the Gambas Signal components.
 
 %files gb.signal
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.signal.*
 %{_datadir}/gambas3/info/gb.signal.*
 
@@ -1065,7 +1026,6 @@ This components allows you to use the Video4Linux interface with
 Gambas.
 
 %files gb.v4l
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.v4l.*
 %{_datadir}/gambas3/info/gb.v4l.*
 
@@ -1082,7 +1042,6 @@ behaviour of Visual Basic(TM) functions. Use it only if you want to
 port some VB projects.
 
 %files gb.vb
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.vb.*
 %{_datadir}/gambas3/info/gb.vb.*
 
@@ -1098,7 +1057,6 @@ This components allows you to make CGI web applications using Gambas,
 with an ASP-like interface.
 
 %files gb.web
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.web.*
 %{_datadir}/gambas3/info/gb.web.*
 %{_datadir}/gambas3/control/gb.web.form
@@ -1133,7 +1091,6 @@ Requires: %{name}-runtime = %{version}
 This component allows you to use xml.
 
 %files gb.libxml
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.libxml.so*
 %{_libdir}/gambas3/gb.libxml.component
 %{_datadir}/gambas3/info/gb.libxml.info
@@ -1150,7 +1107,6 @@ Requires: %{name}-runtime = %{version}
 This component allows you to use xml.
 
 %files gb.xml
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.xml.gambas
 %{_libdir}/gambas3/gb.xml.so*
 %{_libdir}/gambas3/gb.xml.component
@@ -1169,7 +1125,6 @@ Requires: %{name}-gb.xml
 This component allows you to use xml html.
 
 %files gb.xml.html
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.xml.html.so*
 %{_libdir}/gambas3/gb.xml.html.component
 %{_datadir}/gambas3/info/gb.xml.html.info
@@ -1187,7 +1142,6 @@ Requires: %{name}-gb.xml
 This component allows you to use xml-rpc.
 
 %files gb.xml.rpc
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.xml.rpc*
 # added info, list
 %{_datadir}/gambas3/info/gb.xml.rpc.info
@@ -1205,7 +1159,6 @@ Requires: %{name}-runtime = %{version}
 This component allows you to use XSLT transformations on XML.
 
 %files gb.xml.xslt
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.xml.xslt*
 %{_datadir}/gambas3/info/gb.xml.xslt*
 
@@ -1223,7 +1176,6 @@ number constant is encountered and no loaded component
 can already handle complex numbers.
 
 %files gb.complex
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.complex*
 %{_datadir}/gambas3/info/gb.complex*
 #-----------------------------------------------------------------------------
@@ -1238,7 +1190,6 @@ Requires: %{name}-runtime = %{version}
 New component that adds new container datatypes to Gambas.
 
 %files gb.data
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.data*
 %{_datadir}/gambas3/info/gb.data*
 
@@ -1253,7 +1204,6 @@ Requires: %{name}-runtime = %{version}
 New component that allows to encode and decode MIME messages.
 
 %files gb.mime
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.mime.component
 %{_libdir}/gambas3/gb.mime.so
 %{_libdir}/gambas3/gb.mime.so.0
@@ -1274,7 +1224,6 @@ Requires:	%{name}-runtime = %{version}-%{release}
 New component that implements a POP3 client.
 
 %files gb.net.pop3
-%doc README  ChangeLog
 %{_libdir}/gambas3/gb.net.pop3.*
 %{_datadir}/gambas3/info/gb.net.pop3.*
 %{_datadir}/gambas3/control/gb.net.pop3/pop3client.png
@@ -1353,7 +1302,6 @@ This component provides the TextEditor control,
 which is a text editor with syntax highlighting support.
 
 %files gb.form.editor
-%doc README  ChangeLog
 %{_libdir}/gambas3/gb.form.editor.component
 %{_libdir}/gambas3/gb.form.editor.gambas
 %{_datadir}/gambas3/info/gb.form.editor.info
@@ -1373,7 +1321,6 @@ This component provides the Terminal control,
 a VT220 compatible terminal widget.
 
 %files gb.form.terminal
-%doc README  ChangeLog
 %{_libdir}/gambas3/gb.form.terminal.component
 %{_libdir}/gambas3/gb.form.terminal.gambas
 %{_datadir}/gambas3/info/gb.form.terminal.info
@@ -1381,96 +1328,73 @@ a VT220 compatible terminal widget.
 %{_datadir}/gambas3/control/gb.form.terminal
 
 #-----------------------------------------------------------------------------
-%package gb.qt5
+%package gb.qt6
 Summary: The Gambas Qt GUI component
 Group: Development/Other
 Requires: %{name}-runtime = %{EVRD}
 Provides:	%{name}-gui-backend = %{EVRD}
-%rename gambas3-gb-qt5
+%rename gambas3-gb-qt6
 
-%description gb.qt5
+%description gb.qt6
 This package includes the Gambas QT GUI component.
 
-%files gb.qt5
-%doc README ChangeLog
-%{_libdir}/gambas3/gb.qt5.component
-%{_libdir}/gambas3/gb.qt5.so*
-%{_libdir}/gambas3/gb.qt5.wayland.component
-%{_libdir}/gambas3/gb.qt5.wayland.so*
-%{_libdir}/gambas3/gb.qt5.x11.component
-%{_libdir}/gambas3/gb.qt5.x11.so*
-%{_datadir}/gambas3/info/gb.qt5.wayland.info
-%{_datadir}/gambas3/info/gb.qt5.wayland.list
-%{_datadir}/gambas3/info/gb.qt5.x11.info
-%{_datadir}/gambas3/info/gb.qt5.x11.list
-%{_datadir}/gambas3/info/gb.qt5.info
-%{_datadir}/gambas3/info/gb.qt5.list
+%files gb.qt6
+%{_libdir}/gambas3/gb.qt6.component
+%{_libdir}/gambas3/gb.qt6.so*
+%{_libdir}/gambas3/gb.qt6.wayland.component
+%{_libdir}/gambas3/gb.qt6.wayland.so*
+%{_libdir}/gambas3/gb.qt6.x11.component
+%{_libdir}/gambas3/gb.qt6.x11.so*
+%{_datadir}/gambas3/info/gb.qt6.wayland.info
+%{_datadir}/gambas3/info/gb.qt6.wayland.list
+%{_datadir}/gambas3/info/gb.qt6.x11.info
+%{_datadir}/gambas3/info/gb.qt6.x11.list
+%{_datadir}/gambas3/info/gb.qt6.info
+%{_datadir}/gambas3/info/gb.qt6.list
 
 #-----------------------------------------------------------------------------
-%package gb.qt5.ext
+%package gb.qt6.ext
 Summary: The Gambas Qt GUI extensions component
 Group: Development/Other
-Requires: %{name}-gb.qt5 = %{EVRD}
-%rename gambas3-gb-qt5-ext
+Requires: %{name}-gb.qt6 = %{EVRD}
+%rename gambas3-gb-qt6-ext
 
-%description gb.qt5.ext
+%description gb.qt6.ext
 This package includes the Gambas QT GUI extensions component.
 
-%files gb.qt5.ext
-%{_libdir}/gambas3/gb.qt5.ext.component
-%{_libdir}/gambas3/gb.qt5.ext.so*
-%{_datadir}/gambas3/info/gb.qt5.ext.info
-%{_datadir}/gambas3/info/gb.qt5.ext.list
+%files gb.qt6.ext
+%{_libdir}/gambas3/gb.qt6.ext.component
+%{_libdir}/gambas3/gb.qt6.ext.so*
+%{_datadir}/gambas3/info/gb.qt6.ext.info
+%{_datadir}/gambas3/info/gb.qt6.ext.list
 
 #-----------------------------------------------------------------------------
-%package gb.qt5.opengl
+%package gb.qt6.opengl
 Summary: The Gambas qt-opengl component
 Group: Development/Other
 Requires: %{name}-runtime = %{EVRD}
-%rename gambas3-gb-qt5-opengl
+%rename gambas3-gb-qt6-opengl
 
-%description gb.qt5.opengl
+%description gb.qt6.opengl
 This package contains the Gambas qt-opengl components.
 
-%files gb.qt5.opengl
-%doc README  ChangeLog
-%{_libdir}/gambas3/gb.qt5.opengl.*
-%{_datadir}/gambas3/info/gb.qt5.opengl.*
+%files gb.qt6.opengl
+%{_libdir}/gambas3/gb.qt6.opengl.*
+%{_datadir}/gambas3/info/gb.qt6.opengl.*
 
-#-----------------------------------------------------------------------------
-%if %{with qt5webkit}
-
-%package gb.qt5.webkit
-Summary: The Gambas qt-webkit component
-Group: Development/Other
-Requires: %{name}-runtime = %{EVRD}
-%rename gambas3-gb-qt5-webkit
-
-%description gb.qt5.webkit
-This package contains the Gambas qt-webkit components.
-
-%files gb.qt5.webkit
-%doc README ChangeLog
-%{_libdir}/gambas3/gb.qt5.webkit.*
-%{_datadir}/gambas3/info/gb.qt5.webkit.*
-%{_datadir}/gambas3/control/gb.qt5.webkit
-
-%endif
-
-#-----------------------------------------------------------------------------
-%package gb.qt5.webview
+%package gb.qt6.webview
 Summary: The Gambas qt-webview component
 Group: Development/Other
 Requires: %{name}-runtime = %{EVRD}
-%rename gambas3-gb-qt5-webview
+%rename gambas3-gb-qt6-webview
 
-%description gb.qt5.webview
+%description gb.qt6.webview
 This package contains the Gambas qt-webview components.
 
-%files gb.qt5.webview
-%{_libdir}/gambas3/gb.qt5.webview.component
-%{_libdir}/gambas3/gb.qt5.webview.so*
-%{_datadir}/gambas3/info/gb.qt5.webview.*
+%files gb.qt6.webview
+%{_libdir}/gambas3/gb.qt6.webview.component
+%{_libdir}/gambas3/gb.qt6.webview.so*
+%{_datadir}/gambas3/info/gb.qt6.webview.*
 
 #-----------------------------------------------------------------------------
 %package gb.clipper
@@ -1483,9 +1407,8 @@ Requires:      %{name}-runtime = %{EVRD}
 New component based on the Clipper library
 
 %files gb.clipper
-%doc README ChangeLog
-%{_libdir}/gambas3/gb.clipper.*
-%{_datadir}/gambas3/info/gb.clipper.*
+%{_libdir}/gambas3/gb.clipper*
+%{_datadir}/gambas3/info/gb.clipper*
 
 #----------------------------------------------------------------------------
 %package gb.gmp
@@ -1499,7 +1422,6 @@ New component based on the Gnu Multiple Precision Arithmetic
 Library that implements big integers and big rational numbers.
 
 %files gb.gmp
-%doc README  ChangeLog
 %{_libdir}/gambas3/gb.gmp.*
 %dir %{_datadir}/gambas3/info
 %{_datadir}/gambas3/info/gb.gmp.*
@@ -1516,7 +1438,6 @@ Provides:	%{name}-gui-backend = %{EVRD}
 Gambas component package for gtk3.
 
 %files gb.gtk3
-%doc README  ChangeLog
 %{_libdir}/gambas3/gb.gtk3.component
 %{_libdir}/gambas3/gb.gtk3.so*
 %{_libdir}/gambas3/gb.gtk3.opengl.*
@@ -1558,7 +1479,6 @@ Requires:      %{name}-runtime = %{EVRD}
 Gambas component package for inotify.
 
 %files gb.inotify
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.inotify.component
 %{_libdir}/gambas3/gb.inotify.so*
 %{_datadir}/gambas3/info/gb.inotify.info
@@ -1575,7 +1495,6 @@ Requires:      %{name}-runtime = %{EVRD}
 Gambas component for logging
 
 %files gb.logging
-%doc README  ChangeLog
 %{_libdir}/gambas3/gb.logging.*
 %{_datadir}/gambas3/info/gb.logging.*
 
@@ -1591,7 +1510,6 @@ Gambas component package for markdown.
 
 
 %files gb.markdown
-%doc README  ChangeLog
 %{_libdir}/gambas3/gb.markdown.component
 %{_libdir}/gambas3/gb.markdown.gambas
 %{_datadir}/gambas3/info/gb.markdown.info
@@ -1608,7 +1526,6 @@ Requires:      %{name}-runtime = %{EVRD}
 Component based on the OpenAL 3D audio library.
 
 %files gb.openal
-%doc README  ChangeLog
 %{_libdir}/gambas3/gb.openal.*
 %{_datadir}/gambas3/info/gb.openal.*
 
@@ -1624,7 +1541,6 @@ Requires:      %{name}-gb.opengl = %{EVRD}
 Component that implements a simple OpenGL game engine based on the MD2 format.
 
 %files gb.opengl.sge
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.opengl.sge.*
 %dir %{_datadir}/gambas3/info
 %{_datadir}/gambas3/info/gb.opengl.sge.*
@@ -1656,7 +1572,6 @@ Component to wrap cryptographic functions of
 libcrypto from the OpenSSL project.
 
 %files gb.openssl
-%doc README  ChangeLog
 %{_libdir}/gambas3/gb.openssl.*
 %{_datadir}/gambas3/info/gb.openssl.*
 
@@ -1671,7 +1586,6 @@ Requires:	%{name}-runtime = %{EVRD}
 gb.report2 is a new and better implementation of the Gambas reporting component.
 
 %files gb.report2
-%doc README  ChangeLog
 %{_libdir}/gambas3/gb.report2.component
 %{_libdir}/gambas3/gb.report2.gambas
 %{_datadir}/gambas3/control/gb.report2/*.png
@@ -1692,7 +1606,6 @@ one music track that can play music from a file. Everything is mixed
 in real time  using SDL2.
 
 %files gb.sdl2.sound
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.sdl2.audio.component
 %{_libdir}/gambas3/gb.sdl2.audio.so
 %{_libdir}/gambas3/gb.sdl2.audio.so.0
@@ -1713,8 +1626,7 @@ library. It allows you to simultaneously play many sounds and music
 stored in a file. If OpenGL drivers are installed it uses them to 
 accelerate 2D and 3D drawing.
 
-%files gb.sdl2
-%doc README  ChangeLog 
+%files gb.sdl2 
 %{_libdir}/gambas3/gb.sdl2.so
 %{_libdir}/gambas3/gb.sdl2.so.*
 %{_libdir}/gambas3/gb.sdl2.component
@@ -1733,7 +1645,6 @@ Is a new component written in Gambas that
 provides utility functions to the interpreter.
 
 %files gb.util
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.util.component
 %{_libdir}/gambas3/gb.util.gambas
 %{_datadir}/gambas3/info/gb.util.info
@@ -1751,7 +1662,6 @@ Is a new component written in Gambas that
 provides utility functions to web applications.
 
 %files gb.util.web
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.util.web.component
 %{_libdir}/gambas3/gb.util.web.gambas
 %{_datadir}/gambas3/control/gb.util.web/ccontainer.png
@@ -1770,7 +1680,6 @@ Requires:	%{name}-runtime = %{EVRD}
 Is a new component based on SANE to help dealing with scanners.
 
 %files gb.scanner
-%doc README ChangeLog
 %{_libdir}/gambas3/gb.scanner.component
 %{_libdir}/gambas3/gb.scanner.gambas
 %{_datadir}/gambas3/info/gb.scanner.info
