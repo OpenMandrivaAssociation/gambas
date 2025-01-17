@@ -74,6 +74,7 @@ BuildRequires:	pkgconfig(Qt6Core)
 BuildRequires:	pkgconfig(Qt6Widgets)
 BuildRequires:	pkgconfig(Qt6Sql)
 BuildRequires:	pkgconfig(Qt6Svg)
+BuildRequires:	pkgconfig(Qt6OpenGLWidgets)
 
 # keep gmime-devel for portability
 BuildRequires:  pkgconfig(gmime-2.6)
