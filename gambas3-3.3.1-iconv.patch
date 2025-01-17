@@ -1,0 +1,14 @@
+diff -up gambas-3.20.0/main/configure.ac.5~ gambas-3.20.0/main/configure.ac
+--- gambas-3.20.0/main/configure.ac.5~	2025-01-18 00:07:28.436501046 +0100
++++ gambas-3.20.0/main/configure.ac	2025-01-18 00:08:02.562450384 +0100
+@@ -44,8 +44,8 @@ if test "x$GB_ICONV_LIB" != x; then
+ GB_COMPONENT(
+   conv, CONV, libiconv, [],
+   [GB_FIND(iconv.h, /opt/local /usr/local /usr, include)],
+-  [GB_FIND(libiconv.$SHLIBEXT, /opt/local /usr/local /usr, lib)],
+-  [-liconv],
++  [],
++  [],
+   [],
+   [Cannot find 'libiconv' library. It may be merged inside the system C library, so you can ignore that warning...])
+ 

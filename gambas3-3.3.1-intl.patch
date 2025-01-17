@@ -1,0 +1,14 @@
+diff -up gambas-3.20.0/main/configure.ac.6~ gambas-3.20.0/main/configure.ac
+--- gambas-3.20.0/main/configure.ac.6~	2025-01-18 00:08:20.810171092 +0100
++++ gambas-3.20.0/main/configure.ac	2025-01-18 00:08:43.178054913 +0100
+@@ -26,8 +26,8 @@ if test "x$GB_INTL_LIB" != x; then
+ GB_COMPONENT(
+   intl, INTL, libintl, [],
+   [GB_FIND(libintl.h, /opt/local /usr/local /usr, include)],
+-  [GB_FIND(libintl.$SHLIBEXT, /opt/local /usr/local /usr /, lib)],
+-  [-lintl],
++  [],
++  [],
+   [],
+   [Cannot find 'libintl' library. It may be located inside the system C library, so you can ignore that warning...])
+ 

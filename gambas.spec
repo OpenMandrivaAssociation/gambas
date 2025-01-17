@@ -5,16 +5,13 @@
 Name:		gambas
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
 Version:	3.20.0
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Development/Other
 URL:		https://gambas.sourceforge.net
 Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}.tar.bz2
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
-
-Patch2:		gambas-3.19.0-clang.patch
-Patch3:		gambas-3.20.0-poppler.patch
 
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
@@ -90,6 +87,15 @@ BuildRequires:  pkgconfig(gstreamer-app-1.0) >= 0.10.36
 
 # Renamed for 5.0 2023-10-07; can be dropped when 5.0 becomes obsolete
 %rename gambas3
+
+%patchlist
+gambas-3.19.0-clang.patch
+gambas-3.20.0-poppler.patch
+gambas-3.18.3-qt5-wayland.patch
+gambas-3.18.4-gui-toolkit-choice.patch
+gambas3-3.3.1-iconv.patch
+gambas3-3.3.1-intl.patch
+gambas-3.20.0-qt6-wayland.patch
 
 %description
 Gambas is a free development environment based on a Basic interpreter

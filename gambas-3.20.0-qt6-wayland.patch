@@ -1,0 +1,21 @@
+diff -up gambas-3.20.0/gb.qt6/src/main.cpp.7~ gambas-3.20.0/gb.qt6/src/main.cpp
+--- gambas-3.20.0/gb.qt6/src/main.cpp.7~	2025-01-18 00:08:59.792407120 +0100
++++ gambas-3.20.0/gb.qt6/src/main.cpp	2025-01-18 00:14:33.434317199 +0100
+@@ -723,7 +723,7 @@ static void hook_main(int *argc, char **
+ 		if (!strcasecmp(env, "X11"))
+ 			putenv((char *)"QT_QPA_PLATFORM=xcb");
+ 		else if (!strcasecmp(env, "WAYLAND"))
+-			putenv((char *)"QT_QPA_PLATFORM=wayland");
++			putenv((char *)"QT_QPA_PLATFORM=wayland-egl");
+ 		else
+ 			fprintf(stderr, QT_NAME ": warning: unknown platform: %s\n", env);
+ 	}
+@@ -732,7 +732,7 @@ static void hook_main(int *argc, char **
+ 	
+ 	platform = qApp->platformName();
+ 
+-	if (platform == "wayland")
++	if (platform.startsWith("wayland")) // Can also be wayland-egl etc.
+ 	{
+ 		comp = "gb.qt6.wayland";
+ 		MAIN_platform = "wayland";
