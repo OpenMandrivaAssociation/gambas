@@ -5,7 +5,7 @@
 Name:		gambas
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
 Version:	3.20.0
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Development/Other
 URL:		https://gambas.sourceforge.net
@@ -1340,7 +1340,8 @@ Summary: The Gambas Qt GUI component
 Group: Development/Other
 Requires: %{name}-runtime = %{EVRD}
 Provides:	%{name}-gui-backend = %{EVRD}
-%rename gambas3-gb-qt6
+Obsoletes: gambas3-gb-qt5 < %{EVRD}
+Obsoletes: gambas-gb.qt5 < %{EVRD}
 
 %description gb.qt6
 This package includes the Gambas QT GUI component.
@@ -1364,7 +1365,8 @@ This package includes the Gambas QT GUI component.
 Summary: The Gambas Qt GUI extensions component
 Group: Development/Other
 Requires: %{name}-gb.qt6 = %{EVRD}
-%rename gambas3-gb-qt6-ext
+Obsoletes: gambas3-gb-qt6-ext < %{EVRD}
+Obsoletes: gambas-gb.qt5.ext < %{EVRD}
 
 %description gb.qt6.ext
 This package includes the Gambas QT GUI extensions component.
@@ -1380,7 +1382,8 @@ This package includes the Gambas QT GUI extensions component.
 Summary: The Gambas qt-opengl component
 Group: Development/Other
 Requires: %{name}-runtime = %{EVRD}
-%rename gambas3-gb-qt6-opengl
+Obsoletes: gambas3-gb-qt5-opengl < %{EVRD}
+Obsoletes: gambas-gb-qt5.opengl < %{EVRD}
 
 %description gb.qt6.opengl
 This package contains the Gambas qt-opengl components.
@@ -1393,7 +1396,8 @@ This package contains the Gambas qt-opengl components.
 Summary: The Gambas qt-webview component
 Group: Development/Other
 Requires: %{name}-runtime = %{EVRD}
-%rename gambas3-gb-qt6-webview
+Obsoletes: gambas3-gb-qt5-webview < %{EVRD}
+Obsoletes: gambas-gb.qt5.webview < %{EVRD}
 
 %description gb.qt6.webview
 This package contains the Gambas qt-webview components.
