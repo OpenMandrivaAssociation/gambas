@@ -4,8 +4,8 @@
 
 Name:		gambas
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.20.0
-Release:	3
+Version:	3.20.2
+Release:	1
 License:	GPLv2+
 Group:		Development/Other
 URL:		https://gambas.sourceforge.net
@@ -91,7 +91,6 @@ BuildRequires:  pkgconfig(gstreamer-app-1.0) >= 0.10.36
 
 %patchlist
 gambas-3.19.0-clang.patch
-gambas-3.20.0-poppler.patch
 gambas-3.18.3-qt5-wayland.patch
 gambas-3.18.4-gui-toolkit-choice.patch
 gambas3-3.3.1-iconv.patch
@@ -181,8 +180,8 @@ find %{buildroot} -name '*.la' -delete
 rm -f %{buildroot}%{_libdir}/gambas3/gb.so %{buildroot}%{_libdir}/gambas3/gb.so.*
 
 # menu entry && icons
-install -D -m 755 comp/src/gb.report/img/logo.svg %{buildroot}%{_iconsdir}/hicolor/scalable/apps/%{name}.png
-install -D -m 755 app/src/gambas3/img/logo/logo-ide.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
+install -D -m 755 app/src/gambas3/img/logo/gambas.svg %{buildroot}%{_iconsdir}/hicolor/scalable/apps/%{name}.png
+install -D -m 755 app/src/gambas3/img/logo/gambas-256.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
 install -D -m 644 %{SOURCE1} %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 desktop-file-install %{SOURCE1} %{buildroot}%{_datadir}/applications/%{name}.desktop
