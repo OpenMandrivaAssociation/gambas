@@ -96,6 +96,7 @@ gambas-3.18.4-gui-toolkit-choice.patch
 gambas3-3.3.1-iconv.patch
 gambas3-3.3.1-intl.patch
 gambas-3.20.0-qt6-wayland.patch
+gambas-poppler-24.06.patch
 
 %description
 Gambas is a free development environment based on a Basic interpreter

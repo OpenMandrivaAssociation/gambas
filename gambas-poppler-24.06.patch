@@ -1,0 +1,21 @@
+diff -up gambas-3.20.4/gb.pdf/src/CPdfDocument.cpp.omv~ gambas-3.20.4/gb.pdf/src/CPdfDocument.cpp
+--- gambas-3.20.4/gb.pdf/src/CPdfDocument.cpp.omv~	2025-06-05 14:16:39.764818694 +0200
++++ gambas-3.20.4/gb.pdf/src/CPdfDocument.cpp	2025-06-05 14:17:02.364154668 +0200
+@@ -1111,7 +1111,7 @@ BEGIN_METHOD (PDFPAGELINKS_get,GB_INTEGE
+ 	if (THIS->links && VARG(ind)>0)
+  	{
+ 		int i = 0;
+-		for (AnnotLink *link : THIS->links->getLinks()) {
++		for (auto link : THIS->links->getLinks()) {
+ 			if (VARG(ind)==i) {
+ 				THIS->action=link->getAction();
+ 				RETURN_SELF();
+@@ -1217,7 +1217,7 @@ static void aux_get_link_dimensions(void
+ 
+ 	uint i = 0;
+ 	l = t = w = h = 0;
+-	for (AnnotLink *link : THIS->links->getLinks()) {
++	for (auto link : THIS->links->getLinks()) {
+ 		if (i == THIS->lcurrent) {
+ 			link->getRect(&l, &t, &w, &h);
+ 			break;
