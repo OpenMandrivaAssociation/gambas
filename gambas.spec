@@ -4,8 +4,8 @@
 
 Name:		gambas
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.20.2
-Release:	2
+Version:	3.20.4
+Release:	3
 License:	GPLv2+
 Group:		Development/Other
 URL:		https://gambas.sourceforge.net
@@ -96,6 +96,7 @@ gambas-3.18.4-gui-toolkit-choice.patch
 gambas3-3.3.1-iconv.patch
 gambas3-3.3.1-intl.patch
 gambas-3.20.0-qt6-wayland.patch
+gambas-poppler-24.06.patch
 
 %description
 Gambas is a free development environment based on a Basic interpreter
