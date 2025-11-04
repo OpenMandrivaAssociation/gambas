@@ -1,0 +1,62 @@
+diff -up gambas-3.21.0/gb.pdf/src/CPdfDocument.cpp.omv~ gambas-3.21.0/gb.pdf/src/CPdfDocument.cpp
+--- gambas-3.21.0/gb.pdf/src/CPdfDocument.cpp.omv~	2025-11-04 22:14:02.587843443 +0100
++++ gambas-3.21.0/gb.pdf/src/CPdfDocument.cpp	2025-11-04 22:15:49.469933442 +0100
+@@ -183,11 +183,11 @@ static void aux_return_string_info(void
+ 		if (goo_value->hasUnicodeMarker())
+ #endif
+ 		{
+-			GB.ConvString (&tmpstr,goo_value->getCString()+2,goo_value->getLength()-2,"UTF-16BE","UTF-8");
++			GB.ConvString (&tmpstr,goo_value->getCString()+2,goo_value->size()-2,"UTF-16BE","UTF-8");
+ 			GB.ReturnNewZeroString(tmpstr);		
+ 		}		
+ 		else
+-			GB.ReturnNewString(goo_value->getCString(),goo_value->getLength());		
++			GB.ReturnNewString(goo_value->getCString(),goo_value->size());		
+ 	}
+ 	#if ! POPPLER_VERSION_0_58
+ 	dst.free();
+@@ -230,10 +230,10 @@ static void aux_return_date_info(void *_
+ #else
+ 		if (goo->hasUnicodeMarker())
+ #endif
+-			GB.ConvString (&datestr,goo->getCString()+2,goo->getLength()-2,"UTF-16BE","UTF-8");
++			GB.ConvString (&datestr,goo->getCString()+2,goo->size()-2,"UTF-16BE","UTF-8");
+ 		else
+ 		{
+-			datestr = GB.NewString(goo->getCString(),goo->getLength());
++			datestr = GB.NewString(goo->getCString(),goo->size());
+ 			tofree=datestr;		
+ 		}
+ 
+@@ -286,7 +286,7 @@ static uint32_t aux_get_page_from_action
+ 			name = ((LinkGoTo*)act)->getNamedDest();
+ 			if (name) {
+ 			#if POPPLER_VERSION_0_86
+-				dest = THIS->doc->findDest(name).get();
++				dest = std::move(THIS->doc->findDest(name).get());
+ 			#elif POPPLER_VERSION_0_64
+ 				dest = THIS->doc->findDest(name);
+ 			#else
+@@ -390,11 +390,11 @@ static char* aux_get_target_from_action(
+ 	if (tmp->hasUnicodeMarker())
+ #endif
+ 	{
+-			GB.ConvString (&uni,tmp->getCString()+2,tmp->getLength()-2,"UTF-16BE","UTF-8");
++			GB.ConvString (&uni,tmp->getCString()+2,tmp->size()-2,"UTF-16BE","UTF-8");
+ 			vl = GB.AddString(vl, uni, 0);	
+ 	}	
+ 	else
+-			vl = GB.AddString(vl,tmp->getCString(),tmp->getLength());
++			vl = GB.AddString(vl,tmp->getCString(),tmp->size());
+ 	
+ 
+ 	return vl;
+@@ -1065,7 +1065,7 @@ BEGIN_METHOD(PDFPAGE_select, GB_INTEGER
+ 	delete dev;
+ 
+ #if POPPLER_VERSION_25_01_0
+-	GB.ReturnNewString(str.getCString(),str.getLength());
++	GB.ReturnNewString(str.getCString(),str.size());
+ #else
+ 	if (!str)
+ 	{
