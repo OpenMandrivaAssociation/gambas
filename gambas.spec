@@ -15,7 +15,7 @@ Source100:	%name.rpmlintrc
 
 BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
-BuildRequires:	autoconf automake libtool-base slibtool
+BuildRequires:	autoconf automake libtool-base slibtool make
 BuildRequires:	unixODBC-devel
 BuildRequires:	gettext-devel
 BuildRequires:	pkgconfig(libpng)
