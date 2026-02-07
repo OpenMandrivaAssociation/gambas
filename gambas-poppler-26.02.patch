@@ -1,0 +1,31 @@
+diff -up gambas-3.21.3/gb.pdf/src/CPdfDocument.cpp.omv~ gambas-3.21.3/gb.pdf/src/CPdfDocument.cpp
+--- gambas-3.21.3/gb.pdf/src/CPdfDocument.cpp.omv~	2026-02-07 03:55:24.466668273 +0100
++++ gambas-3.21.3/gb.pdf/src/CPdfDocument.cpp	2026-02-07 03:59:32.009563358 +0100
+@@ -520,7 +520,7 @@ int32_t open_document (void *_object, ch
+ 	obj.initNull();
+ 	stream = new MemStream(buf,0,(uint)len,&obj);
+ 	#endif
+-	test = new PDFDoc(stream);
++	test = new PDFDoc(std::unique_ptr<BaseStream>(stream));
+ 
+ 	if (!test->isOk())
+ 	{
+@@ -539,7 +539,7 @@ int32_t open_document (void *_object, ch
+ 	THIS->len=len;
+ 
+ 	white[0] = 0xFF; white[1] = 0xFF; white[2] = 0xFF;
+-	THIS->dev=new SplashOutputDev(splashModeRGB8, 3, false, white);
++	THIS->dev=new SplashOutputDev(splashModeRGB8, 3, white, false);
+ 	THIS->dev->startDoc(THIS->doc);
+ 	outline=THIS->doc->getOutline();
+ 	if (outline) THIS->index=outline->getItems();
+@@ -1061,7 +1061,8 @@ BEGIN_METHOD(PDFPAGE_select, GB_INTEGER
+ 	THIS->page->display(gfx);
+ 	dev->endPage();
+ 
+-	str=dev->getText((double)x,(double)y,(double)(w+x),(double)(h+y));
++	PDFRectangle area((double)x,(double)y,(double)(w+x),(double)(h+y));
++	str=dev->getText(area);
+ 
+ #if !(POPPLER_VERSION_24_12_0)
+ 	delete gfx;
