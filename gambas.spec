@@ -13,7 +13,7 @@ Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
 
-#BuildRequires:  libtool-devel
+BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
 BuildRequires:	autoconf automake libtool-base slibtool make
 BuildRequires:	unixODBC-devel
@@ -96,8 +96,8 @@ gambas-3.18.4-gui-toolkit-choice.patch
 gambas3-3.3.1-iconv.patch
 gambas3-3.3.1-intl.patch
 gambas-3.20.0-qt6-wayland.patch
-gambas-3.21.0-poppler-25.11.patch
-gambas-poppler-26.02.patch
+#gambas-3.21.0-poppler-25.11.patch
+#gambas-poppler-26.02.patch
 
 %description
 Gambas is a free development environment based on a Basic interpreter
