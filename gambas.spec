@@ -13,7 +13,7 @@ Source0:	https://gitlab.com/gambas/gambas/-/archive/%{version}/gambas-%{version}
 Source1:	%{name}.desktop
 Source100:	%name.rpmlintrc
 
-BuildRequires:  libtool-devel
+#BuildRequires:  libtool-devel
 BuildRequires:	bzip2-devel
 BuildRequires:	autoconf automake libtool-base slibtool make
 BuildRequires:	unixODBC-devel
