@@ -1,7 +1,7 @@
-diff -up gambas-3.19.0/main/gbx/gbx_value.h.3~ gambas-3.19.0/main/gbx/gbx_value.h
---- gambas-3.19.0/main/gbx/gbx_value.h.3~	2024-02-16 00:33:51.000000000 +0100
-+++ gambas-3.19.0/main/gbx/gbx_value.h	2024-02-22 15:04:53.748070233 +0100
-@@ -274,16 +274,16 @@ void THROW_TYPE(TYPE wanted, TYPE got) N
+diff -uraN gambas-3.22.0/main/gbx/gbx_value.h omv-gambas-3.22.0/main/gbx/gbx_value.h
+--- gambas-3.22.0/main/gbx/gbx_value.h	2026-07-14 12:29:26.000000000 +0200
++++ omv-gambas-3.22.0/main/gbx/gbx_value.h	2026-07-21 22:05:03.395339521 +0200
+@@ -274,16 +274,16 @@
  #if 0
  
  #define VALUE_conv_boolean(_value) \
@@ -21,7 +21,7 @@ diff -up gambas-3.19.0/main/gbx/gbx_value.h.3~ gambas-3.19.0/main/gbx/gbx_value.
  	VALUE *v = _value; \
  	if (v->type != T_INTEGER) \
  	{ \
-@@ -291,10 +291,10 @@ void THROW_TYPE(TYPE wanted, TYPE got) N
+@@ -291,10 +291,10 @@
  			THROW_TYPE_INTEGER(v->type); \
  		VALUE_convert_integer(v); \
  	} \
@@ -34,7 +34,7 @@ diff -up gambas-3.19.0/main/gbx/gbx_value.h.3~ gambas-3.19.0/main/gbx/gbx_value.
  	VALUE *v = _value; \
  	if (v->type != T_FLOAT) \
  	{ \
-@@ -302,10 +302,10 @@ void THROW_TYPE(TYPE wanted, TYPE got) N
+@@ -302,10 +302,10 @@
  			THROW_TYPE_FLOAT(v->type); \
  		VALUE_convert_float(v); \
  	} \
@@ -47,7 +47,7 @@ diff -up gambas-3.19.0/main/gbx/gbx_value.h.3~ gambas-3.19.0/main/gbx/gbx_value.
  	VALUE *v = _value; \
  	if (v->type != T_STRING && v->type != T_CSTRING) \
  	{ \
-@@ -313,39 +313,39 @@ void THROW_TYPE(TYPE wanted, TYPE got) N
+@@ -313,33 +313,33 @@
  			THROW_TYPE_STRING(v->type); \
  		VALUE_convert_string(v); \
  	} \
@@ -80,13 +80,18 @@ diff -up gambas-3.19.0/main/gbx/gbx_value.h.3~ gambas-3.19.0/main/gbx/gbx_value.
 -})
 +}
  
- #define VALUE_conv_float(_value) \
+ #define VALUE_conv_integer(_value) \
 -({ \
 +{ \
- 	if ((_value)->type != T_FLOAT) \
- 		VALUE_convert_float(_value); \
+ 	if ((_value)->type != T_INTEGER) \
+ 		VALUE_convert_integer(_value); \
 -})
 +}
+ 
+ #define VALUE_conv_float(_value) \
+ ({ \
+@@ -348,10 +348,10 @@
+ })
  
  #define VALUE_conv_variant(_value) \
 -({ \
@@ -97,8 +102,8 @@ diff -up gambas-3.19.0/main/gbx/gbx_value.h.3~ gambas-3.19.0/main/gbx/gbx_value.
 +}
  
  //#define VALUE_conv_boolean(_value) VALUE_conv(_value, T_BOOLEAN)
- #define VALUE_conv_integer(_value) VALUE_conv(_value, T_INTEGER)
-@@ -354,17 +354,17 @@ void THROW_TYPE(TYPE wanted, TYPE got) N
+ //#define VALUE_conv_integer(_value) VALUE_conv(_value, T_INTEGER)
+@@ -360,17 +360,17 @@
  #define VALUE_conv_object(_value, _type) VALUE_conv(_value, _type)
  
  #define VALUE_conv_string(_value) \
@@ -119,7 +124,7 @@ diff -up gambas-3.19.0/main/gbx/gbx_value.h.3~ gambas-3.19.0/main/gbx/gbx_value.
  	static void *jump[17] = { \
  		&&__##_prefix##VOID, &&__##_prefix##BOOLEAN, &&__##_prefix##BYTE, &&__##_prefix##SHORT, &&__##_prefix##INTEGER, &&__##_prefix##LONG, &&__##_prefix##SINGLE, &&__##_prefix##FLOAT, &&__##_prefix##DATE, \
  		&&__##_prefix##STRING, &&__##_prefix##CSTRING, &&__##_prefix##POINTER, &&__##_prefix##VARIANT, &&__##_prefix##ARRAY, &&__##_prefix##STRUCT, &&__##_prefix##NULL, &&__##_prefix##OBJECT \
-@@ -474,10 +474,10 @@ void THROW_TYPE(TYPE wanted, TYPE got) N
+@@ -480,10 +480,10 @@
  	__##_prefix##NULL: \
  		THROW_ILLEGAL(); \
  	} \
@@ -132,7 +137,7 @@ diff -up gambas-3.19.0/main/gbx/gbx_value.h.3~ gambas-3.19.0/main/gbx/gbx_value.
  	static void *jump[] = \
  	{ \
  		&&__ILLEGAL, &&__INTEGER, &&__INTEGER, &&__INTEGER, &&__INTEGER, &&__LONG, &&__SINGLE, &&__FLOAT, \
-@@ -541,10 +541,10 @@ void THROW_TYPE(TYPE wanted, TYPE got) N
+@@ -547,10 +547,10 @@
  		\
  		THROW_ILLEGAL(); \
  	} \
@@ -145,7 +150,7 @@ diff -up gambas-3.19.0/main/gbx/gbx_value.h.3~ gambas-3.19.0/main/gbx/gbx_value.
  	static void *jump[17] = { \
  		&&__VOID, &&__BOOLEAN, &&__BYTE, &&__SHORT, &&__INTEGER, &&__LONG, &&__SINGLE, &&__FLOAT, &&__DATE, \
  		&&__STRING, &&__CSTRING, &&__POINTER, &&__VARIANT, &&__FUNCTION, &&__CLASS, &&__NULL, &&__OBJECT \
-@@ -656,6 +656,6 @@ void THROW_TYPE(TYPE wanted, TYPE got) N
+@@ -662,6 +662,6 @@
  	__NULL: \
  		THROW_ILLEGAL(); \
  	} \

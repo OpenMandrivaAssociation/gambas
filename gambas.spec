@@ -4,8 +4,8 @@
 
 Name:		gambas
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
-Version:	3.21.6
-Release:	2
+Version:	3.22.0
+Release:	1
 License:	GPLv2+
 Group:		Development/Other
 URL:		https://gambas.sourceforge.net
@@ -95,7 +95,7 @@ gambas-3.18.3-qt5-wayland.patch
 gambas-3.18.4-gui-toolkit-choice.patch
 gambas3-3.3.1-iconv.patch
 gambas3-3.3.1-intl.patch
-gambas-3.20.0-qt6-wayland.patch
+#gambas-3.20.0-qt6-wayland.patch
 #gambas-3.21.0-poppler-25.11.patch
 #gambas-poppler-26.02.patch
 

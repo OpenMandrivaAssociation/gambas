@@ -1,7 +1,7 @@
-diff -up gambas-3.20.0/gb.qt6/src/main.cpp.7~ gambas-3.20.0/gb.qt6/src/main.cpp
---- gambas-3.20.0/gb.qt6/src/main.cpp.7~	2025-01-18 00:08:59.792407120 +0100
-+++ gambas-3.20.0/gb.qt6/src/main.cpp	2025-01-18 00:14:33.434317199 +0100
-@@ -723,7 +723,7 @@ static void hook_main(int *argc, char **
+diff -uraN gambas-3.22.0/gb.qt6/src/main.cpp omv-gambas-3.22.0/gb.qt6/src/main.cpp
+--- gambas-3.22.0/gb.qt6/src/main.cpp	2026-07-14 12:29:26.000000000 +0200
++++ omv-gambas-3.22.0/gb.qt6/src/main.cpp	2026-07-21 22:37:39.407731161 +0200
+@@ -731,7 +731,7 @@
  		if (!strcasecmp(env, "X11"))
  			putenv((char *)"QT_QPA_PLATFORM=xcb");
  		else if (!strcasecmp(env, "WAYLAND"))
@@ -10,12 +10,12 @@ diff -up gambas-3.20.0/gb.qt6/src/main.cpp.7~ gambas-3.20.0/gb.qt6/src/main.cpp
  		else
  			fprintf(stderr, QT_NAME ": warning: unknown platform: %s\n", env);
  	}
-@@ -732,7 +732,7 @@ static void hook_main(int *argc, char **
+@@ -740,7 +740,7 @@
  	
  	platform = qApp->platformName();
  
 -	if (platform == "wayland")
 +	if (platform.startsWith("wayland")) // Can also be wayland-egl etc.
  	{
- 		comp = "gb.qt6.wayland";
+ 		comp = QT_NAME ".wayland";
  		MAIN_platform = "wayland";
