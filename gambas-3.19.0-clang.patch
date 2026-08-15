@@ -1,6 +1,6 @@
-diff -uraN gambas-3.22.0/main/gbx/gbx_value.h omv-gambas-3.22.0/main/gbx/gbx_value.h
---- gambas-3.22.0/main/gbx/gbx_value.h	2026-07-14 12:29:26.000000000 +0200
-+++ omv-gambas-3.22.0/main/gbx/gbx_value.h	2026-07-21 22:05:03.395339521 +0200
+diff -uraN gambas-3.22.1/main/gbx/gbx_value.h omv-gambas-3.22.1/main/gbx/gbx_value.h
+--- gambas-3.22.1/main/gbx/gbx_value.h	2026-07-14 12:29:26.000000000 +0200
++++ omv-gambas-3.22.1/main/gbx/gbx_value.h	2026-07-21 22:05:03.395339521 +0200
 @@ -274,16 +274,16 @@
  #if 0
  
