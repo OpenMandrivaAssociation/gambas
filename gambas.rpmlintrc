@@ -10,3 +10,7 @@ addFilter("W: not-standard-release-extension")
 addFilter("W: no-manual-page-for-binary")
 # gbc is needed by script component
 addFilter("E: devel-dependency")
+# SRPM lint does not see binary-package issues these filters target
+addFilter("E: unused-rpmlintrc-filter")
+# shared objects live in subpackages named gambas-gb.*, not lib*
+addFilter("E: lib-package-without-%mklibname")
