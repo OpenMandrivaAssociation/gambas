@@ -5,7 +5,7 @@
 Name:		gambas
 Summary:	Complete IDE based on a BASIC interpreter with object extensions
 Version:	3.22.1
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Development/Other
 URL:		https://gambas.sourceforge.net
@@ -159,6 +159,7 @@ CXXFLAGS="%{optflags} -std=gnu++20" \
 %configure \
 	--disable-gtk \
 	--disable-qt4 \
+	--disable-qt5 \
 	--disable-sdl \
 	--disable-sdlsound \
 	--disable-sqlite2 \
@@ -180,6 +181,9 @@ install -m 0644 -p main/mime/application-x-gambas3.xml %{buildroot}%{_datadir}/m
 # clean, should be done upstream
 find %{buildroot} -name '*.la' -delete
 rm -f %{buildroot}%{_libdir}/gambas3/gb.so %{buildroot}%{_libdir}/gambas3/gb.so.*
+# gb.qt5 is obsolete (replaced by gb.qt6). Drop leftovers if Qt5 devel was present.
+rm -f %{buildroot}%{_libdir}/gambas3/gb.qt5*
+rm -f %{buildroot}%{_datadir}/gambas3/info/gb.qt5*
 
 # menu entry && icons
 install -D -m 755 app/src/gambas3/img/logo/gambas.svg %{buildroot}%{_iconsdir}/hicolor/scalable/apps/%{name}.png
